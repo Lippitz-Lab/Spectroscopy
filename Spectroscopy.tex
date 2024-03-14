@@ -1,36 +1,70 @@
 \documentclass[notoc,nofonts,a4paper,twoside,nobib]{tufte-book}
 %\documentclass[nofonts,a4paper,twoside]{book}
 
+\usepackage[english]{babel}
 \usepackage{currfile,hyperxmp}
- 
+
 \usepackage{filemod}
-   
+\usepackage{dsfont}
 \usepackage[
     type={CC},
     modifier={by-sa},
     version={4.0},
     imagewidth = 17mm,
- ]{doclicense}
+ ]{doclicense} 
+  
+ \usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
 
+ 
 
-\usepackage[refsegment=chapter,style=authoryear-comp,natbib=true]{biblatex}
+\usepackage[refsegment=chapter,style=authoryear-comp,natbib=true,url=true,
+isbn=false]{biblatex}
 
-\addbibresource{literature.bib}
-
+\addbibresource{literature.bib} 
 %rm -rf `biber --cache`
 
-\usepackage{amssymb,amsmath}
 
+%\AtBeginBibliography{\urlstyle{rm}}
+
+\RequirePackage{fontawesome}
+
+\DeclareFieldFormat{doi}{%
+  \ifhyperref
+    {\href{http://doi.org/#1}{\small \faExternalLink}}
+    {\nolinkurl{#1}}}
+
+\DeclareFieldFormat{url}{%
+  \ifhyperref
+    {\href{#1}{\small \faExternalLink}}
+    {\nolinkurl{#1}}}
+    
+\renewbibmacro*{doi+eprint+url}{%   
+  \iftoggle{bbx:url}     
+    {\iffieldundef{doi}{\usebibmacro{url+urldate}}{}}     
+    {}%   
+  \newunit\newblock   
+  \iftoggle{bbx:eprint}     
+    {\usebibmacro{eprint}}     
+    {}%   
+  \newunit\newblock   
+  \iftoggle{bbx:doi}     
+    {\printfield{doi}}     
+    {}}  
+
+\usepackage{amssymb,amsmath}
+\usepackage{mathtools,bm}
+ 
+\usepackage{modiagram}
+\usepackage{chemformula}
+\usepackage{chemfig}
 
 
 \input{tikz_header}
 \usetikzlibrary{external}
-\tikzexternalize[prefix=figures/]
+\tikzexternalize[prefix=tikz_external/]
 
 
-
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
 
 
 \usepackage{graphicx}
@@ -38,10 +72,11 @@
 
 
 \usepackage{booktabs}
-\usepackage{xurl}
+\usepackage{url}
+\urlstyle{same}
 \usepackage{hyperref}
 
-\usepackage{units}
+%\usepackage{units}
 
 \usepackage{chemformula}
 
@@ -68,14 +103,12 @@
 \usepackage{morefloats}
 
 \usepackage{calc}
-\usepackage[titletoc]{appendix}
+\usepackage{tcolorbox}
 
 
 \input{tint_book_header}
 
 
-\usepackage[theme=default-plain,charsperline=62]{jlcode}
- % from https://github.com/wg030/jlcode
 
 \renewcommand{\chaptermark}[1]{\markboth{#1}{}}%
 
@@ -93,7 +126,7 @@
 \begin{minipage}{17mm}
 \doclicenseImage
 \end{minipage}
-\begin{minipage}{60mm}
+\begin{minipage}{90mm}
  \footnotesize
  \doclicenseLongText
 \end{minipage}%
@@ -116,7 +149,17 @@
   urlcolor=RoyalBlue
 }
 
-\renewcommand{\chaptername}{Chapter\ }
+
+\usepackage[theme=default-plain,charsperline=62]{jlcode}
+\usepackage{siunitx}
+
+%default, default-plain, grayscale, grayscale-plain and darkbeamer.
+
+
+
+
+ 
+\newcommand{\kapitelname}{Chapter\ }
 \newcommand{\chapterauthors}{Markus Lippitz}
 \newcommand{\lastmod}{\Filemodtoday{\currfilepath}}
 
@@ -124,7 +167,7 @@
 \newcommand{\addtochapter}{%
 \vspace*{-12mm}{
 \setlength{\parindent}{0pt}
-\chapterauthors \newline \lastmod
+\chapterauthors  \newline \lastmod
 }
 \vspace*{12mm}
 }
@@ -155,35 +198,51 @@
 \end{enumerate} 
 }
 
-\newcommand{\pluto}[1]{%
-%
-\edef\cfd{\currfiledir}%
-\StrGobbleRight{\cfd}{1}[\mystring]%
-%
-\sidenote{%
-\begin{tikzpicture}
-[baseline={([yshift=-2pt]current bounding box.center)}]
-\definecolor{redline}{RGB}{201,61,57}
-\definecolor{redfill}{RGB}{214,102,97}
-\definecolor{blueline}{RGB}{148,91,176}
-\definecolor{bluefill}{RGB}{170,125,192}
-\definecolor{greenline}{RGB}{59,151,46}
-\definecolor{greenfill}{RGB}{107,171,91}
-\path[draw=redline,fill=redfill,line width=0.8pt] (0,-5.4pt) circle (4.4pt);
-\path[draw=blueline,fill=bluefill,line width=0.8pt] (0,0) circle (4.4pt);
-\path[draw=greenline,fill=greenfill,line width=0.8pt] (0,5.4pt) circle (4.4pt);
-\end{tikzpicture} \ \ 
-\href{https://raw.githubusercontent.com/MarkusLippitz/Spectroscopy/to-be-published/\mystring/pluto/#1.jl}{download}
-\ \ 
-\href{https://jupyter.ep3.uni-bayreuth.de/spectroscopy/\mystring/pluto/#1.html}{view}
-\ \ 
-\href{https://binder.plutojl.org/v0.17.1/open?url=https\%253A\%252F\%252Fraw.githubusercontent.com\%252FMarkusLippitz\%252FSpectroscopy\%252Fto-be-published\%252F\mystring\%252Fpluto\%252F#1.jl}{run on binder}
-}}  
+  \newcommand{\pluto}[1]{%
+  %
+  \edef\cfd{\currfiledir}%
+  \StrGobbleRight{\cfd}{1}[\mystring]%
+  %
+  \url{#1}\sidenote{%
+  \begin{tikzpicture}
+  [baseline={([yshift=-2pt]current bounding box.center)}]
+  \definecolor{redline}{RGB}{201,61,57}
+  \definecolor{redfill}{RGB}{214,102,97}
+  \definecolor{blueline}{RGB}{148,91,176}
+  \definecolor{bluefill}{RGB}{170,125,192}
+  \definecolor{greenline}{RGB}{59,151,46}
+  \definecolor{greenfill}{RGB}{107,171,91}
+  \path[draw=redline,fill=redfill,line width=0.8pt] (0,-5.4pt) circle (4.4pt);
+  \path[draw=blueline,fill=bluefill,line width=0.8pt] (0,0) circle (4.4pt);
+  \path[draw=greenline,fill=greenfill,line width=0.8pt] (0,5.4pt) circle (4.4pt);
+  \end{tikzpicture} \ \ 
+  \href{https://raw.githubusercontent.com/Lippitz-Lab/Spectroscopy/main/\mystring/pluto/#1.jl}{download}
+  \ \ 
+  \href{https://binder.plutojl.org/v0.19.40/open?url=https\%253A\%252F\%252Fraw.githubusercontent.com\%252FLippitz-Lab\%252FSpectroscopy\%252Fmain\%252F\mystring\%252Fpluto\%252F#1.jl}{run on binder}
+  }}  
+  
+
+  \newcommand{\bk}{\boldsymbol{k}}
+  \newcommand{\br}{\boldsymbol{r}}
+  \newcommand{\bj}{\boldsymbol{j}}
+  \newcommand{\bx}{\boldsymbol{x}}
+  \newcommand{\by}{\boldsymbol{y}}
+  \newcommand{\bz}{\boldsymbol{z}}
+  
+  \newcommand{\bD}{\boldsymbol{D}}
+  \newcommand{\bE}{\boldsymbol{E}}
+  \newcommand{\bB}{\boldsymbol{B}}
+  \newcommand{\bH}{\boldsymbol{H}}
+  \newcommand{\bP}{\boldsymbol{P}}
+  \newcommand{\bM}{\boldsymbol{M}}
+  \newcommand{\bS}{\boldsymbol{S}}
+  \newcommand{\bJ}{\boldsymbol{J}}
+  \newcommand{\beps}{\boldsymbol{\epsilon}}
 
 
+\newcommand{\goal}[1]{{\setlength{\parindent}{0pt}\emph{#1}}}
 
-
-
+\usepackage[titletoc]{appendix}
 
 %\includeonly{1_fundamentals/1_absorption/absorption}
 %\includeonly{1_fundamentals/2_fluorescence/fluorescence}

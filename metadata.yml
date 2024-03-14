@@ -36,6 +36,7 @@ inLanguage:
   - en
 about:
   - https://w3id.org/kim/hochschulfaechersystematik/n0128
+image: https://www.ep3.uni-bayreuth.de/pool/bilder/spectroscopy-banner.png
 learningResourceType:
   - https://w3id.org/kim/hcrt/script
 educationalLevel:

@@ -1,4 +1,4 @@
-\renewcommand{\lastmod}{May 4, 2021}
+\renewcommand{\lastmod}{March 15, 2024}
 \renewcommand{\chapterauthors}{Markus Lippitz}
 
 \chapter{Absorption}
@@ -9,23 +9,26 @@
 \section{Tasks}
 
 \begin{itemize}
-\item Get acquainted with the different measures for absorption and how they relate. Starting from the experimental values in the following papers, calculate all other measures.
-
-\begin{tabular}{ll}
-InGaAs quantum dots & \cite{Borri:2002p139}, last page  \\
-CdSe nanocrystals & \cite{Jasieniak:2009er}, Fig. 2 and 3 \\
-xanthene dye & \cite{Kastrup:2004p1737}, Fig. 4d   \\
-MEH-PPV conjugated polymer  & \cite{Hou:2017jm}, Fig. 3 \\
-\end{tabular}
+\item On the last page of \cite{Borri:2002p139}, the authors write 'From the measured 1-ns exciton radiative lifetime and with 3.5 refractive index we calculate $\mu = 34$~Debye.' Convince yourself that this is true! My solution is \pluto{task_borri.jl}.
 
 
-\item Get a feeling for typical absolute values and compare them to relevant  other quantities, such as geometrical size, bond lengths, transition rates etc. Sometimes it makes sense to factor out some constants and compare only then.
-\item Why are there so many different measures for absorption? Find use cases where it makes especially sense to use one measure and not the others.
+
+% \begin{tabular}{ll}
+% InGaAs quantum dots & \cite{Borri:2002p139}, last page  \\
+% CdSe nanocrystals & \cite{Jasieniak:2009er}, Fig. 2 and 3 \\
+% xanthene dye & \cite{Kastrup:2004p1737}, Fig. 4d   \\
+% MEH-PPV conjugated polymer  & \cite{Hou:2017jm}, Fig. 3 \\
+% \end{tabular}
+
+
+\item Get a feel for typical absolute values and compare them to other relevant quantities such as geometric size, bond lengths, transition rates, etc. Sometimes it makes sense to factor out some constants and compare only then.
+
+\item Why are there so many different measures of absorption? Find use cases where it makes especially sense to use one measure and not the others.
 
 \end{itemize}
 
 
-
+In case you have doubts about the units of variables and equations, see \pluto{check_units.jl}.
 
 
 
@@ -33,7 +36,7 @@ MEH-PPV conjugated polymer  & \cite{Hou:2017jm}, Fig. 3 \\
 %\section{Experiment}
 \section{Experimental technique}
 
-An UV/VIS spectrometer measures the  power $P$ transmitted through a cuvette of optical path length $L$ and compares it to the power $P_0$ in a reference path. In most cases, also here, the reference path holds a cuvette containing  the plain solvent. The transmission $T = P / P_0$ is converted into the absorbance $A = - \log_{10} T = - \log_{10} ( P / P_0)$. The data set gives absorbance as function of wavelength.
+A UV/VIS spectrometer measures the  power $P$ transmitted through a cuvette of optical path length $L$ and compares it to the power $P_0$ in a reference path. In most cases, also here, the reference path contains a cuvette with  the pure solvent. The transmission $T = P / P_0$ is converted into the absorbance $A = - \log_{10} T = - \log_{10} ( P / P_0)$. The data set gives the absorbance as function of wavelength.
 
 \begin{marginfigure}
 \inputtikz{\currfiledir uvvis}
@@ -42,48 +45,68 @@ An UV/VIS spectrometer measures the  power $P$ transmitted through a cuvette of 
 
 
 
-Grating spectrometers use an entrance slit to define the spectral resolution $d \lambda$, which is independent of the actual wavelength $\lambda$, as can be seen when inspecting the   angular dispersion relation of a grating. Due to the reciprocal relation between wavelength and frequency or energy, the spectral resolution in units of energy $d \nu$ is not constant anymore.
+Grating spectrometers use an entrance slit to define the spectral resolution $d \lambda$, which is independent of the actual wavelength $\lambda$, as can be seen by inspecting the angular dispersion relation of a grating. Due to the reciprocal relationship between wavelength and frequency or energy, the spectral resolution in units of energy $d \nu$ is no longer constant.
 
 
 
 
 \section{Lambert-Beer law and the absorption coefficient}
 
-The transmitted power drops exponentially with  concentration $C$ and  path length $L$
+The transmitted power decreases exponentially with concentration $C$ and path length $L$:
 \begin{equation}
- P = P_0 \, 10^{- \epsilon\, C \, L}
+ P =  P_0 \, 10^{- \alpha \, L} = P_0 \, 10^{- \epsilon\, C \, L}
 \end{equation}
-where $\epsilon$ is the (decadic) molar absorption\sidenote{The difference between abortion and extinction will be discussed elsewhere.} coefficient. We stick here to a base of $10$, 
-so that the absorbance or optical density equals 
+where $\alpha$ is the absorption coefficient and $\epsilon$  the (decadic) molar absorption coefficient\sidenote{The difference between abortion and extinction will be discussed elsewhere.}. We stick to a base of $10$ here, 
+so that the absorbance or optical density is equal to 
 \begin{equation}
  A = \epsilon\, C \, L \quad.
 \end{equation}
-However, similar definitions with a base of $e$ are used sometimes. Our choice leads to the appearance of factors of $\ln(10)$ every now and then. The concentration is typically given as molarity (1 M = 1 mol/l), and lengths for practical reasons in centimeter
-so that the molar absorption coefficient has the unit 1/(M  cm). As we are concerned with spectroscopy the molar absorption coefficient $\epsilon$ depends of course on the wavelength or frequency of light.
+However, similar definitions based on $e$ are sometimes used. Our choice leads to the occasional appearance of factors of $\ln(10)$. The concentration is usually given in molarity (1 M = 1 mol/l), and for practical reasons, the lengths are given in centimeters.
+so that the molar absorption coefficient has the unit 1/(M cm). Of course, since we are dealing with spectroscopy, the molar absorption coefficient $\epsilon$ depends on the wavelength or frequency of the light.
+
 
 \section{Absorption cross section}
 
 
-The interaction cross section $\sigma$ of a process is an imagined area around the particle, which, when hit by a photon, triggers the considered process. When a photon hits on the absorption cross section $\sigma_{\text{abs}}$ of a molecule it will be absorbed. If it does not hit it will pass unperturbed. All details of the physics are summarized in the area, which makes it easy to relate the absorption cross section with the absorbance. 
+The interaction cross section $\sigma$ of a process is an imagined area around the particle which, when hit by a photon, triggers the considered process. If a photon hits the absorption cross section $\sigma_{\text{abs}}$ of a molecule, it will be absorbed. If it does not hit it will pass unchanged. All the details of the physics are summarized in this area, which makes it easy to relate the absorption cross section to the absorbance.
+
+
 \begin{marginfigure}
 \inputtikz{\currfiledir crosssection}
-\caption{Sketch  disks hit by rays}
+\caption{Sketch of  disks hit by rays for the derivation of the absorption cross section.}
 \end{marginfigure}
 
 
-We consider randomly arranged molecules of molar concentration $C$ in a thin slab of thickness $dx$. The probability that a photon is absorbed in this slab is
+We consider randomly arranged molecules of molar concentration $C$ in a thin slab of thickness $dx$. The probability of a photon being absorbed in this slab is
 \begin{equation}
- 1 - T =1 -  10^{- \epsilon\, C \, dx} \approx \ln (10) \; \epsilon\, C \, dx \quad .
+ 1 - T =1 - 10^{- \epsilon\, C \, dx} \approx \ln (10) \; \epsilon\, C \, dx \quad .
 \end{equation}
-In comparison, when each molecule has an absorption cross section $\sigma_{\text{abs}}$, we get an absorption probability 
+By comparison, if each molecule has an absorption cross section $\sigma_{\text{abs}}$, we get an absorption probability 
 \begin{equation}
- 1 - T = \sigma_{\text{abs}} \, C \, N_A \, dx
+ 1 - T = \sigma_{\text{abs}} \, C \, N_A \, dx \label{eq:1_transmission_sigma}
 \end{equation}
-where $N_A = 6.022 \cdot 10^{23}$~{1/mol} is the Avogadro number.  We also made the Born approximation, i.e., that multiple interactions can be neglected, or the absorption cross sections do not overlap, which is equivalent to the approximation made above to remove the exponential function.  We thus find
+where $N_A = 6.022 \cdot 10^{23}$~{1/mol} is the Avogadro number.  We also made the Born approximation, i.e. that multiple interactions can be neglected, or that the absorption cross sections do not overlap, which is equivalent to the approximation made above to remove the exponential function.  Thus we find
 \begin{equation}
- \sigma_{\text{abs}}(\omega) =  \frac{\ln(10)}{ N_A } \, \epsilon(\omega)
+ \sigma_{\text{abs}}(\omega) = \frac{\ln(10)}{ N_A } \, \epsilon(\omega)
 \end{equation}
-which has the unit of an area. As the  molar absorption coefficient $\epsilon$  also the absorption cross section $\sigma_{\text{abs}}$ depends on the wavelength of light. If no wavelength is given, the value at the peak of the spectrum is meant.
+which has the unit of an area. Like the molar absorption coefficient $\epsilon$, the absorption cross section $\sigma_{\text{abs}}$ depends on the wavelength of the light. If no wavelength is given, the value at the peak of the spectrum is meant.
+
+
+\begin{questions}
+  \item Define what one means by a 'cross section' and find other uses of the concept 'cross sections'.
+
+  \item Convince yourself that eq. \ref{eq:1_transmission_sigma} is correct!
+  
+  \item Many things will have a Gaussian shape. Convince yourself that one can approximate a Gaussian of amplitude $a$ and FWHM $dx$ by a rectangle of the same width and height, i.e., that both have approximately the same integral.
+
+ \item \cite{Borri:2002p139} investigate \ch{InGaAs} quantum dots in a waveguide (see sketch). Each of the 3 QD layers has a dot areal density of $2 \times 10^{10}$ cm$^{-2}$. The size of the waveguide mode in the direction perpendicular to the QD planes is 0.37 \textmu m intensity FWHM. Calculate the absorption cross section from the measured absorption coefficient $\alpha = 30$ cm$^{-1}$. You should find a value similar to 2~nm$^2$. See \pluto{example_ingaas.jl} for a solution. \label{qu:2_borri_wg}
+\end{questions}
+  
+\begin{marginfigure}
+  \caption{Sketch of the waveguide used by \cite{Borri:2002p139}. }
+\end{marginfigure}
+
+
 
 
 \section{Lorentz oscillator and oscillator strength}
@@ -95,19 +118,19 @@ which has the unit of an area. As the  molar absorption coefficient $\epsilon$  
 \end{marginfigure}
 
 
-The Lorentz oscillator is a simple classical model to describe the interaction of light and matter. A mass $m$ of charge $+e$ is connected to a spring. The oscillator has an angular eigen-frequency $\omega_0$ and a damping $\gamma$. It is driven by an external electrical field $E(t) = E_0 \exp(i \omega t)$. The differential equation for the position $x$ reads
+The Lorentz oscillator is a simple classical model to describe the interaction of light and matter. A mass $m$ of charge $+e$ is connected to a spring. The oscillator has an angular eigenfrequency $\omega_0$ and a damping $\gamma$. It is driven by an external electric field $E(t) = E_0 \exp(i \omega t)$. The differential equation for the position $x$ is
 \begin{equation}
-  \ddot{x} + 2  \gamma  \dot{x} + \omega_0^2 x =  \frac{e}{m} E_0 e^{i \omega t}
+  \ddot{x} + 2 \gamma \dot{x} + \omega_0^2 x = \frac{e}{m} E_0 e^{i \omega t} \quad . \label{eq:1_dgl_osci}
 \end{equation}
-This results in a steady-state solution of \sidenote{check: should be $-i\gamma$ for Lorentz osci}
+This results in a steady state solution of
 \begin{equation}
-  x(t) = \frac{e}{m}  \frac{1}{\omega_0^2 - \omega^2 + 2  i \gamma \omega } \, E_0 e^{i \omega t} 
+  x(t) = \frac{e}{m}  \frac{1}{\omega_0^2 - \omega^2 + 2 i \gamma \omega} \, E_0 e^{i \omega t}  \quad .
 \end{equation}
 In the case of small damping ($\gamma \ll \omega_0$) this simplifies near the resonance ($\omega \approx \omega_0$) to
 \begin{equation}
-  x(t) \approx \frac{e}{2 m \omega_0}  \frac{1}{\omega_0 - \omega + i \gamma } \, E_0 e^{i \omega t} 
+  x(t) \approx \frac{e}{2 m \omega_0}  \frac{1}{\omega_0 - \omega + i \gamma} \, E_0 e^{i \omega t}  \quad .
 \end{equation}
-The time-averaged power  that the damped oscillator takes out of the driving force $F(t) = e E(t)$ can be calculated in this approximation as
+In this approximation, the time-averaged power extracted by the damped oscillator from the driving force $F(t) = e E(t)$ can be calculated as
 %
 \begin{eqnarray}
  P_{\text{abs}} &= &  - \frac{1}{T} \int_0^T F \, \frac{ds}{dt} \, dt =  
@@ -126,22 +149,23 @@ The time-averaged power  that the damped oscillator takes out of the driving for
 The time average has produced a factor of $1/2$ and in the last step we have used the definition of the amplitude of the Poynting vector $|S| = \frac{1}{2} \epsilon_0 c |E_0|^2$. 
 We thus find an absorption cross section $\sigma_{\text{abs,Lorenz}}$ of the classical Lorentz oscillator
 \begin{equation}
- \sigma_{\text{abs, Lorentz}}(\omega) = \frac{ P_{\text{abs}} }{|S| } = \frac{e^2  }{2 \epsilon_0 \,  m \, c}  \frac{\gamma }{(\omega_0 - \omega)^2 +  \gamma ^2} 
+ \sigma_{\text{abs, Lorentz}}(\omega) = \frac{ P_{\text{abs}} }{|S| } = \frac{e^2  }{2 \epsilon_0 \,  m \, c}  \frac{\gamma }{(\omega_0 - \omega)^2 +  \gamma ^2}  \quad .
 \end{equation}
 
-While many optical transitions show a Lorentzian line shape as predicted by the Lorentz oscillator, the peak height of the absorption line deviates. This deviation is cast into an oscillator strength $f$ so that 
+While many optical transitions show a Lorentzian line shape as predicted by the Lorentz oscillator, the peak height of the absorption line deviates. This deviation is cast into an oscillator strength $f$, so that 
 \begin{equation}
- \sigma_{\text{abs}}(\omega) =   \frac{e^2  }{2 \epsilon_0 \,  m \, c}  \frac{\gamma  }{(\omega_0 - \omega)^2 +  \gamma ^2}  \, f
+ \sigma_{\text{abs}}(\omega) =   \frac{e^2  }{2 \epsilon_0 \,  m \, c}  \frac{\gamma  }{(\omega_0 - \omega)^2 +  \gamma ^2}  \, f \quad .
 \end{equation}
-
-For single electron transitions starting from the same quantum mechanical level, the Thomas–Reiche–Kuhn sum rule states that the sum over all oscillator strength $f$ equals to one. For this reason, one can interpret the oscillator strength  $f$  to some extent  as the number of electrons involved in  the transition, but one has to be careful, as pointed out by Z. Hens \footcite{Hens:2008kr}.
-
 The spectral integral of the absorption cross section is independent of its width $\gamma$ as
 \begin{equation}
  \int \sigma_{\text{abs}}(\omega)  \, d \omega =
-   \frac{\pi \, e^2  }{2 \epsilon_0 \,  m \, c} \, f
+   \frac{\pi \, e^2  }{2 \epsilon_0 \,  m \, c} \, f \quad .
 \end{equation}
 
+
+\begin{questions}
+  \item Why does it make sense that the integral over a Lorentz absorption line is independent of its width?
+\end{questions}
 
 \section{Transition dipole moment}
 
@@ -154,7 +178,7 @@ Fermi's Golden Rule gives the transition rate from the initial state $\ket{i}$ t
 \begin{equation}
  \Gamma_{i \rightarrow f} = \frac{2 \pi}{\hbar} \, \left| \bra{f} H' \ket{i} \right|^2 \, \rho(E) \quad ,
 \end{equation}
-where  $\rho(E) = d n / d E = \rho(\omega) / \hbar$ is the density of final states. The idea is that the initial state  $\ket{i}$ is well known, but the outcome of the interaction $\ket{f}$ might have free parameters, for example the direction of the emitted electron or the mode of the absorbed photon. The density of states   $\rho(E)$ thus can describe either electronic or photonic states, or both.
+where  $\rho(E) = d n / d E = \rho(\omega) / \hbar$ is the density of final states. The idea is that the initial state  $\ket{i}$ is well known, but the outcome of the interaction $\ket{f}$ may have free parameters, for example the direction of the emitted electron or the mode of the absorbed photon. The density of states   $\rho(E)$  can thus describe either electronic or photonic states, or both.
 
 
 
@@ -163,11 +187,11 @@ In general, the interaction of a charged particle with an electromagnetic vector
 \begin{equation}
  H' = - \frac{i \hbar e}{m} \, \mathbf{A \cdot \nabla}  \quad .
 \end{equation}
-As the spatial extent of our wavefunctions is small compared to the wavelength of light, we employ the dipole approximation and assume $\exp( i \mathbf{k \cdot r}) \approx 1$ in the plane-wave description of the vector potential. In this way, the  perturbation operator $H'$ simplifies to\sidenote{see \textcite{bransden_joachain} for details}
+Since the spatial extent of our wavefunctions is small compared to the wavelength of light, we employ the dipole approximation and assume $\exp( i \mathbf{k \cdot r}) \approx 1$ in the plane-wave description of the vector potential. In this way, the  perturbation operator $H'$ simplifies to\sidenote{see \textcite{bransden_joachain} for details}
 \begin{equation}
  H' =  e \, \mathbf{E} (t)  \mathbf{\cdot \, r} =  e \,E_0 \,  \mathbf{\hat{x} \cdot \, r} \, \cos(\omega t) \quad ,
 \end{equation}
-where $\mathbf{\hat{x}} $ is a unit vector defining the polarization direction of the light field. We simplify further by using the rotating-wave approximation and keeping only co-rotating parts\sidenote{More on this in the chapter on Rabi oscillations and the Bloch sphere.} 
+where $\mathbf{\hat{x}} $ is a unit vector defining the polarization direction of the light field. We simplify further by using the rotating wave approximation and keeping only the co-rotating parts\sidenote{More on this in the chapter on Rabi oscillations and the Bloch sphere.} 
 \begin{equation}
  \cos(\omega t)
  = \frac{1}{2} \left( e^{i \omega t}+  e^{-i \omega t} \right)
@@ -213,84 +237,75 @@ As each absorption event takes out a photon of energy $\hbar \omega_{if}$, and t
   \frac{\pi \omega_{if}}{ \hbar c \, \epsilon_0} \,
  |\mathbf{\mu}_{if} |^2  \quad . \label{eq:abs_sigma_mu}
 \end{equation}
-The index ${\parallel} $ is necessary, as we dropped the dot product between the direction of the transition dipole moment $\mathbf{\mu}_{if}$ and the polarization direction $\mathbf{\hat{x}}$, assuming optimal parallel orientation. In case of random orientation, i.e., averaging over all possible orientation directions, one finds  a reduction by one third, i.e. $\sigma = 1/3 \sigma_{\parallel} $
+The index ${\parallel} $ is necessary, as we dropped the dot product between the direction of the transition dipole moment $\mathbf{\mu}_{if}$ and the polarization direction $\mathbf{\hat{x}}$, assuming optimal parallel orientation. In case of random orientation, i.e., averaging over all possible orientation directions, one finds  a reduction by one third, i.e. $\sigma = 1/3 \sigma_{\parallel}$.
 
 We can recover the spectral resolved absorption cross section $\sigma_{\parallel}(\omega)$ by assuming a line-shape function $L(\omega - \omega_0)$ so that 
 \begin{equation}
  \sigma_{\parallel}(\omega) =  \frac{\pi \omega_{if}}{ \hbar c \, \epsilon_0} \,
  |\mathbf{\mu}_{if} |^2 \, L(\omega - \omega_{if})
 \end{equation}
-where the integral over $L$ equals one. Assuming a Lorentzian line shape, the peak value of $L$ equals $1/(\pi \gamma)$ so that
+where the integral over $L$ equals one. Assuming a Lorentzian line shape, the peak value of $L$ equals $1/(\pi \gamma)$ so that the peak value of the absorption cross section equals
 \begin{equation}
  \sigma_{\parallel}(\omega_{if}) =  \frac{\omega_{if}}{ \hbar c \, \epsilon_0 \, \gamma} \,
  |\mathbf{\mu}_{if} |^2  \quad .
 \end{equation}
-In the chapter on fluorescence we will discuss the relation between the transition dipole moment $|\mathbf{\mu}_{if} |^2 $ and the Einstein $A$ and $B$ coefficients. When spontaneous emission is the only factor to influence the width of the optical transition (as for an atom in vacuum), we find
+
+
+\begin{questions}
+  \item The thing $\braket{f| \br | i}$  is called a transition dipole moment. Why? What is similar and different to a plain dipole moment? 
+  
+ \item Do you find the Lorentz oscillator in  $\braket{f| \br | i}$  ? What is oscillating there?
+ \item    What is the difference between $\Gamma$ and $\gamma$ ?
+
+\end{questions}
+
+
+
+\section{Some remarks}
+
+\paragraph{Thomas-Reiche-Kuhn sum rule}
+For single-electron transitions starting from the same quantum mechanical level $i$, one finds\sidenote{see, for example, wikipedia} 
 \begin{equation}
- \gamma = \frac{1}{2} A_{21} = \frac{\omega^3}{6 \pi \hbar c^3 \epsilon_0} |\mathbf{\mu}_{if} |^2  
+\sum_f (E_f - E_i ) \left| \braket{ f | \hat x | i } \right|^2 =
+\sum_f (E_f - E_i ) \left| \mathbf{\mu}_{if} \right|^2 
+= \frac{\hbar^2}{2m_0} \quad.
+\end{equation}
+This is the  Thomas-Reiche-Kuhn sum rule. The (weighted) sum over all transition dipole moments is constant. As consequence,  the sum over all oscillator strengths $f$ is equal to one. For this reason one can interpret the oscillator strength $f$ to some extent as the number of electrons involved in the transition, but one has to be careful, as Z. Hens \footcite{Hens:2008kr} points out.
+
+
+\paragraph{Fluorescence emission as the only damping mechanism} Several mechanisms can contribute to the damping $\gamma$ of the Lorentz oscillator. One that is always present is fluorescence emission, which we will discuss in more detail in the next chapter. When fluorescence emission is the only damping term, the absorption cross section takes a very simple form, which is also its largest value. We have defined the differential equation of the oscillator (eq. \ref{eq:1_dgl_osci}) so that the amplitude of an undamped oscillator decays as $\exp(- \gamma t)$. The energy stored in the oscillator is proportional to the square of the amplitude, so the energy decays as $\exp(- 2 \gamma t)$. This decay rate $2\gamma$ is the fluorescence emission rate, or the Einstein coefficient $A_{21}$ when fluorescence emission is the only damping mechanism. With the following chapter (eqs. \ref{eq:fl_Einstein_A_B} and  \ref{eq:fl_B_from_mu})  we get
+\begin{equation}
+ 2 \gamma =  A_{21} = \frac{\omega^3}{3 \pi \hbar c^3 \epsilon_0} |\mathbf{\mu}_{if} |^2  
 \end{equation}
 so that in this case the absorption cross section reduces to 
 \begin{equation}
  \sigma_{\parallel}(\omega_{if}) =  \frac{3}{2 \pi} \, \lambda^2 \quad .
 \end{equation}
-The absorption cross section of an atom, molecule, nanocrystal is thus limited. However, as only in exceptional cases the line width is Fourier-limited, i.e. limited by the radiative decay, in most cases the absorption cross section is much smaller. The reduction is given by the ratio of the Fourier-limited line width to the observed width of the transition. 
+The absorption cross section of an atom, molecule or nanocrystal is therefore limited to about one square of the wavelength. The damping term $\gamma$ also defines the width of the absorption line in the spectrum. A line width determined only by fluorescence decay is called lifetime-limited or Fourier-limited. In most cases, a spectral line is broader, the damping $\gamma$ is stronger, and an absorption cross section is smaller. The reduction is given by the ratio of the Fourier-limited line width to the observed transition width. 
 
 
-When relating to the  (decadic) molar absorption coefficient $\epsilon(\omega)$ we have to realize that in the more 'atomic' contexts of transition dipole moments and Einstein coefficients, we integrated over the spectral width of the absorption line. We  assumed that the incoming light beam is spectrally much broader than the optical transition. This is not the case for molecular spectra at room temperature. We thus have to integrate also the absorption spectrum over $\omega$ and take into account that $\omega_{if}$ varies, so that
+
+\paragraph{Spectrally broad absorbers}
+When relating to the (decadic) molar absorption coefficient $\epsilon(\omega)$, we have to realize that in the more 'atomic' contexts of transition dipole moments and Einstein coefficients, we have integrated over the spectral width of the absorption line. We have assumed that the incoming light beam is spectrally much broader than the optical transition. This is not the case for molecular spectra at room temperature. Therefore, we must also integrate the absorption spectrum over $\omega$ and take into account that $\omega_{if}$ varies even though we assign everything to the same electronic transition and thus use only one transition dipole moment $\mathbf{\mu}_{if}$. We get
 \begin{equation}
  \int_{\text{transition}} \frac{\epsilon(\omega)}{\omega} \, d \omega \, = \, 
   \frac{\pi \, N_A}{ 3 \, \ln(10) \, \hbar c \, \epsilon_0} \,
  |\mathbf{\mu}_{if} |^2
  \, = \, 
   \frac{\hbar\, N_A}{ \ln(10) \, c } \,
-B_{12}  \quad .
+B_{12}  \label{eq:1_epsilon_mu}
 \end{equation}
+where the last part again uses an Einstein coefficient, which will be introduced in the next chapter.
 
 
+\paragraph*{Effect of a medium} All equations in this chapter have assumed a vacuum as the environment of the absorber. Except for atoms in a dilute gas, this is not the case in most cases. We can account for the effect of the dielectric function $\epsilon$ or the index of refraction $n = \sqrt{\epsilon}$ by replacing all occurrences of $\epsilon_0$ by $\epsilon \epsilon_0$ and all occurrences of $c$ by $c_0 / n$. The effect of the polarizability of the medium can be taken into account by the local field correction, see \cite{Parson} (chapter 3.1.6).
 
 
-\section{Appendix: Thomas-Reiche-Kuhn sum rule}
-
-Taken from Wikipedia. 
-%
-\begin{align}
-& \sum_n (E_n-E_m)\left|\left\langle n | \hat x | m \right\rangle\right|^2 \\
-&= \sum_n (E_n-E_m) \left\langle m\right |\hat x\left | n\right\rangle\left\langle n \right| \hat{x}\left | m\right\rangle\\
-%
-&=\frac{1}{2}\sum_n\left(\left\langle m\right | \hat{x}\hat{H}-\hat{H}\hat{x}\left |n\right\rangle\left\langle n \right | \hat{x}\left | m\right\rangle + \left\langle m \right | \hat{x}\left | n\right\rangle\left\langle n\right | \hat{H}\hat{x}-\hat{x}\hat{H}\left |m\right\rangle \right)\\
-%
-&=\frac{1}{2}\sum_n \left(\left\langle m\right | \hat{x}\left |n \right\rangle\left\langle n\right | [\hat{H},\hat{x}]\left|m\right\rangle-\left\langle m \right | [\hat{H},\hat{x}]\left | n \right\rangle\left\langle n\right|\hat{x}\left| m \right\rangle \right)\\
-%
-&=\frac{1}{2}\left( \left\langle m\right | \hat{x}[\hat{H},\hat{x}]\left | m \right\rangle -\left\langle m\right | [\hat{H},\hat{x}]\hat{x}\left |m\right\rangle \right)\\
-&=\frac{1}{2} \left( \left\langle m \right | [\hat{x},[\hat{H},\hat{x}]] \left | m \right\rangle \right)\\
-%
-&= -\frac{i\hbar}{2m_0}\left\langle m\right| [\hat{x},\hat{p}]\left| m \right\rangle\\
-%
-&= \frac{\hbar^2}{2m_0}
-\end{align}
-%
-using
-\begin{equation}
-[\hat{H},\hat{x}]=-\frac{i\hbar}{m_0}\hat{p} \quad \text{and} \quad  [\hat{x},\hat{p}]=i\hbar
-\end{equation}
-The dipole operator $\hat{\mu}$ is proportional to the position operator $\hat{x}$. The sum over all $|\mathbf{\mu}_{if}|^2$ starting from the same state $i$ is thus constant.
-
-\section{Appendix: Units }
-
-mass $M$, time $T$, length $L$, current $i$, particle number $mol$
-
-\begin{tabular}{rl}
-   $\epsilon_0$  & $i^2 T^4 / M L^3$ \\
-    field $E_0$ & $M L / i T^3$ \\
-    energy & $M L^2 / T^2$ \\
-    $\mu_{if}$ & $ L i T$ \\
-    $\omega$ & $1/T$ \\
-    $u(\omega)$ & $M / T L$ \\
-    $\hbar$ & $ M L^2 / T$ \\
-    $\rho(\omega) $ & $T$ \\
-    $\Gamma_{if}$ & $ 1/T$ \\
-    $B_{12}$ & $ L / M$ \\
-  $\epsilon(\omega)$ & $L^2 / mol$
-\end{tabular}
+\begin{questions}
+  \item Convince yourself that the first equal sign in eq.  \ref{eq:1_epsilon_mu} is correct.
+  \item Continuing on question \ref{qu:2_borri_wg}, calculate the transition dipole moment from the absorption coefficient. My solution \pluto{exmaple_ingaaas.jl} seems to deviate from the authors'.
+  \item \ch{CdSe} nanocrystals (\cite{Jasieniak:2009er}) in a chloroform ($n \approx 1.4$) have a molar extinction coefficient $\epsilon = 4 \cdot 10^5$ (M cm)$^{-1}$ at a wavelength of 600 nm. The peak width is about 120~meV. This corresponds to nanocrystals of about 5~nm diameter. Calculate the absorption cross section $\sigma$ and the transition dipole moment $\mu$. My solution is \pluto{example_cdse.jl}.
+  \item The xanthene dye JA26 been investigated in \cite{Kastrup:2004p1737}. Take the relevant data from the paper and calculate the molar extinction coefficient $\epsilon$ and the transition dipole moment $\mu$. You should find values of about $10^4$  (M cm)$^{-1}$ and 1~D, respectively.
+\end{questions}
 
 \printbibliography[segment=\therefsegment,heading=subbibliography]
