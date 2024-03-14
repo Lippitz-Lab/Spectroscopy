@@ -202,6 +202,7 @@ isbn=false]{biblatex}
   %
   \edef\cfd{\currfiledir}%
   \StrGobbleRight{\cfd}{1}[\mystring]%
+  \StrSubstitute{\mystring}{/}{\%252F}[\myurl]%
   %
   \url{#1}\sidenote{%
   \begin{tikzpicture}
@@ -218,11 +219,9 @@ isbn=false]{biblatex}
   \end{tikzpicture} \ \ 
   \href{https://raw.githubusercontent.com/Lippitz-Lab/Spectroscopy/main/\mystring/pluto/#1.jl}{download}
   \ \ 
-  \href{https://binder.plutojl.org/v0.19.36/open?url=https\%253A\%252F\%252Fraw.githubusercontent.com\%252FLippitz-Lab\%252FSpectroscopy\%252Fmain\%252F\mystring\%252Fpluto\%252F#1.jl}{run on binder}
+  \href{https://binder.plutojl.org/v0.19.36/open?url=https\%253A\%252F\%252Fraw.githubusercontent.com\%252FLippitz-Lab\%252FSpectroscopy\%252Fmain\%252F\myurl\%252Fpluto\%252F#1.jl}{run on binder}
   }}  
 
-  %  https://binder.plutojl.org/v0.19.36/open?url=https%253A%252F%252Fraw.githubusercontent.com%252FLippitz-Lab%252FSpectroscopy%252Fmain%252F1_fundamentals%252F1_absorption%252Fpluto%252Ftask_borri.jl
-  
 
   \newcommand{\bk}{\boldsymbol{k}}
   \newcommand{\br}{\boldsymbol{r}}
