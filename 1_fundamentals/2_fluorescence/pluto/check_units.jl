@@ -4,103 +4,125 @@
 using Markdown
 using InteractiveUtils
 
-# ╔═╡ 75f028e7-f652-4812-a8e7-5cb3cf591795
+# ╔═╡ da692610-277d-49ac-b829-522054a9d43e
 using Unitful
 
-# ╔═╡ fe1d8e91-dbb4-47bc-83db-94f3e53e6882
+# ╔═╡ 14e2d50e-0951-4365-ab57-15645b5aa1c8
 module MyUnits
 	using Unitful
 	@unit D "D" Debye 3.33e-30u"C*m" true;
 end
 
-# ╔═╡ 7b5a716c-e134-11ee-39b0-13610ab19167
+# ╔═╡ de86a366-e2b1-11ee-3fd3-2de17537a1fb
 md"""
-# 1 Absorption
+# 2 Fluorescence Check units
 """
 
-# ╔═╡ 23b0ca41-7319-415e-b436-e2b5694ae669
+# ╔═╡ 901873ec-7068-4686-b3be-d2acfad7d38d
+md"""
+This script only checks for units, so the values of the variables have no meaning. I just want to make sure that the equations match in terms of their units, and to have an easy reference for the units of the variables.
+"""
+
+# ╔═╡ 1f116a57-7a70-4f1c-b685-bcdcc0bf0e3a
 import PhysicalConstants.CODATA2018: N_A	, m_e, e, ε_0, c_0, ħ
 
-# ╔═╡ 711acd5f-a09e-43aa-80b9-7275332b2bbc
-md"""
-Define Debye as unit
-"""
-
-# ╔═╡ 3c2b65ba-e796-4f03-83ca-59d127ad9d87
+# ╔═╡ 14a7feb7-1eed-400e-952f-990ab6d17b66
 Unitful.register(MyUnits);
 
-# ╔═╡ cda2ab43-1e52-41da-9a9a-7c3273c89861
+# ╔═╡ a683cb31-b820-4c48-88ec-06184b2ac27f
 md"""
-## Transition dipole moment and cross section from absorption
+## Wavelength to frequency
 """
 
-# ╔═╡ 16d73670-113d-4fb9-b0c5-c1857702763e
+# ╔═╡ 13df8f0f-92ea-4534-a863-e3092d11fd9b
+λ = 500u"nm";
+
+# ╔═╡ 01fb702c-7555-45ad-958e-130704d1e937
+Δλ = 10u"nm";
+
+# ╔═╡ baf003c1-a8c0-405f-a102-0139e7f45776
+Δν = c_0 / λ^2 * Δλ |> u"Hz"
+
+# ╔═╡ 13783039-af4e-4a4d-b127-d0c32cdff098
 md"""
-The text says 'This is consistent with $\mu = 31$D deduced from the measured small-signal absorption coefficient ($\alpha = 30$ cm$^{-1}$) with a dot areal density of $2 \times 10^{10}$ cm$^{-2}$ and a size of the waveguide mode in the growth axis of 0.37 μm intensity FWHM'.
+## Einstein coeffs
 """
 
-# ╔═╡ ba2931c1-d042-4304-b2a8-3b7631f39116
-n_ingaas = 3.5;
+# ╔═╡ 0855abcd-a611-4a55-902a-0f2426184512
+ω = 2π * c_0 / λ |> u"Hz"
 
-# ╔═╡ d0a16e08-1370-4f37-8d4f-ad280c2e7c8a
+# ╔═╡ dd8044f0-2399-4032-ae6c-2506442b5ba4
+u = ω^2 / (π^2 * c_0^3) * ħ * ω |> u"J*m^-3*Hz^-1" 
+
+# ╔═╡ b7b6c2ad-3afa-4282-9c6a-de44916c1ed9
+A_21 = 1u"Hz"
+
+# ╔═╡ 9f96bc15-e048-49cf-be7c-01a7a56521c9
+B_12 = 1u"Hz" / u |> u"m^3*J^-1*Hz^2" 
+
+# ╔═╡ 71e1ca24-01e9-4319-8917-4ec773bc20e8
+B_12 * ħ * ω^3 / (π^2 * c_0^3) |> u"Hz"
+
+# ╔═╡ 93e21148-ad26-4a1f-85c8-4444fd2f1254
+σ = 1u"nm^2";
+
+# ╔═╡ c40856cf-25a3-479e-b07b-f861f7248f52
+dω = 1u"Hz";
+
+# ╔═╡ 9c70f808-68c8-4937-ad03-6db35b33f77b
+eq11_LHS = σ * dω
+
+# ╔═╡ 4e7a0358-5b88-401e-8796-abda24d6f2c9
+eq11_RHS = ħ * ω * B_12 * u /(c_0 * u) |> u"Hz*nm^2"
+
+# ╔═╡ 0208781f-7330-4d22-b150-1d9802da11bf
+μ = 1u"D";
+
+# ╔═╡ a3f85988-4f06-472d-a0a8-16a6e71a3856
+B12_eq12 = π / ( 3* ħ^2 * ε_0) * abs(μ)^2 |> u"m^3*J^-1*Hz^2" 
+
+# ╔═╡ 9d73980e-976f-40a2-9ed8-26795c7fffa2
 md"""
-from inset Fig 2b: E = 1.15 eV
+## Absorption to emission
 """
 
-# ╔═╡ ae87e7be-7ff2-4671-918d-d1127a2f6f74
-E = 1.15u"eV"
+# ╔═╡ b9e6f448-c6c2-4896-b284-abd7a0f5212e
+ϵ = 1.5u"1/(M*cm)";
 
-# ╔═╡ aff48022-022c-427c-a886-36b06dc7ea55
-ω = E / ħ |> u"Hz"
+# ╔═╡ 4ff5f093-7a39-4e86-a8e6-6771186742d8
+C = 1u"M";
 
-# ╔═╡ 70cd014f-d155-40c5-b974-689fc0e6a782
+# ╔═╡ a47b233d-b73e-4ad6-b81b-9a198792db58
+d = 1u"cm";
+
+# ╔═╡ 4ed44a99-7678-429c-97e3-0510062160a8
+A = ϵ * C * d
+
+# ╔═╡ c230984a-2ac6-47cd-9d9e-01c6d6f76d21
+T = 10^(-A)
+
+# ╔═╡ 403ad416-84ed-49af-8a42-fb6817d62396
+σ_abs = log(10)./ N_A * ϵ |> upreferred
+
+# ╔═╡ 3184347a-7c01-47a9-a2d1-23036daefc5b
+eq13_1 = N_A * C * d / log(10) * σ_abs |> upreferred
+
+# ╔═╡ a9040765-f53f-428b-b9d2-65c7582cf47f
+L = 1 / dω
+
+# ╔═╡ adcf1835-a575-4bbc-ad9f-d0089cd12eb1
+eq13_2 = N_A * C * d * π * ω /( log(10) * ħ * c_0 * ε_0) * L * abs(μ)^2 |> upreferred
+
+# ╔═╡ 60631746-a33b-4e98-ac0c-29165a88bb31
+ω^3 / ( 3 * π * ħ * ε_0 * c_0^3) * abs(μ)^2 |> upreferred
+
+# ╔═╡ 18b2b9dd-2283-4d2e-8fc1-7d8bd280822a
 md"""
-All dots are sitting in one plane at the given areal density. The waveguide runs within this plane. The extend of the mode field perpendicular to the plane = in the growth axis is given. The size in the other direction does not matter, as more dots would see the waveguide when it would be larger.
+## Strickler-Berg
 """
 
-# ╔═╡ d9aa6449-1703-4c1d-b6c6-f26f89883e6e
-md"""
-Lets assume that the mode has a rectangular profile. We calculate the absorption cross section similar to eq. 1.4
-```math
-1 - T = \sigma \frac{C_{area}}{h_{mode}} \, dx = \alpha \, dx
-```
-"""
-
-# ╔═╡ af6e8274-6a26-4390-ac05-9658001106a2
-md"""
-3 layers of QD
-"""
-
-# ╔═╡ 02dbc4b2-8aa5-4202-bbb8-5e2b1e8d1cc5
-C_area = 3 * 2e10u"cm^-2";
-
-# ╔═╡ da3193cd-d21d-407a-ba67-2774aecbf606
-h_mode = 0.37u"μm";
-
-# ╔═╡ d4fea2c5-86a8-4724-9c17-996ad9b6e45c
-α = 30u"cm^-1";
-
-# ╔═╡ e7f75860-09dd-4c03-a685-c5289a4c5b64
-σ = α * h_mode / C_area  |> u"nm^2"
-
-# ╔═╡ 37a9a9fe-15ee-4a35-9268-3cdfad4d677a
-ϵ = σ * N_A /  log(10) |> u"M^-1*cm^-1"
-
-# ╔═╡ 0256ecf0-3fc7-4da9-9b17-5fef132c3ba2
-md"""
-From here we calculate the transition dipole moment, taking into account the inhomogeneous broadening to $\Delta = 60$meV. For simplicity, we assume a rectangular lineshape.
-"""
-
-# ╔═╡ d21b0d8b-f248-4104-a067-040ff6ab0145
-Δ = 60u"meV"/ħ |> u"ns^-1"
-
-# ╔═╡ 8997f5bb-aeac-4803-a9e4-71d3f5bf98b9
-μ_v2a = sqrt( ϵ / ω * Δ * log(10) * ħ * (c_0 * n_ingaas   *  ε_0 )  / (π * N_A)) |> u"D"
-
-# ╔═╡ 4ac32490-5791-4a8d-a8e1-ae49c719b550
-md"""
-This is off by a factor of 2 for the transition dipole moment or probably a factor of 4 in the other quantities. Leaving out $n_{ingaas}$ gives the correct result, but does not seem to be OK.
-"""
+# ╔═╡ 10443605-93bb-41fd-9ce8-b1eebb301aa4
+eq26 = log(10) / (π^2 * c_0^2 * N_A) * 1 / (ω^-3) * ϵ / ω * dω |> upreferred
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -290,9 +312,9 @@ version = "1.3.0"
 
 [[deps.Roots]]
 deps = ["Accessors", "ChainRulesCore", "CommonSolve", "Printf"]
-git-tree-sha1 = "b7e530ab28c9e19bf1742de77badbd3c943541e5"
+git-tree-sha1 = "1ab580704784260ee5f45bffac810b152922747b"
 uuid = "f2b01f46-fcfa-551c-844a-d8ac1e96c665"
-version = "2.1.3"
+version = "2.1.5"
 
     [deps.Roots.extensions]
     RootsForwardDiffExt = "ForwardDiff"
@@ -347,29 +369,40 @@ version = "5.8.0+1"
 """
 
 # ╔═╡ Cell order:
-# ╟─7b5a716c-e134-11ee-39b0-13610ab19167
-# ╠═75f028e7-f652-4812-a8e7-5cb3cf591795
-# ╠═23b0ca41-7319-415e-b436-e2b5694ae669
-# ╟─711acd5f-a09e-43aa-80b9-7275332b2bbc
-# ╠═fe1d8e91-dbb4-47bc-83db-94f3e53e6882
-# ╠═3c2b65ba-e796-4f03-83ca-59d127ad9d87
-# ╟─cda2ab43-1e52-41da-9a9a-7c3273c89861
-# ╟─16d73670-113d-4fb9-b0c5-c1857702763e
-# ╠═ba2931c1-d042-4304-b2a8-3b7631f39116
-# ╟─d0a16e08-1370-4f37-8d4f-ad280c2e7c8a
-# ╠═ae87e7be-7ff2-4671-918d-d1127a2f6f74
-# ╠═aff48022-022c-427c-a886-36b06dc7ea55
-# ╟─70cd014f-d155-40c5-b974-689fc0e6a782
-# ╟─d9aa6449-1703-4c1d-b6c6-f26f89883e6e
-# ╟─af6e8274-6a26-4390-ac05-9658001106a2
-# ╠═02dbc4b2-8aa5-4202-bbb8-5e2b1e8d1cc5
-# ╠═da3193cd-d21d-407a-ba67-2774aecbf606
-# ╠═d4fea2c5-86a8-4724-9c17-996ad9b6e45c
-# ╠═e7f75860-09dd-4c03-a685-c5289a4c5b64
-# ╠═37a9a9fe-15ee-4a35-9268-3cdfad4d677a
-# ╟─0256ecf0-3fc7-4da9-9b17-5fef132c3ba2
-# ╠═d21b0d8b-f248-4104-a067-040ff6ab0145
-# ╠═8997f5bb-aeac-4803-a9e4-71d3f5bf98b9
-# ╟─4ac32490-5791-4a8d-a8e1-ae49c719b550
+# ╟─de86a366-e2b1-11ee-3fd3-2de17537a1fb
+# ╟─901873ec-7068-4686-b3be-d2acfad7d38d
+# ╠═da692610-277d-49ac-b829-522054a9d43e
+# ╠═1f116a57-7a70-4f1c-b685-bcdcc0bf0e3a
+# ╠═14e2d50e-0951-4365-ab57-15645b5aa1c8
+# ╠═14a7feb7-1eed-400e-952f-990ab6d17b66
+# ╟─a683cb31-b820-4c48-88ec-06184b2ac27f
+# ╠═13df8f0f-92ea-4534-a863-e3092d11fd9b
+# ╠═01fb702c-7555-45ad-958e-130704d1e937
+# ╠═baf003c1-a8c0-405f-a102-0139e7f45776
+# ╟─13783039-af4e-4a4d-b127-d0c32cdff098
+# ╠═0855abcd-a611-4a55-902a-0f2426184512
+# ╠═dd8044f0-2399-4032-ae6c-2506442b5ba4
+# ╠═b7b6c2ad-3afa-4282-9c6a-de44916c1ed9
+# ╠═9f96bc15-e048-49cf-be7c-01a7a56521c9
+# ╠═71e1ca24-01e9-4319-8917-4ec773bc20e8
+# ╠═93e21148-ad26-4a1f-85c8-4444fd2f1254
+# ╠═c40856cf-25a3-479e-b07b-f861f7248f52
+# ╠═9c70f808-68c8-4937-ad03-6db35b33f77b
+# ╠═4e7a0358-5b88-401e-8796-abda24d6f2c9
+# ╠═0208781f-7330-4d22-b150-1d9802da11bf
+# ╠═a3f85988-4f06-472d-a0a8-16a6e71a3856
+# ╟─9d73980e-976f-40a2-9ed8-26795c7fffa2
+# ╠═b9e6f448-c6c2-4896-b284-abd7a0f5212e
+# ╠═4ff5f093-7a39-4e86-a8e6-6771186742d8
+# ╠═a47b233d-b73e-4ad6-b81b-9a198792db58
+# ╠═4ed44a99-7678-429c-97e3-0510062160a8
+# ╠═c230984a-2ac6-47cd-9d9e-01c6d6f76d21
+# ╠═403ad416-84ed-49af-8a42-fb6817d62396
+# ╠═3184347a-7c01-47a9-a2d1-23036daefc5b
+# ╠═a9040765-f53f-428b-b9d2-65c7582cf47f
+# ╠═adcf1835-a575-4bbc-ad9f-d0089cd12eb1
+# ╠═60631746-a33b-4e98-ac0c-29165a88bb31
+# ╟─18b2b9dd-2283-4d2e-8fc1-7d8bd280822a
+# ╠═10443605-93bb-41fd-9ce8-b1eebb301aa4
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002

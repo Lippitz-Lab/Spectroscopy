@@ -1,4 +1,4 @@
-\renewcommand{\lastmod}{May 4, 2021}
+\renewcommand{\lastmod}{March 15, 2024}
 \renewcommand{\chapterauthors}{Markus Lippitz}
 
 
@@ -8,17 +8,20 @@
 \section{Tasks}
 
 \begin{itemize}
-\item On the server, you find experimental data of the TDI dye. Compare the fluorescence emission rate obtained from the emission spectrum with the fluorescence lifetime from time-correlated single photon counting. Discuss differences.
+\item Compare the fluorescence emission rate obtained via the Strickler-Berg equation with the fluorescence lifetime from time-correlated single photon counting. You find the data for the TDI molecule \href{https://github.com/Lippitz-Lab/Spectroscopy/tree/main/1_fundamentals/2_fluorescence/handout}{here}. Discuss differences. My solution to this task is \pluto{task_tdi}.
+
 
 \item Find absolute values for other transition rates in atoms, molecules and solid state and compare to fluorescence rates.
 
 \end{itemize}
 
 \begin{marginfigure}
-   \includestandalone[width=50mm]{\currfiledir fig_tdi}
-  \caption{Absorption and emission spectrum of a dye molecule (TDI).}
+   \inputtikz{\currfiledir fig_tdi}
+
+  \caption{Absorption (blue) and emission (red) spectrum of a dye molecule (TDI).}
 \end{marginfigure}
 
+In case you have doubts about the units of variables and equations, see \pluto{check_units}.
 
 
 \section{Experimental techniques}
@@ -27,17 +30,17 @@
 
 \subsection{Measuring the spectrum of light}
 
-It is helpful to consider how the spectrum of light is really measured. A light beam is dispersed, typically on a grating. As function of the dispersion angle one measures light intensity by converting photons into electrons, either in a CCD camera or a photodiode. The signal amplitude is thus proportional to the  photon rate, not the power, or the energy per photon.
+It is helpful to consider how the spectrum of light is actually measured. A beam of light is dispersed, typically on a grating. As a function of the dispersion angle, the light intensity is measured by converting photons to electrons, either in a CCD camera or a photodiode. The signal amplitude is thus proportional to the photon rate, not the power or energy per photon.
 
-The resolution of a grating spectrometer is determined by the width of the CCD pixels, the size of the diode or of the entrance slit, by the size of a monochromatic focus, or a combination of all. But in all cases, it is constant over the spectrum when measured in wavelength. The natural unit of a grating spectrometer is wavelength, not frequency. The reciprocal relation between wavelength and frequency leads to 
+The resolution of a grating spectrometer is determined by the width of the CCD pixels, the size of the diode or entrance slit, the size of a monochromatic focus, or a combination of all of these. But in all cases it is constant across the spectrum when measured in wavelength. The natural unit of a grating spectrometer is wavelength, not frequency. The reciprocal relationship between wavelength and frequency results in 
 \begin{equation}
- \Delta \nu = \nu_2 - \nu_1 = \frac{c}{\lambda_2} - \frac{c}{\lambda_1}  = c \frac{\lambda_1 - \lambda_2}{\lambda_1 \lambda_2} \approx \frac{c}{\lambda^2} \, \Delta \lambda
+ \Delta \nu = \nu_2 - \nu_1 = \frac{c}{\lambda_2} - \frac{c}{\lambda_1}  = c \frac{\lambda_1 - \lambda_2}{\lambda_1 \lambda_2} \approx \frac{c}{\lambda^2} \, \Delta \lambda \quad .
 \end{equation}
-In the frequency domain, the spectral resolution is thus not constant, but proportional to $\nu^2$. As consequence, converting a data set from wavelength domain to frequency domain does not only entail converting the $x$-values, but also the $y$-values. The integral or total number of photons has to stay the same.
+In the frequency domain, the spectral resolution is not constant, but proportional to $\nu^2$. Consequently, converting a data set from the wavelength domain to the frequency domain involves not only converting the $x$ values, but also the $y$ values. The integral or total number of photons must remain the same:
 \begin{equation}
- \left( \lambda \, ; \, F(\lambda) \right) \, \rightarrow  \left( \nu = \frac{c}{ \lambda} \, ; \,  F(\nu) = \frac{\lambda^2}{ c } \, F(\lambda) \right) 
+ \left( \lambda \, ; \, F(\lambda) \right) \, \rightarrow  \left( \nu = \frac{c}{ \lambda} \, ; \,  F(\nu) = \frac{\lambda^2}{ c } \, F(\lambda) \right)  \quad .
 \end{equation}
-This problem only occurs for spectra of light. Absorption spectra are the ratio of two spectra of light, of the signal and reference beam. In this case, the prefactors cancel out and only the $x$-values need to be converted. The spectrally integrated absorption does not have any meaning, in contrast to the spectrally integrated photon flux.
+This problem only occurs for spectra of light. Absorption spectra are the ratio of two spectra of light, of the signal and the reference beam. In this case, the prefactors cancel out and only the $x$-values need to be converted. The spectrally integrated absorption has no meaning, unlike the spectrally integrated photon flux.
 
 
 
@@ -48,9 +51,12 @@ This problem only occurs for spectra of light. Absorption spectra are the ratio 
   \caption{Sketch of a TCSPC setup}
 \end{marginfigure}
 
-This technique measures the arrival time of single photons relative to the laser pulse that excites the sample. It requires that each laser pulse leads to on average much less than one detected photon. This can be achieved using weak laser pulses or diluted samples. A high repetition rate (MHz) reduces the overall acquisition time. The probability to detect a photon at a time lag $\tau$ after the laser pulse is directly connected to the probability, that the emitting system is still in the excited state. This statement does not require that each emitted photon is detected or that the excited state is depopulated only by fluorescence emission.
+This technique measures the arrival time of single photons relative to the laser pulse that excites the sample. It requires that each laser pulse results in, on average, far fewer than one detected photon. This can be achieved with weak laser pulses or diluted samples. A high repetition rate (MHz) reduces the total acquisition time. The probability of detecting a photon with a time delay $\tau$ after the laser pulse is directly related to the probability that the emitting system is still in the excited state. This statement does not require that each emitted photon is detected or that the excited state is depopulated only by fluorescence emission.
 
 
+\begin{questions}
+  \item What happens if the next laser pulse comes before the molecule has decayed to its ground state? Since we are recording the time to the last preceding laser pulse, the delay time is obviously wrong. Is this a problem?
+\end{questions}
 
 
 
@@ -62,7 +68,7 @@ This technique measures the arrival time of single photons relative to the laser
 \end{marginfigure}
 
 
-The Einstein coefficients for emission $A_{21}$, absorption $B_{12}$ and stimulated emission $B_{21}$ relate the populations $N_1$ and $N_2$ of a lower and upper state to the spectral energy density $u(\omega)$ of the optical field (units of energy per volume and angular frequency interval). They define transition rates in units of Hz
+The Einstein coefficients for spontaneous emission $A_{21}$, absorption $B_{12}$ and stimulated emission $B_{21}$ relate the populations $N_1$ and $N_2$ of a lower and upper state to the spectral energy density $u(\omega)$ of the optical field (units of energy per volume and angular frequency interval). They define transition rates in units of Hz
 \begin{eqnarray}
  k_{\text{spontaneous emission}} &=& A_{21} \\
   k_{\text{absorption}}  & = & B_{12} \,   u(\omega) \\
@@ -73,7 +79,7 @@ In steady state we get
 \begin{equation}
  \frac{d N_1}{dt} =  A_{21} N_2 \, - \, B_{12} \, N_1 \, u(\omega) \, + \, B_{21}\, N_2 \,u(\omega)  = 0 \quad .
 \end{equation}
-At the same time, the ratio of the populations is given by Boltzmann's law as
+In thermodynamic equilibrium, the ratio of the populations is given by Boltzmann's law as
 \begin{equation}
  \frac{N_2}{N_1} = \frac{g_2}{g_1} \, \exp \left( - \frac{\hbar \omega}{kT} \right)
 \end{equation}
@@ -84,7 +90,7 @@ where the $g_i$ are the degeneracy of the respective state. The spectral energy 
 Altogether this leads to 
 \begin{eqnarray}
  g_1 \, B_{12} &=& g_2 \, B_{21} \\
- A_{21} &=&  \frac{\hbar \, \omega^3}{\pi^2 c^3} \, B_{21}  \label{eq:fl_Einstein_A_B}
+ A_{21} &=&  \frac{\hbar \, \omega^3}{\pi^2 c^3} \, B_{21}  \quad . \label{eq:fl_Einstein_A_B}
 \end{eqnarray}
 Different prefactors can be found in literature for these equations, depending on the exact definition of $u$.
  \footcite{Hilborn:2002wj} 
@@ -98,9 +104,16 @@ assuming that almost all atoms are in the ground state ($N_2 \ll N_1$). Using \r
 B_{12} = \frac{\pi}{3 \, \hbar^2 \, \epsilon_0} \,  |\mathbf{\mu}_{if} |^2  \quad . \label{eq:fl_B_from_mu}
 \end{equation}
 
+\begin{questions}
+  \item In several places we have combined equations from the last chapter (absorption cross sections and transition dipole moments) and from this chapter (Einstein coefficients). Check for yourself that there is no circle in the definitions.
+  \item Fluorescence emission is difficult to handle in quantum mechanics because a quantum mechanical stable state decays. Einstein's coefficients get around this problem because they are older than quantum mechanics. How does the "quantum" still come into play?
+\end{questions}
+
+
+
 \section{Relation between absorption and emission spectra for atoms}
 
-As we have seen in the last chapter, the extinction spectrum $A(\omega)$ of an atomic gas is.
+As we have seen in the last chapter, the extinction spectrum $A(\omega)$ of an atomic gas is
 \begin{equation}
 A(\omega) = \epsilon(\omega) C d = \frac{N_A C d}{\ln(10)} \sigma(\omega) = \frac{N_A C d}{\ln(10)}
 \frac{\pi \omega_{if}}{ \hbar c \epsilon_0}
@@ -108,18 +121,21 @@ A(\omega) = \epsilon(\omega) C d = \frac{N_A C d}{\ln(10)} \sigma(\omega) = \fra
 \end{equation}
 where $C$ is the concentration of the atoms in the gas cell of thickness $d$. We used  again the line-shape function $L(\Delta \omega)$.
 
-The  spectrum\sidenote{Note that the spectrum is in units of photons per wavelength or frequency interval, and not power per interval.} of the spontaneous fluorescence emission $F(\omega)$ is proportional to the spectral dependence of the radiative decay rate and thus to the  Einstein $A_{21}$ coefficient.
-Combining eq. \ref{eq:fl_B_from_mu} and \ref{eq:fl_Einstein_A_B}
-we get
+The  spectrum\sidenote{Note that the spectrum is in units of photons per wavelength or frequency interval, and not power per interval.} of the spontaneous fluorescence emission $F(\omega)$ is proportional to the spectral dependence of the radiative decay rate, and thus to the  Einstein $A_{21}$ coefficient. Combining eqs. \ref{eq:fl_B_from_mu} and \ref{eq:fl_Einstein_A_B} we get
 \begin{equation}
  A_{21} =  \frac{\hbar \, \omega_{if}^3}{\pi^2 c^3} \, B_{21}  = 
 \frac{ \omega_{if}^3}{3 \, \pi \hbar \, \epsilon_0 \, c^3}    |\mathbf{\mu}_{if} |^2  
 \end{equation}
 or, with the line-shape function $L$ and a concentration $C$
 \begin{equation}
-F(\omega) \propto C \frac{ \omega_{if}^3}{3 \, \pi \hbar \, \epsilon_0 \, c^3}   L(\omega - \omega_{if}) \,   |\mathbf{\mu}_{if} |^2  \label{eq:fl_emspec}
+F(\omega) \propto C \frac{ \omega_{if}^3}{3 \, \pi \hbar \, \epsilon_0 \, c^3}   L(\omega - \omega_{if}) \,   |\mathbf{\mu}_{if} |^2  \quad . \label{eq:fl_emspec}
 \end{equation}
-Note that both the absorption and the emission spectrum are proportional to the square of the transition dipole moment $|\mathbf{\mu}_{if} |^2 $, but the first is obtained by multiplying with $\omega_{if}$, the second by multiplying with $\omega_{if}^3$
+Note that both the absorption (eq. \ref{eq:fl_absspec}) and the emission (eq. \ref{eq:fl_emspec}) spectrum are proportional to the square of the transition dipole moment $|\mathbf{\mu}_{if} |^2 $, but the first is obtained by multiplying with $\omega_{if}$, the second by multiplying with $\omega_{if}^3$
+
+\begin{questions}
+  \item Do you find an intuitive reason for the difference $\omega_{if}^2$ between absorption and emission spectrum? Which property enters in emission that does not enter in absorption? (Although it may be too early in the course for this question.)
+\end{questions}
+
 
 
 \section{Molecules}
@@ -133,13 +149,13 @@ The Born-Oppenheimer approximation  allows to separate the wave functions of ele
 where the nuclear ($\mathbf{R}$) and electron ($\mathbf{r}$) coordinates include the coordinate of \emph{all} electrons and nuclei, respectively, and the nuclear coordinates $\mathbf{R}$ are only fixed parameters in the electronic wave function. The matrix element of the dipole transition operator $\hat{\mu}$ then reads
 \begin{equation}
  \mu_{if} = \iint \chi_f(\mathbf{R}) \, \phi_f(\mathbf{r} , \mathbf{R}) \; \hat{\mu}
- \, \chi_i(\mathbf{R}) \, \phi_i(\mathbf{r}, \mathbf{R}) \, d \mathbf{r} \, d \mathbf{R} \
+ \, \chi_i(\mathbf{R}) \, \phi_i(\mathbf{r}, \mathbf{R}) \, d \mathbf{r} \, d \mathbf{R} \quad .
 \end{equation}
 
 
 We now divide the dipole operator $\hat{\mu}$ into a part acting only on the position of the negative charges, i.e., the electrons, and a part acting only on the position of the positive charges, i.e., the nuclei
 \begin{equation}
-\hat{\mu} = \hat{\mu}_e + \hat{\mu}_k = q_e \mathbf{r} + q_k \mathbf{R}
+\hat{\mu} = \hat{\mu}_e + \hat{\mu}_k = q_e \mathbf{r} + q_k \mathbf{R} \quad .
 \end{equation}
 Thus we obtain
 \begin{align}
@@ -147,23 +163,21 @@ Thus we obtain
 + \braket{ \chi_f, \phi_f | \hat{\mu}_k | \chi_i \phi_i}  \\
 = & \braket{\chi_f | \chi_i} \, \braket{ \phi_f | \hat{\mu}_e | \phi_i} 
 + \braket{ \phi_f | \phi_i} \,
-\braket{ \chi_f | \hat{\mu}_k | \chi_i }  
+\braket{ \chi_f | \hat{\mu}_k | \chi_i }   \quad .
 \end{align} 
-In the second step, we assumed that the electron wavefunction $ \phi(\mathbf{r}, \mathbf{R})$ depends only weakly on $\mathbf{R}$. The electron wavefunctions $\phi_i$ are orthogonal to each other. Thus, the second summand vanishes. The prefactor in front of the first one is not zero because the nuclear wavefunctions belong to different equilibrium distances. This factor 
+In the second step we assumed that the electron wave function $\phi(\mathbf{r}, \mathbf{R})$ depends only weakly on $\mathbf{R}$. The electron wave functions $\phi_i$ are orthogonal to each other. So the second summand vanishes. The prefactor in front of the first summand is not zero, because the nuclear wave functions belong to different equilibrium distances. This factor 
 \begin{equation}
  F = \braket{\chi_f | \chi_i} = 
  \int \chi_f(\mathbf{R}) \, \chi_i(\mathbf{R}) \, d \mathbf{R} 
 \end{equation}
-is called \emph{Franck-Condon factor}. It describes the spatial overlap of the oscillatory wave function of the initial and target states.
-We will investigate this more in detail in the next chapter. In essence, we need to decorate all equations stemming from atomic transitions with $|F|^2$ to take the nuclear vibration into account.
+is called the \emph{Franck-Condon factor}. It describes the spatial overlap of the nuclear wave functions of the initial and final states. We will study this in more detail in the next chapter. Essentially, we need to decorate all equations resulting from atomic transitions with $|F|^2$ to account for nuclear vibration in molecules.
 
 
 
 \section{Strickler-Berg-Equation} 
 
 
-In condensed matter at room temperature, optical transitions are spectrally broad and not at all delta-like. One still finds a relation similar to the relation between the Einstein $A$ and $B$ coefficient between absorption and emission, when integrating over the spectral width. This relation is the  Strickler-Berg equation.\footcite[chapter 5.3][]{Strickler_Berg, Parson}\footcite[chapter 
-1.4.3.2]{KoehlerBaessler2015}
+In condensed matter at room temperature, optical transitions are spectrally broad and not delta-like at all. Nevertheless, when integrating over the spectral width, one finds a relation between absorption and emission that is similar to the relation between Einstein's $A$ and $B$ coefficients. This relationship is the Strickler-Berg equation.\footcite[chapter 5.3][]{Strickler_Berg, Parson}\footcite[chapter 1.4.3.2]{KoehlerBaessler2015}
 
 
 A molecule has the electronic ground state $g$ and the first excited state $e$, and each electronic state has a progression of vibrational states $m$ and $n$. We first look at the spontaneous emission rate  $k_{\text{sp}} =  A_{21}$
@@ -177,10 +191,10 @@ where we have used the relation between the Einstein $A$ and $B$ coefficients an
 The Einstein coefficient for absorption $B_{ge} $ is related to the molar extinction coefficient $\epsilon(\omega)$, as we have seen in the chapter on absorption
 \begin{equation}
  k_{e,n \rightarrow g}  = \frac{\ln(10)}{\pi^2 c^2 N_A} \sum_m  \omega_{e,n \rightarrow g,m}^3 \,  | \braket{\chi_m |  \chi_n} |^2
- \int \frac{\epsilon(\omega)}{\omega} \, d \omega
+ \int \frac{\epsilon(\omega)}{\omega} \, d \omega \quad .
 \end{equation}
 %
-As the  $\chi_m$ form a full basis set $\sum_m  | \braket {\chi_m | \chi_n} |^2 = 1$,  we can write
+As the  $\chi_m$ form a full basis set ($\sum_m  | \braket {\chi_m | \chi_n} |^2 = 1$),  we can write
 \begin{equation}
  k_{e,n \rightarrow g}  = \frac{\ln(10)}{\pi^2 c^2 N_A} 
 %
@@ -188,7 +202,7 @@ As the  $\chi_m$ form a full basis set $\sum_m  | \braket {\chi_m | \chi_n} |^2 
  \sum_m  \omega_{e,n \rightarrow g,m}^3 \,  | \braket{\chi_m |  \chi_n} |^2 }
  { \sum_m  | \braket {\chi_m | \chi_n} |^2 }
  %
- \int \frac{\epsilon(\omega)}{\omega} \, d \omega
+ \int \frac{\epsilon(\omega)}{\omega} \, d \omega \quad .
 \end{equation}
 The fluorescence emission spectrum $F(\omega)$ is determined\sidenote{see also next chapter} up to spectrally constant factors by the $\omega^3$ term and the Franck-Condon factors, i.e.
 \begin{equation}
@@ -199,42 +213,29 @@ so that we can write by replacing the sums over $m$ by  spectral integrals
  k_{e,n \rightarrow g}  =  \frac{\ln(10)}{\pi^2 c^2 N_A} \frac{\int F(\omega) \, d \omega}{\int \omega^{-3} F(\omega) \, d \omega }
  \int \frac{\epsilon(\omega)}{\omega} \, d \omega   \quad. 
 \end{equation}
-This is the Strickler-Berg equation. Conveniently, all prefactors connected to $F(\omega)$ drop out, especially also experimentally difficult to access absolute emission intensities. Absolute absorption is much  easier to measure. The Strickler-Berg equation conveniently connects these spectra such that we can calculate the rate of spontaneous fluorescence emission. For molecules in a solvent, one should take into account that the refractive index $n$ of the solvent enters via $c = c_0 / n$. 
+This is the Strickler-Berg equation. Conveniently, all prefactors associated with $F(\omega)$ drop out, especially absolute emission intensities, which are difficult to access experimentally. Absolute absorption is much easier to measure. The Strickler-Berg equation conveniently connects these spectra so that we can calculate the rate of spontaneous fluorescence emission. For molecules in a solvent, it should be noted that the refractive index $n$ of the solvent enters via $c = c_0 / n$. 
 
-In the literature, different prefactors can be found, related to integrals over frequency $\nu$ or wave numbers $\bar{\nu}$. Sometimes also an additional factor of 1000 appears, stemming from assumptions on the units of the molar extinction.
-
-
-
-
-
-
-
-
-
-
+In the literature one can find different prefactors, related to integrals over frequency $\nu$ or wavenumbers $\bar{\nu}$. Sometimes an additional factor of 1000 appears, resulting from assumptions about the units of the molar extinction.
 
 
 
 
 \section{Fluorescence quantum yield and fluorescence lifetime} 
 
-
-
-
-In contrast to an atom in vacuum, a molecule in condensed matter has other options beyond light emission to lower its total energy. These non-radiative processes include vibrational relaxation, inter-system crossing, internal conversion and other energy transfer mechanism. The total rate $k_{tot}$ by which the population of an excited state changes is thus the sum of several rates, a radiative  (as given by the Strickler-Berg equation) and several non-radiative rates 
+In contrast to an atom in vacuum, a molecule in condensed matter has other ways to lower its total energy besides emitting light. These non-radiative processes include vibrational relaxation, intersystem crossing, internal conversion, and other energy transfer mechanisms. The total rate $k_{tot}$ by which the population of an excited state changes is thus the sum of several rates, one radiative (as given by the Strickler-Berg equation) and several non-radiative rates
 \begin{equation}
- k_{tot} = k_{rad} + k_{non rad} 
+ k_{tot} = k_{rad} + k_{non rad}  \quad .
 \end{equation}
 %
 The population of an excited state is thus, neglecting other processes that  potentially re-excite this state,
 \begin{equation}
- N(t) = N(0) \, \exp \left( - k_{tot}  \,t \right)
+ N(t) = N(0) \, \exp \left( - k_{tot}  \,t \right) \quad .
 \end{equation}
 The fluorescence intensity $F(t)$ is given by the population and the radiative rate
 \begin{equation}
- F(t) = k_{rad} \, N(t) = k_{rad} \,  N(0) \, \exp \left( - k_{tot} \, t \right)
+ F(t) = k_{rad} \, N(t) = k_{rad} \,  N(0) \, \exp \left( - k_{tot} \, t \right) \quad .
 \end{equation}
-After switching off the excitation laser, the fluorescence intensity drops thus exponentially with the total rate, not the radiative rate. When measuring the arrival time of a fluorescence photon after impulsive laser excitation, one can find this exponential decay in the arrival time histogram. This technique is called time-correlated single-photon counting (TCSPC). The total rate is thus much easier to measure than the radiative rate. 
+After switching off the excitation laser, the fluorescence intensity decays thus exponentially with the total rate, not the radiative rate. When measuring the arrival time of a fluorescence photon after impulsive laser excitation, one can find this exponential decay in the arrival time histogram. This technique is called time-correlated single-photon counting (TCSPC). The total rate is thus much easier to measure than the radiative rate. 
 
 
 \begin{marginfigure}
@@ -243,21 +244,12 @@ After switching off the excitation laser, the fluorescence intensity drops thus 
 \end{marginfigure}
 
 
-The fluorescence lifetime is the reciprocal of the total decay rate $k_{tot}$ and determines the TCSPC trace. The reciprocal of the radiative rate is sometimes called radiative lifetime.
+The fluorescence lifetime is the reciprocal of the total decay rate $k_{tot}$ and determines the TCSPC trace. The reciprocal of the radiative rate alone is sometimes called radiative lifetime.
 
 The fluorescence quantum yield $\eta$ gives the probability that a decay out of the excited state results in a photon, i.e.
 \begin{equation}
- \eta   = \frac{k_{rad}}{k_{tot}} = \frac{k_{rad}}{k_{rad} + k_{non rad}}
+ \eta   = \frac{k_{rad}}{k_{tot}} = \frac{k_{rad}}{k_{rad} + k_{non rad}} \quad .
 \end{equation}
-
-
-
-
-
-
-
-
-
 
 
 
