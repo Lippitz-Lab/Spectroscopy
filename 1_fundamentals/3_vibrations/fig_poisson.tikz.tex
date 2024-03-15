@@ -1,12 +1,12 @@
-\documentclass[margin=0mm]{standalone}
-\usepackage{tikz}
-\usepackage{pgfplots}
- \pgfplotsset{compat=newest}
+% \documentclass[margin=0mm]{standalone}
+% \usepackage{tikz}
+% \usepackage{pgfplots}
+%  \pgfplotsset{compat=newest}
 
 
 
 
-\begin{document}
+% \begin{document}
 
 
 
@@ -43,39 +43,35 @@ enlarge x limits={ abs=0.5*\pgfkeysvalueof{/pgf/bar width}
 
 
 \begin{tikzpicture}
-\begin{axis}[tufte bar, ymax = 0.5, scale only axis, width = 33mm,
-ylabel = probability,
+  \begin{groupplot}[
+    group style={
+      group size=3 by 1,
+      %y descriptions at=edge left,
+      horizontal sep=5mm
+  },
+  tufte bar, ymax = 0.5, scale only axis,  height=30mm,
 xlabel = state $m$,
   every axis plot post/.append style={
   samples at = {0,...,10}}]
+
+  \nextgroupplot[ylabel = probability]
+
   \addplot {poiss(0.7)};
   \node[anchor=south] at (axis cs: 5, 0.4) {$S = 0.7$};
 
-\end{axis};
-\end{tikzpicture}
-%
-\begin{tikzpicture}
-\begin{axis}[tufte bar, ymax = 0.5,  yticklabel = \empty, scale only axis,  width = 33mm,
-xlabel = state $m$,
-  every axis plot post/.append style={
-  samples at = {0,...,10}}]
+  \nextgroupplot[ylabel = \empty, ytick=\empty]
+
   \addplot {poiss(1.5)};
     \node[anchor=south] at (axis cs: 5, 0.4) {$S = 1.5$};
 
-\end{axis};
-\end{tikzpicture}
-%
-\begin{tikzpicture}
-\begin{axis}[tufte bar, ymax = 0.5, yticklabel = \empty, scale only axis,  width = 33mm,
-xlabel = state $m$,
-  every axis plot post/.append style={
-  samples at = {0,...,10}}]
+    \nextgroupplot[ylabel = \empty, , ytick=\empty]
+
   \addplot {poiss(2.5)};
     \node[anchor=south] at (axis cs: 5, 0.4) {$S = 2.5$};
 
-\end{axis};
+\end{groupplot};
 \end{tikzpicture}
 
 
 
-\end{document}
+%\end{document}

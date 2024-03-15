@@ -174,6 +174,26 @@ is called the \emph{Franck-Condon factor}. It describes the spatial overlap of t
 
 
 
+It makes intuitively sense that such a factor must exist. In the case of electronic excitation, the electron wave function changes instantaneously. However, the position of particles with mass cannot change instantaneously.  Therefore, in order for a transition to occur, the nuclei must be able to be at that position even in the excited state. The Franck-Condon integral calculates exactly this possibility.\sidenote{The fact that the position of the electrons does not change is analogously required by $ \braket{ \phi_f | \hat{\mu}_e | \phi_i} \neq 0 $ required }
+
+This is shown schematically in the sketch. The initial state for the absorption of a photon is the electronic ground state and also the vibrational ground state $\nu = 0$. Typical vibrational frequencies are such that $\hbar \omega_\text{vib} \gg k_b T$, i.e. already $\nu =1$ cannot be thermally excited. The binding potential in the excited state is shifted outward along the core-core coordinate $R$ (less binding). Its shape is approximately the same as in the ground state. 
+
+\begin{marginfigure}
+   \inputtikz{\currfiledir FC_vib_state_wf}
+\caption{The absorption of a photon leads to the excitation of the core-core oscillation if the potentials are shifted against each other}.
+\end{marginfigure}
+
+The nuclear wave functions $\chi_f(\mathbf{R})$ are Hermite polynomials for harmonic binding potentials. In the electronic ground state the nuclear distance $R$ is strongly localized around $R_0$. Immediately after electronic excitation, however, $R$ cannot have changed. Optical transitions are \emph{vertical} in this sketch. We therefore look for an nuclear wave function or its quantum number $\nu$ in the excited electronic state that has a high probability of being at $R_0$ (but the velocity of the nuclei must also match). In the example this is $\nu = 1$. The Franck-Condon factor indicates the degree of agreement.
+
+So there are no strict selection rules, only more or less strong transitions for given $\nu_\text{final} = \Delta \nu$. If the bond distance does not change at all under electronic excitation, then the transition
+\begin{equation}
+ \nu = 0 \rightarrow \nu = 0
+\end{equation}
+is the strongest. This transition is called a 'zero phonon line' (ZPL) because no vibrational quanta are involved. The greater the difference in $R_0$, the further the strongest line shifts to higher $\nu$. 
+
+
+
+
 \section{Strickler-Berg-Equation} 
 
 
