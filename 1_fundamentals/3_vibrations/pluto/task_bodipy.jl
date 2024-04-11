@@ -18,6 +18,11 @@ md"""
 # ╔═╡ e978e952-f10d-46d4-8c54-a20532ebc3bc
 import PhysicalConstants.CODATA2018: N_A	, m_e, e, ε_0, c_0, ħ
 
+# ╔═╡ cf5fda8f-697f-4c63-9857-489c35bdf442
+md"""
+### Load data
+"""
+
 # ╔═╡ 24f2c5f0-f0cc-4fd9-8585-275ea0b025c9
 data = CSV.read("../data/BODIPY_650_665.csv", DataFrame)
 
@@ -26,17 +31,21 @@ md"""
 ## convert to energy scale
 """
 
-# ╔═╡ 4a26682d-169f-4127-b039-71af946caa75
-frequency = @. 2π * c_0 ./ (data.Wavelength * 1u"nm") |> upreferred
+# ╔═╡ f1dda94e-0f81-4685-b5d4-2471e111d8e2
+md"""
+We convert the spectra to an energy scale, as physics goes with energy, not wavelength. To simplify plotting, we normalize the peaks to 1.
+
+*unhide the cell below to see the equations*
+
+"""
 
 # ╔═╡ fea3889f-e43f-4ab9-8075-e8c6c50c26f2
 begin
+	frequency = @. 2π * c_0 ./ (data.Wavelength * 1u"nm") |> upreferred
 	F_ω = @. (data.Emission  .* 1u"nm^-1").* (data.Wavelength * 1u"nm")^2 / c_0 .|> u"Hz^-1"
 	F_ω = F_ω ./ maximum(F_ω)  # normalize spectrum
+	A_ω = data.Excitation ./ maximum(data.Excitation); # normalize spectrum
 end;
-
-# ╔═╡ b46b1b48-ff5d-4236-b851-94e5fd6f5a4a
-A_ω = data.Excitation ./ maximum(data.Excitation); # normalize spectrum
 
 # ╔═╡ 08d10735-c9e4-4ae8-a28b-c4828f2c5953
 begin
@@ -49,14 +58,18 @@ md"""
 ## calculate transition dipole moments
 """
 
+# ╔═╡ 24a9f4f7-f002-451c-91c4-fcddac4ac396
+md"""
+We calculate from each spectrum the transition dipole moment and noramlize again the peak to one, to simplify plotting.
+
+*unhide the cell to see the equations*
+"""
+
 # ╔═╡ 95ce2ad7-44e9-4162-9bf1-bead7cce438c
 begin
 	μ_abs = A_ω ./ frequency
 	μ_abs = μ_abs ./ maximum(μ_abs)
-end;
 
-# ╔═╡ 9c9ea025-fc47-4799-960b-166d31104f0e
-begin
 	μ_em = F_ω ./ frequency.^3
 	μ_em = μ_em ./ maximum(μ_em)
 end;
@@ -70,6 +83,15 @@ end
 # ╔═╡ 9ec76a3c-c1ae-46bb-a62e-a202ebd5dd7b
 md"""
 ## Mirror around intersection of absorption and emission spectrum
+"""
+
+# ╔═╡ 3f4e619d-55ae-4505-8a3b-56606123f419
+md"""
+Now we need to estimate the 0-0 transition energy. We assume it to be at the intersection of absorption and emission spectra between the two peaks.
+
+We mirror one spectrum around this point and plot both on a realtive frequency axis.
+
+*unhide the cell to see the equations*
 """
 
 # ╔═╡ e756c435-b187-44a4-b79a-efbbfc08c02a
@@ -86,6 +108,11 @@ begin
 	plot(fmid .- frequency , μ_em ; label="emission")
 	plot!(frequency .- fmid, μ_abs, xaxis = ("rel. frequency", (-3, 8) .* 1e14u"Hz"), yaxis =("dipole moments (normalized)");  label = "absorption")
 end
+
+# ╔═╡ c881a63a-4fa4-4366-8bd5-066e83edec63
+md"""
+So the mirror rule holds pretty well.
+"""
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -156,9 +183,9 @@ version = "1.0.8+1"
 
 [[deps.CSV]]
 deps = ["CodecZlib", "Dates", "FilePathsBase", "InlineStrings", "Mmap", "Parsers", "PooledArrays", "PrecompileTools", "SentinelArrays", "Tables", "Unicode", "WeakRefStrings", "WorkerUtilities"]
-git-tree-sha1 = "a44910ceb69b0d44fe262dd451ab11ead3ed0be8"
+git-tree-sha1 = "6c834533dc1fabd820c1db03c839bf97e45a3fab"
 uuid = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
-version = "0.10.13"
+version = "0.10.14"
 
 [[deps.Cairo_jll]]
 deps = ["Artifacts", "Bzip2_jll", "CompilerSupportLibraries_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
@@ -196,9 +223,9 @@ version = "3.24.0"
 
 [[deps.ColorTypes]]
 deps = ["FixedPointNumbers", "Random"]
-git-tree-sha1 = "eb7f0f8307f71fac7c606984ea5fb2817275d6e4"
+git-tree-sha1 = "b10d0b65641d57b8b4d5e234446582de5047050d"
 uuid = "3da002f7-5984-5a60-b8a6-cbb66c0b333f"
-version = "0.11.4"
+version = "0.11.5"
 
 [[deps.ColorVectorSpace]]
 deps = ["ColorTypes", "FixedPointNumbers", "LinearAlgebra", "Requires", "Statistics", "TensorCore"]
@@ -255,9 +282,9 @@ version = "2.4.1"
 
 [[deps.ConstructionBase]]
 deps = ["LinearAlgebra"]
-git-tree-sha1 = "c53fc348ca4d40d7b371e71fd52251839080cbc9"
+git-tree-sha1 = "260fd2400ed2dab602a7c15cf10c1933c59930a2"
 uuid = "187b0558-2788-49d3-abe0-74a17ed4e7c9"
-version = "1.5.4"
+version = "1.5.5"
 
     [deps.ConstructionBase.extensions]
     ConstructionBaseIntervalSetsExt = "IntervalSets"
@@ -268,9 +295,9 @@ version = "1.5.4"
     StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
 
 [[deps.Contour]]
-git-tree-sha1 = "d05d9e7b7aedff4e5b51a029dced05cfb6125781"
+git-tree-sha1 = "439e35b0b36e2e5881738abc8857bd92ad6ff9a8"
 uuid = "d38c429a-6771-53c6-b99e-75d170b6e991"
-version = "0.6.2"
+version = "0.6.3"
 
 [[deps.Crayons]]
 git-tree-sha1 = "249fe38abf76d48563e2f4556bebd215aa317e15"
@@ -372,9 +399,9 @@ uuid = "a3f928ae-7b40-5064-980b-68af3947d34b"
 version = "2.13.93+0"
 
 [[deps.Format]]
-git-tree-sha1 = "f3cf88025f6d03c194d73f5d13fee9004a108329"
+git-tree-sha1 = "9c68794ef81b08086aeb32eeaf33531668d5f5fc"
 uuid = "1fa38f19-a742-5d3f-a2b9-30dd87b9d5f8"
-version = "1.3.6"
+version = "1.3.7"
 
 [[deps.FreeType2_jll]]
 deps = ["Artifacts", "Bzip2_jll", "JLLWrappers", "Libdl", "Zlib_jll"]
@@ -435,9 +462,9 @@ version = "1.0.2"
 
 [[deps.HTTP]]
 deps = ["Base64", "CodecZlib", "ConcurrentUtilities", "Dates", "ExceptionUnwrapping", "Logging", "LoggingExtras", "MbedTLS", "NetworkOptions", "OpenSSL", "Random", "SimpleBufferStream", "Sockets", "URIs", "UUIDs"]
-git-tree-sha1 = "db864f2d91f68a5912937af80327d288ea1f3aee"
+git-tree-sha1 = "8e59b47b9dc525b70550ca082ce85bcd7f5477cd"
 uuid = "cd3eb016-35fb-5094-929b-558a96fad6f3"
-version = "1.10.3"
+version = "1.10.5"
 
 [[deps.HarfBuzz_jll]]
 deps = ["Artifacts", "Cairo_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "Graphite2_jll", "JLLWrappers", "Libdl", "Libffi_jll", "Pkg"]
@@ -457,9 +484,13 @@ uuid = "b77e0a4c-d291-57a0-90e8-8db25a27a240"
 
 [[deps.InverseFunctions]]
 deps = ["Test"]
-git-tree-sha1 = "68772f49f54b479fa88ace904f6127f0a3bb2e46"
+git-tree-sha1 = "896385798a8d49a255c398bd49162062e4a4c435"
 uuid = "3587e190-3f89-42d0-90ee-14403ec27112"
-version = "0.1.12"
+version = "0.1.13"
+weakdeps = ["Dates"]
+
+    [deps.InverseFunctions.extensions]
+    DatesExt = "Dates"
 
 [[deps.InvertedIndices]]
 git-tree-sha1 = "0dc7b50b8d436461be01300fd8cd45aa0274b038"
@@ -695,9 +726,9 @@ version = "0.3.2"
 
 [[deps.Missings]]
 deps = ["DataAPI"]
-git-tree-sha1 = "f66bdc5de519e8f8ae43bdc598782d35a25b1272"
+git-tree-sha1 = "ec4f7fbeab05d7747bdf98eb74d130a2a2ed298d"
 uuid = "e1d29d7a-bbdc-5cf2-9ac0-f12de2c33e28"
-version = "1.1.0"
+version = "1.2.0"
 
 [[deps.Mmap]]
 uuid = "a63ad114-7e13-5084-954f-fe012c677804"
@@ -740,9 +771,9 @@ version = "1.4.2"
 
 [[deps.OpenSSL_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl"]
-git-tree-sha1 = "60e3045590bd104a16fefb12836c00c0ef8c7f8c"
+git-tree-sha1 = "3da7367955dcc5c54c1ba4d402ccdc09a1a3e046"
 uuid = "458c3c95-2e84-50aa-8efc-19380b2a3a95"
-version = "3.0.13+0"
+version = "3.0.13+1"
 
 [[deps.Opus_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -802,9 +833,9 @@ version = "1.4.1"
 
 [[deps.Plots]]
 deps = ["Base64", "Contour", "Dates", "Downloads", "FFMPEG", "FixedPointNumbers", "GR", "JLFzf", "JSON", "LaTeXStrings", "Latexify", "LinearAlgebra", "Measures", "NaNMath", "Pkg", "PlotThemes", "PlotUtils", "PrecompileTools", "Printf", "REPL", "Random", "RecipesBase", "RecipesPipeline", "Reexport", "RelocatableFolders", "Requires", "Scratch", "Showoff", "SparseArrays", "Statistics", "StatsBase", "UUIDs", "UnicodeFun", "UnitfulLatexify", "Unzip"]
-git-tree-sha1 = "3c403c6590dd93b36752634115e20137e79ab4df"
+git-tree-sha1 = "3bdfa4fa528ef21287ef659a89d686e8a1bcb1a9"
 uuid = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
-version = "1.40.2"
+version = "1.40.3"
 
     [deps.Plots.extensions]
     FileIOExt = "FileIO"
@@ -966,9 +997,9 @@ version = "1.7.0"
 
 [[deps.StatsBase]]
 deps = ["DataAPI", "DataStructures", "LinearAlgebra", "LogExpFunctions", "Missings", "Printf", "Random", "SortingAlgorithms", "SparseArrays", "Statistics", "StatsAPI"]
-git-tree-sha1 = "1d77abd07f617c4868c33d4f5b9e1dbb2643c9cf"
+git-tree-sha1 = "5cf7606d6cef84b543b483848d4ae08ad9832b21"
 uuid = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
-version = "0.34.2"
+version = "0.34.3"
 
 [[deps.StringManipulation]]
 deps = ["PrecompileTools"]
@@ -1014,9 +1045,9 @@ deps = ["InteractiveUtils", "Logging", "Random", "Serialization"]
 uuid = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [[deps.TranscodingStreams]]
-git-tree-sha1 = "3caa21522e7efac1ba21834a03734c57b4611c7e"
+git-tree-sha1 = "71509f04d045ec714c4748c785a59045c3736349"
 uuid = "3bb67fe8-82b1-5028-8e26-92a6c54297fa"
-version = "0.10.4"
+version = "0.10.7"
 weakdeps = ["Random", "Test"]
 
     [deps.TranscodingStreams.extensions]
@@ -1093,9 +1124,9 @@ version = "1.6.1"
 
 [[deps.XML2_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Libiconv_jll", "Zlib_jll"]
-git-tree-sha1 = "07e470dabc5a6a4254ffebc29a1b3fc01464e105"
+git-tree-sha1 = "532e22cf7be8462035d092ff21fada7527e2c488"
 uuid = "02c8fc9c-b97f-50b9-bbe4-9be30ff0a78a"
-version = "2.12.5+0"
+version = "2.12.6+0"
 
 [[deps.XSLT_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Libgcrypt_jll", "Libgpg_error_jll", "Libiconv_jll", "Pkg", "XML2_jll", "Zlib_jll"]
@@ -1105,9 +1136,9 @@ version = "1.1.34+0"
 
 [[deps.XZ_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl"]
-git-tree-sha1 = "31c421e5516a6248dfb22c194519e37effbf1f30"
+git-tree-sha1 = "ac88fb95ae6447c8dda6a5503f3bafd496ae8632"
 uuid = "ffd25f8a-64ca-5728-b0f7-c24cf3aae800"
-version = "5.6.1+0"
+version = "5.4.6+0"
 
 [[deps.Xorg_libICE_jll]]
 deps = ["Libdl", "Pkg"]
@@ -1260,9 +1291,9 @@ version = "1.2.13+1"
 
 [[deps.Zstd_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl"]
-git-tree-sha1 = "49ce682769cd5de6c72dcf1b94ed7790cd08974c"
+git-tree-sha1 = "e678132f07ddb5bfa46857f0d7620fb9be675d3b"
 uuid = "3161d3a3-bdf6-5164-811a-617609db77b4"
-version = "1.5.5+0"
+version = "1.5.6+0"
 
 [[deps.eudev_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg", "gperf_jll"]
@@ -1369,17 +1400,19 @@ version = "1.4.1+1"
 # ╠═4b26229e-e2e6-11ee-3f9a-bfff67c8be6a
 # ╠═e978e952-f10d-46d4-8c54-a20532ebc3bc
 # ╠═6dccafe4-1046-4fce-b43f-4654eaaeeffc
+# ╟─cf5fda8f-697f-4c63-9857-489c35bdf442
 # ╠═24f2c5f0-f0cc-4fd9-8585-275ea0b025c9
 # ╟─e2121df4-2626-40f7-b94c-6e7e0ca07e5b
-# ╠═4a26682d-169f-4127-b039-71af946caa75
-# ╠═fea3889f-e43f-4ab9-8075-e8c6c50c26f2
-# ╠═b46b1b48-ff5d-4236-b851-94e5fd6f5a4a
+# ╟─f1dda94e-0f81-4685-b5d4-2471e111d8e2
+# ╟─fea3889f-e43f-4ab9-8075-e8c6c50c26f2
 # ╠═08d10735-c9e4-4ae8-a28b-c4828f2c5953
 # ╟─1dda6fa2-3f02-4707-a310-7362bfb9dfa6
-# ╠═95ce2ad7-44e9-4162-9bf1-bead7cce438c
-# ╠═9c9ea025-fc47-4799-960b-166d31104f0e
+# ╟─24a9f4f7-f002-451c-91c4-fcddac4ac396
+# ╟─95ce2ad7-44e9-4162-9bf1-bead7cce438c
 # ╠═4274070d-a3ac-4f27-b37b-33c012a2fced
 # ╟─9ec76a3c-c1ae-46bb-a62e-a202ebd5dd7b
-# ╠═e756c435-b187-44a4-b79a-efbbfc08c02a
+# ╟─3f4e619d-55ae-4505-8a3b-56606123f419
+# ╟─e756c435-b187-44a4-b79a-efbbfc08c02a
+# ╟─c881a63a-4fa4-4366-8bd5-066e83edec63
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002

@@ -23,13 +23,18 @@ md"""
 ## Radiative rate via Strickler-Berg equation
 """
 
+# ╔═╡ 6c9475fe-8387-4587-82ae-802ea7ce6c95
+md"""
+We import the spectra
+"""
+
 # ╔═╡ befaf251-87cf-40d3-a4d4-421852c877fa
 data_SB = CSV.read("../handout/tdi_abs_em.dat", DataFrame, 
 				header=[:wavelength, :absorption, :emission])
 
 # ╔═╡ 4c1ee6fa-750c-4911-a9e0-35b216eda842
 md"""
- the given parameters 
+ The parameters are
 """
 
 # ╔═╡ 86dd6525-cd17-4134-94c3-6c05c70526b4
@@ -52,7 +57,14 @@ end
 
 # ╔═╡ c3e8c902-d234-46f0-ae00-a122df8d8ed8
 md"""
-### calculate molar absorption coefficient
+### Calculate molar absorption coefficient
+"""
+
+# ╔═╡ 82125817-2854-42bb-85fb-1844a64f41fe
+md"""
+First, calculate the molar absorption coefficient $\epsilon$ for each wavelength.
+
+*Unhide the cell below to see the equation*
 """
 
 # ╔═╡ 2b61425f-92d9-430b-9c59-17af45c88306
@@ -65,7 +77,9 @@ md"""
 
 # ╔═╡ da7d0f9f-0511-4678-bc2d-c4aeeb04238b
 md"""
-NB: we keep the data sorted by wavelength, i.e., use a backwards freq. axis
+Wavelength is the natural axis of a spectrometer, but energy / ferquency is much more relevant for physics. So we need to convert to a frequency axis. I only generate frequency values for each pixel, but the order is still that of the file, i.e. increasing wavelength = decreasing frequency.
+
+*unhide the cell below to see the eqauation*
 """
 
 # ╔═╡ 4ba9fd65-9671-45c7-aa93-b5df22565649
@@ -73,7 +87,10 @@ frequency = 2π * c_0 ./ (data_SB.wavelength  .* 1u"nm") .|> upreferred
 
 # ╔═╡ 5f73bc1d-d222-46f9-91ac-cea629a2ba9d
 md"""
-Fluoresence spectrum (as measured) is in <some unit> per wavelength interval, where <some unit> does not matter. Could be counts or photons, or similar. We keep only the "per wavelength" part. 
+The fluoresence spectrum (as measured) is in <some unit> per wavelength interval, where <some unit> does not matter (could be counts or photons, or similar). We keep only the "per wavelength" part and convert it to a "per frequency intervall".
+
+*unhide the cell below to see the eqauation*
+
 """
 
 # ╔═╡ b519e698-601f-4af4-9279-f00a1f24919a
@@ -82,6 +99,9 @@ F_ω = @. (data_SB.emission  .* 1u"nm^-1").* (data_SB.wavelength * 1u"nm")^2 / c
 # ╔═╡ d7ff7c51-e3fe-42d2-9677-b95052009ec2
 md"""
 To integrate over the fluorescence spectrum, we need dω, that varies per pixel. We could interpolate on a equidistant ω axis, or work with varying dω. 
+
+*unhide the cell below to see the eqauation*
+
 """
 
 # ╔═╡ 0452c773-5449-45ba-ae93-f05c7fd24486
@@ -96,14 +116,17 @@ One could use more fancy integration algorithms, but the data is so smooth, that
 """
 
 # ╔═╡ 478b9b0d-725a-4d4c-8a44-213ab8d5096e
-sum( F_ω .* dω) |> upreferred
+intergral_F = sum( F_ω .* dω) |> upreferred
 
 # ╔═╡ f3897de8-eed1-48c6-bc0c-129a3dc13545
-sum( F_ω .* frequency.^-3 .* dω) |> upreferred
+integral_F_over_w3 = sum( F_ω .* frequency.^-3 .* dω) |> upreferred
 
 # ╔═╡ fc0c0872-5ea3-426b-9475-d38cd808bb36
 md"""
-now everything together:
+now everything together: we calculate $k$ and from it $\tau$.
+
+*unhide the cells below to see the eqauations*
+
 """
 
 # ╔═╡ 0142ae19-f2cc-41fe-9cd7-0b7b8c789227
@@ -117,10 +140,20 @@ md"""
 # Excited state lifetime via TCSPC
 """
 
+# ╔═╡ b45ea40a-6a42-4685-9456-b5a1b8f23bbd
+md"""
+We import the TCSPC data
+"""
+
 # ╔═╡ df9f125c-abed-46bd-b93f-1e32e374d51a
 begin
 	data_tcspc = CSV.read("../handout/tdi_tcspc.dat", DataFrame, header = [:delay, :occurence])
 end
+
+# ╔═╡ 59553849-363e-4ff9-8e69-c8bedc848831
+md"""
+TCSPC is tpyically plotted on a log y scale, to see the exponential decay
+"""
 
 # ╔═╡ c7b3faed-229a-4d66-b9bd-c3c171d8a420
 md"""
@@ -145,6 +178,13 @@ md"""
 ## Everything together
 """
 
+# ╔═╡ cadc3376-4496-4ac4-8485-09331134cbc1
+md"""
+We now compare the excited state lifetime (and thus total decay rate) with the fluosrecence rate. From these we get the quantum efficiency qe.
+
+*unhide the cells below to see the equations*
+"""
+
 # ╔═╡ e417ae5c-c687-49c8-b9b1-817328e987c6
 τ_excited_state = tau_TCSPC .* 1u"ns"
 
@@ -153,6 +193,11 @@ k_total = 1 ./ τ_excited_state
 
 # ╔═╡ 6c3fb067-4845-4a1b-ae22-ae81e0aef7fc
 qe = k_SB ./ k_total
+
+# ╔═╡ a2cdf9c0-4f72-4da9-a387-6bec0ec23989
+md"""
+This is a reasonable value for a good dye.
+"""
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -223,9 +268,9 @@ version = "1.0.8+1"
 
 [[deps.CSV]]
 deps = ["CodecZlib", "Dates", "FilePathsBase", "InlineStrings", "Mmap", "Parsers", "PooledArrays", "PrecompileTools", "SentinelArrays", "Tables", "Unicode", "WeakRefStrings", "WorkerUtilities"]
-git-tree-sha1 = "a44910ceb69b0d44fe262dd451ab11ead3ed0be8"
+git-tree-sha1 = "6c834533dc1fabd820c1db03c839bf97e45a3fab"
 uuid = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
-version = "0.10.13"
+version = "0.10.14"
 
 [[deps.Cairo_jll]]
 deps = ["Artifacts", "Bzip2_jll", "CompilerSupportLibraries_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
@@ -263,9 +308,9 @@ version = "3.24.0"
 
 [[deps.ColorTypes]]
 deps = ["FixedPointNumbers", "Random"]
-git-tree-sha1 = "eb7f0f8307f71fac7c606984ea5fb2817275d6e4"
+git-tree-sha1 = "b10d0b65641d57b8b4d5e234446582de5047050d"
 uuid = "3da002f7-5984-5a60-b8a6-cbb66c0b333f"
-version = "0.11.4"
+version = "0.11.5"
 
 [[deps.ColorVectorSpace]]
 deps = ["ColorTypes", "FixedPointNumbers", "LinearAlgebra", "Requires", "Statistics", "TensorCore"]
@@ -322,9 +367,9 @@ version = "2.4.1"
 
 [[deps.ConstructionBase]]
 deps = ["LinearAlgebra"]
-git-tree-sha1 = "c53fc348ca4d40d7b371e71fd52251839080cbc9"
+git-tree-sha1 = "260fd2400ed2dab602a7c15cf10c1933c59930a2"
 uuid = "187b0558-2788-49d3-abe0-74a17ed4e7c9"
-version = "1.5.4"
+version = "1.5.5"
 
     [deps.ConstructionBase.extensions]
     ConstructionBaseIntervalSetsExt = "IntervalSets"
@@ -335,9 +380,9 @@ version = "1.5.4"
     StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
 
 [[deps.Contour]]
-git-tree-sha1 = "d05d9e7b7aedff4e5b51a029dced05cfb6125781"
+git-tree-sha1 = "439e35b0b36e2e5881738abc8857bd92ad6ff9a8"
 uuid = "d38c429a-6771-53c6-b99e-75d170b6e991"
-version = "0.6.2"
+version = "0.6.3"
 
 [[deps.Crayons]]
 git-tree-sha1 = "249fe38abf76d48563e2f4556bebd215aa317e15"
@@ -439,9 +484,9 @@ uuid = "a3f928ae-7b40-5064-980b-68af3947d34b"
 version = "2.13.93+0"
 
 [[deps.Format]]
-git-tree-sha1 = "f3cf88025f6d03c194d73f5d13fee9004a108329"
+git-tree-sha1 = "9c68794ef81b08086aeb32eeaf33531668d5f5fc"
 uuid = "1fa38f19-a742-5d3f-a2b9-30dd87b9d5f8"
-version = "1.3.6"
+version = "1.3.7"
 
 [[deps.FreeType2_jll]]
 deps = ["Artifacts", "Bzip2_jll", "JLLWrappers", "Libdl", "Zlib_jll"]
@@ -502,9 +547,9 @@ version = "1.0.2"
 
 [[deps.HTTP]]
 deps = ["Base64", "CodecZlib", "ConcurrentUtilities", "Dates", "ExceptionUnwrapping", "Logging", "LoggingExtras", "MbedTLS", "NetworkOptions", "OpenSSL", "Random", "SimpleBufferStream", "Sockets", "URIs", "UUIDs"]
-git-tree-sha1 = "db864f2d91f68a5912937af80327d288ea1f3aee"
+git-tree-sha1 = "8e59b47b9dc525b70550ca082ce85bcd7f5477cd"
 uuid = "cd3eb016-35fb-5094-929b-558a96fad6f3"
-version = "1.10.3"
+version = "1.10.5"
 
 [[deps.HarfBuzz_jll]]
 deps = ["Artifacts", "Cairo_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "Graphite2_jll", "JLLWrappers", "Libdl", "Libffi_jll", "Pkg"]
@@ -524,9 +569,13 @@ uuid = "b77e0a4c-d291-57a0-90e8-8db25a27a240"
 
 [[deps.InverseFunctions]]
 deps = ["Test"]
-git-tree-sha1 = "68772f49f54b479fa88ace904f6127f0a3bb2e46"
+git-tree-sha1 = "896385798a8d49a255c398bd49162062e4a4c435"
 uuid = "3587e190-3f89-42d0-90ee-14403ec27112"
-version = "0.1.12"
+version = "0.1.13"
+weakdeps = ["Dates"]
+
+    [deps.InverseFunctions.extensions]
+    DatesExt = "Dates"
 
 [[deps.InvertedIndices]]
 git-tree-sha1 = "0dc7b50b8d436461be01300fd8cd45aa0274b038"
@@ -762,9 +811,9 @@ version = "0.3.2"
 
 [[deps.Missings]]
 deps = ["DataAPI"]
-git-tree-sha1 = "f66bdc5de519e8f8ae43bdc598782d35a25b1272"
+git-tree-sha1 = "ec4f7fbeab05d7747bdf98eb74d130a2a2ed298d"
 uuid = "e1d29d7a-bbdc-5cf2-9ac0-f12de2c33e28"
-version = "1.1.0"
+version = "1.2.0"
 
 [[deps.Mmap]]
 uuid = "a63ad114-7e13-5084-954f-fe012c677804"
@@ -807,9 +856,9 @@ version = "1.4.2"
 
 [[deps.OpenSSL_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl"]
-git-tree-sha1 = "60e3045590bd104a16fefb12836c00c0ef8c7f8c"
+git-tree-sha1 = "3da7367955dcc5c54c1ba4d402ccdc09a1a3e046"
 uuid = "458c3c95-2e84-50aa-8efc-19380b2a3a95"
-version = "3.0.13+0"
+version = "3.0.13+1"
 
 [[deps.Opus_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -869,9 +918,9 @@ version = "1.4.1"
 
 [[deps.Plots]]
 deps = ["Base64", "Contour", "Dates", "Downloads", "FFMPEG", "FixedPointNumbers", "GR", "JLFzf", "JSON", "LaTeXStrings", "Latexify", "LinearAlgebra", "Measures", "NaNMath", "Pkg", "PlotThemes", "PlotUtils", "PrecompileTools", "Printf", "REPL", "Random", "RecipesBase", "RecipesPipeline", "Reexport", "RelocatableFolders", "Requires", "Scratch", "Showoff", "SparseArrays", "Statistics", "StatsBase", "UUIDs", "UnicodeFun", "UnitfulLatexify", "Unzip"]
-git-tree-sha1 = "3c403c6590dd93b36752634115e20137e79ab4df"
+git-tree-sha1 = "3bdfa4fa528ef21287ef659a89d686e8a1bcb1a9"
 uuid = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
-version = "1.40.2"
+version = "1.40.3"
 
     [deps.Plots.extensions]
     FileIOExt = "FileIO"
@@ -1033,9 +1082,9 @@ version = "1.7.0"
 
 [[deps.StatsBase]]
 deps = ["DataAPI", "DataStructures", "LinearAlgebra", "LogExpFunctions", "Missings", "Printf", "Random", "SortingAlgorithms", "SparseArrays", "Statistics", "StatsAPI"]
-git-tree-sha1 = "1d77abd07f617c4868c33d4f5b9e1dbb2643c9cf"
+git-tree-sha1 = "5cf7606d6cef84b543b483848d4ae08ad9832b21"
 uuid = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
-version = "0.34.2"
+version = "0.34.3"
 
 [[deps.StringManipulation]]
 deps = ["PrecompileTools"]
@@ -1081,9 +1130,9 @@ deps = ["InteractiveUtils", "Logging", "Random", "Serialization"]
 uuid = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [[deps.TranscodingStreams]]
-git-tree-sha1 = "3caa21522e7efac1ba21834a03734c57b4611c7e"
+git-tree-sha1 = "71509f04d045ec714c4748c785a59045c3736349"
 uuid = "3bb67fe8-82b1-5028-8e26-92a6c54297fa"
-version = "0.10.4"
+version = "0.10.7"
 weakdeps = ["Random", "Test"]
 
     [deps.TranscodingStreams.extensions]
@@ -1160,9 +1209,9 @@ version = "1.6.1"
 
 [[deps.XML2_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Libiconv_jll", "Zlib_jll"]
-git-tree-sha1 = "07e470dabc5a6a4254ffebc29a1b3fc01464e105"
+git-tree-sha1 = "532e22cf7be8462035d092ff21fada7527e2c488"
 uuid = "02c8fc9c-b97f-50b9-bbe4-9be30ff0a78a"
-version = "2.12.5+0"
+version = "2.12.6+0"
 
 [[deps.XSLT_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Libgcrypt_jll", "Libgpg_error_jll", "Libiconv_jll", "Pkg", "XML2_jll", "Zlib_jll"]
@@ -1172,9 +1221,9 @@ version = "1.1.34+0"
 
 [[deps.XZ_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl"]
-git-tree-sha1 = "31c421e5516a6248dfb22c194519e37effbf1f30"
+git-tree-sha1 = "ac88fb95ae6447c8dda6a5503f3bafd496ae8632"
 uuid = "ffd25f8a-64ca-5728-b0f7-c24cf3aae800"
-version = "5.6.1+0"
+version = "5.4.6+0"
 
 [[deps.Xorg_libICE_jll]]
 deps = ["Libdl", "Pkg"]
@@ -1327,9 +1376,9 @@ version = "1.2.13+1"
 
 [[deps.Zstd_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl"]
-git-tree-sha1 = "49ce682769cd5de6c72dcf1b94ed7790cd08974c"
+git-tree-sha1 = "e678132f07ddb5bfa46857f0d7620fb9be675d3b"
 uuid = "3161d3a3-bdf6-5164-811a-617609db77b4"
-version = "1.5.5+0"
+version = "1.5.6+0"
 
 [[deps.eudev_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg", "gperf_jll"]
@@ -1437,34 +1486,40 @@ version = "1.4.1+1"
 # ╠═f5e648e4-0954-4e22-b857-2a215ac715af
 # ╠═ffbf7163-377a-488e-bca6-c083ad2193c4
 # ╟─6b53f51d-8d41-41ea-aeae-75be5181b8c9
+# ╟─6c9475fe-8387-4587-82ae-802ea7ce6c95
 # ╠═befaf251-87cf-40d3-a4d4-421852c877fa
 # ╟─4c1ee6fa-750c-4911-a9e0-35b216eda842
 # ╠═86dd6525-cd17-4134-94c3-6c05c70526b4
 # ╟─bcb935c6-3c14-4494-89c7-23773e36b8b9
 # ╠═5bb80ad8-6b3f-49e1-a0ae-29f3f97b767b
 # ╟─c3e8c902-d234-46f0-ae00-a122df8d8ed8
-# ╠═2b61425f-92d9-430b-9c59-17af45c88306
+# ╟─82125817-2854-42bb-85fb-1844a64f41fe
+# ╟─2b61425f-92d9-430b-9c59-17af45c88306
 # ╟─dcdccdc4-fb96-4cb7-8c42-e6307aea7402
 # ╟─da7d0f9f-0511-4678-bc2d-c4aeeb04238b
-# ╠═4ba9fd65-9671-45c7-aa93-b5df22565649
+# ╟─4ba9fd65-9671-45c7-aa93-b5df22565649
 # ╟─5f73bc1d-d222-46f9-91ac-cea629a2ba9d
-# ╠═b519e698-601f-4af4-9279-f00a1f24919a
+# ╟─b519e698-601f-4af4-9279-f00a1f24919a
 # ╟─d7ff7c51-e3fe-42d2-9677-b95052009ec2
-# ╠═0452c773-5449-45ba-ae93-f05c7fd24486
+# ╟─0452c773-5449-45ba-ae93-f05c7fd24486
 # ╟─a0edaf63-414f-49ad-b69f-73bbfb5fb9c3
-# ╠═478b9b0d-725a-4d4c-8a44-213ab8d5096e
-# ╠═f3897de8-eed1-48c6-bc0c-129a3dc13545
+# ╟─478b9b0d-725a-4d4c-8a44-213ab8d5096e
+# ╟─f3897de8-eed1-48c6-bc0c-129a3dc13545
 # ╟─fc0c0872-5ea3-426b-9475-d38cd808bb36
-# ╠═0142ae19-f2cc-41fe-9cd7-0b7b8c789227
-# ╠═c3da0f69-747c-4022-9fcf-efeeb7810db4
+# ╟─0142ae19-f2cc-41fe-9cd7-0b7b8c789227
+# ╟─c3da0f69-747c-4022-9fcf-efeeb7810db4
 # ╟─2c9dcb18-800a-4df5-a482-70b7bbcc38a4
+# ╟─b45ea40a-6a42-4685-9456-b5a1b8f23bbd
 # ╠═df9f125c-abed-46bd-b93f-1e32e374d51a
+# ╟─59553849-363e-4ff9-8e69-c8bedc848831
 # ╠═6174c157-e158-4562-a70c-e0a77cf0c716
 # ╟─c7b3faed-229a-4d66-b9bd-c3c171d8a420
 # ╠═0b73ea86-ac81-4c3b-a226-d43b863d1241
 # ╟─68d48bdf-a624-4f68-8bda-bf45d8352798
-# ╠═e417ae5c-c687-49c8-b9b1-817328e987c6
-# ╠═3853dc78-ca86-487b-a8c5-d912e1087977
-# ╠═6c3fb067-4845-4a1b-ae22-ae81e0aef7fc
+# ╟─cadc3376-4496-4ac4-8485-09331134cbc1
+# ╟─e417ae5c-c687-49c8-b9b1-817328e987c6
+# ╟─3853dc78-ca86-487b-a8c5-d912e1087977
+# ╟─6c3fb067-4845-4a1b-ae22-ae81e0aef7fc
+# ╟─a2cdf9c0-4f72-4da9-a387-6bec0ec23989
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
