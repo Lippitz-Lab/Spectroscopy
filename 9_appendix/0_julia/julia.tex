@@ -1,4 +1,4 @@
-\renewcommand{\lastmod}{September 24, 2021}
+\renewcommand{\lastmod}{April 15, 2024}
 \renewcommand{\chapterauthors}{Markus Lippitz}
 
 
@@ -36,19 +36,17 @@ Finally, we draw the sine function over this range of values. Notice the dot in 
 
 \subsection{Sources of information}
 
-The current version of Julia is 1.6.2. Some things have changed with version 1.0. Ignore websites that are older than 2 years or that refer to a version before 1.0.
+The current version of Julia is 1.10.2. Some things have changed with version 1.0 in 2018. Ignore websites that are older than that or that refer to a version before 1.0.
 
 \begin{description}
 
 \item[official documentation] on the website\sidenote{\url{https://docs.julialang.org/en/v1/}}. Or ask google with 'Julia' as keyword or with the library / function and appended extension '.jl' .
 
-\item[examples] Julia by example\sidenote{\url{https://juliabyexample.helpmanual.io/}}, Think julia\sidenote{\url{ https://benlauwens.github.io/ThinkJulia.jl/latest/book.html}}, Introduction to Computational Thinking\sidenote{\url{https://computationalthinking.mit.edu/Spring21/ }}
+\item[examples] Julia by example\sidenote{\url{https://juliabyexample.helpmanual.io/}}, Think julia\sidenote{\url{ https://benlauwens.github.io/ThinkJulia.jl/latest/book.html}}, Introduction to Computational Thinking\sidenote{\url{https://computationalthinking.mit.edu/}}
 
-\item[differences] comparison\sidenote{\url{https://docs.julialang.org/en/v1/manual/noteworthy-differences/
-}} with Matlab, Python, and other languages, and similarly as an overview table\sidenote{\url{https://cheatsheets.quantecon.org/}}
+\item[differences] comparison\sidenote{\url{https://docs.julialang.org/en/v1/manual/noteworthy-differences/}} with Matlab, Python, and other languages, and similarly as an overview table\sidenote{\url{https://cheatsheets.quantecon.org/}}
 
-\item[Cheat Sheets] general\sidenote{\url{https://juliadocs.github.io/Julia-Cheat-Sheet/
-}} and for plots\sidenote{\url{https://github.com/sswatson/cheatsheets/}} 
+\item[Cheat Sheets] general\sidenote{\url{https://cheatsheet.juliadocs.org/}} and for plots\sidenote{\url{https://github.com/sswatson/cheatsheets/}} 
 
 \end{description}
 
@@ -61,7 +59,7 @@ There are several ways to write shorter or longer programs in Julia. Here is a s
 \begin{description}
 \item[command line and editor] One can use Julia interactively at the command line (REPL, read-eval-print loop). In an external editor one could write repeating commands in script files.
 
-\item[IDE] This is more comfortable with an integrated environment, for example Juno\sidenote{\url{https://junolab.org/}}, or a Julia extension \sidenote{\url{https://www.julia-vscode.org/}}
+\item[IDE] This is more comfortable with an integrated environment, for example the Julia extension \sidenote{\url{https://www.julia-vscode.org/}}
 for Visual Studio Code. This is certainly the approach for larger projects.
 
 \item[Jupyter notebook] Jupyter\sidenote{\url{https://jupyter.org/}} is composed of Julia, Python and R. These three languages can be used in a notebook format. Program code is in cells, the output and also descriptive text and graphics in between. This is particularly suitable if calculations are to be accompanied by descriptions or equations, for example in lab protocols or exercises. 
@@ -79,11 +77,13 @@ Mathematica has a similar cell concept. One drawback is that cells affect the st
 
 
 \begin{description}
-\item[Server of EP III] To simplify your first steps you can use the Jupyter \& Pluto server \sidenote{\url{http://jupyter.ep3.uni-bayreuth.de}} of EP III. For this you have to be inside the university or connected via VPN. You will receive access data during the first week of the semester. Log in to the server with these. You will get to a Juypter interface where you can manage files on the server. Click on the Pluto icon to start a Pluto interface in the web browser.
+% \item[Server of EP III] To simplify your first steps you can use the Jupyter \& Pluto server \sidenote{\url{http://jupyter.ep3.uni-bayreuth.de}} of EP III. For this you have to be inside the university or connected via VPN. You will receive access data during the first week of the semester. Log in to the server with these. You will get to a Juypter interface where you can manage files on the server. Click on the Pluto icon to start a Pluto interface in the web browser.
 
-Please be considerate with this server. Its resources are rather limited.
+% Please be considerate with this server. Its resources are rather limited.
 
-\item[Local installation] Especially if you find the EP III server too slow you should install Julia and Pluto locally. A good guide is at MIT\sidenote{\url{https://computationalthinking.mit.edu/Spring21/installation/}}. Short version: install Julia from the website, then install once the Pluto package in Julia locally (\jlinl{import Pkg; Pkg.add("Pluto")}). To use it, call it from the Julia command line  via \jlinl{using Pluto; Pluto.run()}. This could go into the Julia startup file or could be passed via the (system) command line.
+\item[Binder] This is a service that runs a vritual machine and lest you interact with it. You can either start an empty notebook \sidenote{\url{https://mybinder.org/v2/gh/fonsp/pluto-on-binder/v0.19.41?urlpath=pluto/}}, or use the 'run on binder' links in the sidenotes of the lecture notes to launch directly the linked Pluto notebook. Binder is free, thus slow.
+
+\item[Local installation] Rather soon you will find Binder too slow. Then you should install Julia and Pluto locally. A good guide is at MIT\sidenote{\url{https://computationalthinking.mit.edu/Fall23/installation/}}. Short version: install Julia from the website, then install once the Pluto package in Julia locally (\jlinl{import Pkg; Pkg.add("Pluto")}). To use it, call it from the Julia command line  via \jlinl{using Pluto; Pluto.run()}. This could go into the Julia startup file or could be passed via the (system) command line.
 
 
 
