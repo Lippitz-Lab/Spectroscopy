@@ -1,4 +1,4 @@
-\renewcommand{\lastmod}{April 15, 2024}
+\renewcommand{\lastmod}{April 18, 2024}
 \renewcommand{\chapterauthors}{Markus Lippitz}
 
 \chapter{Absorption}
@@ -134,7 +134,7 @@ In the case of small damping ($\gamma \ll \omega_0$) this simplifies near the re
 In this approximation, the time-averaged power extracted by the damped oscillator from the driving force $F(t) = e E(t)$ can be calculated as
 %
 \begin{eqnarray}
- P_{\text{abs}} &= &  - \frac{1}{T} \int_0^T F \, \frac{ds}{dt} \, dt =  
+ P_{\text{abs}} &= &  - \frac{1}{T} \int_0^T F \, \frac{d x}{dt} \, dt =  
   - \frac{1}{T}  \int_0^T Re \left\{  e E(t) \right\}  \, Re \left\{ \dot{x}(t) \right\} \, dt \\
   & = & - Re \left\{i \omega  \frac{e^2  E_0^2 }{2 m \omega_0}  \frac{1}{\omega_0 - \omega +  i \gamma } \right\}  \,   \frac{1}{T}  \int_0^T \left( \cos \omega t \right)^2 dt \\
  % 
@@ -238,7 +238,7 @@ As each absorption event takes out a photon of energy $\hbar \omega_{if}$, and t
   \frac{\pi \omega_{if}}{ \hbar c \, \epsilon_0} \,
  |\mathbf{\mu}_{if} |^2  \quad . \label{eq:abs_sigma_mu}
 \end{equation}
-The index ${\parallel} $ is necessary, as we dropped the dot product between the direction of the transition dipole moment $\mathbf{\mu}_{if}$ and the polarization direction $\mathbf{\hat{x}}$, assuming optimal parallel orientation. In case of random orientation, i.e., averaging over all possible orientation directions, one finds  a reduction by one third, i.e. $\sigma = 1/3 \sigma_{\parallel}$.
+The index ${\parallel} $ is necessary, as we dropped the dot product between the direction of the transition dipole moment $\mathbf{\mu}_{if}$ and the polarization direction $\mathbf{\hat{x}}$, assuming optimal parallel orientation. In case of random orientation, i.e., averaging over all possible orientation directions, one finds  a reduction by one third, i.e. $\sigma = \sigma_{\parallel} / 3$.
 
 We can recover the spectral resolved absorption cross section $\sigma_{\parallel}(\omega)$ by assuming a line-shape function $L(\omega - \omega_0)$ so that 
 \begin{equation}
@@ -267,7 +267,7 @@ where the integral over $L$ equals one. Assuming a Lorentzian line shape, the pe
 \paragraph{Thomas-Reiche-Kuhn sum rule}
 For single-electron transitions starting from the same quantum mechanical level $i$, one finds\sidenote{see, for example, wikipedia} 
 \begin{equation}
-\sum_f (E_f - E_i ) \left| \braket{ f | \hat x | i } \right|^2 =
+\sum_f (E_f - E_i ) \left| \braket{ f | \hat r | i } \right|^2 =
 \sum_f (E_f - E_i ) \left| \mathbf{\mu}_{if} \right|^2 
 = \frac{\hbar^2}{2m_0} \quad.
 \end{equation}
