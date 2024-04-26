@@ -1,4 +1,4 @@
-\renewcommand{\lastmod}{May 20, 2021}
+\renewcommand{\lastmod}{April 26, 2024}
 \renewcommand{\chapterauthors}{Markus Lippitz}
 
 
@@ -22,7 +22,7 @@
 
 \section{Coupled Pendulum}
 
-A mathematical pendulum of point mass $m$ and rod length $L$ is governed by the differential equation of its angular displacement $\phi$
+A mathematical pendulum of point mass $m$ and rod length $L$ is governed by the differential equation of its angular displacement $\phi$ on the approximation of small angles $|\phi| \ll 1$
 \begin{equation}
  \ddot{\phi} + \frac{g}{L} \, \phi = 0 \quad \text{with} \quad \omega^2 = \frac{g}{l}  \quad , 
 \end{equation}
@@ -107,6 +107,7 @@ We can distinguish two limiting cases. The coupling energy $J$ can be larger tha
    \inputtikz{\currfiledir/anticrossing_v2}
 
 \caption{Eigen-Energies and weights of the eigen-functions as function of the unperturbed energies ($E_b = 1$).}
+\label{fig:aggregates_anticrossing}
 \end{figure}
 
 A few side remarks and things that are left open for future versions of this text: 
@@ -118,85 +119,117 @@ A few side remarks and things that are left open for future versions of this tex
 
 
 
+\section{Transfer of excitation from one molecule to another}
+
+In a coupled pendulum, energy is transferred from one pendulum to the other (and back again). Here we will investigate this transfer of excitation for a quantum mechanical system\sidenote{More in \cite{KoehlerBaessler2015} and  \cite{Valeur_mol_fl}}. We have two molecules and each molecule has a wave function of the ground state ($a$, $b$) and of an excited state ($a^\star$, $b^\star$). Two electrons (1,2) are involved, but we can not distinguish them, so that we need to construct the usual anti-symmetric wavefunctions. Initially, molecule $a$ should be excited and $b$ in the ground state. The initial wavefunction is thus
+\begin{equation}
+   \psi_i = \frac{1}{\sqrt{2}} \left( \psi_{a^\star}(1) \,  \psi_{b}(2) -   \psi_{a^\star}(2) \,  \psi_{b}(1)\right)  \quad .
+\end{equation}
+In the final state, the excitation should have swapped, i.e.
+\begin{equation}
+   \psi_f = \frac{1}{\sqrt{2}} \left( \psi_{a}(1) \,  \psi_{b^\star}(2) -   \psi_{a}(2) \,  \psi_{b^\star}(1)\right)  \quad .
+\end{equation}
+The two electrons will interact by their Coulomb potential. This is sufficient, as we will see, to swap the excitation. The transition matrix element or interaction energy $J$ is
+\begin{equation}
+   J = \frac{1}{4 \pi \epsilon_0} \left\langle \psi_f \middle| \frac{e^2}{r_{12}} \middle| \psi_i \right\rangle \quad ,
+\end{equation}
+where $r_{12}$ is the distance of the electrons. Multiplying this out, we get two pairs of terms. In each pair, electron 1 and 2 change role. One pair has the form
+\begin{equation}
+   J^C = \frac{2}{4 \pi \epsilon_0}  \left\langle  \psi_{a^\star}(1) \,  \psi_{b}(2)\middle| \frac{e^2}{r_{12}} \middle|  \psi_{a}(1) \,  \psi_{b^\star}(2)\right\rangle \quad ,
+\end{equation} 
+i.e., the electrons stay on 'their' molecule but change between excited and ground state. This is called the Coulomb term. In the second pair
+\begin{equation}
+   J^E = \frac{2}{4 \pi \epsilon_0}  \left\langle \psi_{a^\star}(1) \,  \psi_{b}(2) \middle| \frac{e^2}{r_{12}} \middle|  \psi_{a}(2) \,  \psi_{b^\star}(1) \right\rangle
+\end{equation} 
+%\left\langle \frac{1}{2} \middle| 1 \right\rangle
+%
+the electrons change molecule and take their state (ground vs excited) with them. This is the exchange term. It requires a bond between the molecules for the electrons to move. In the following, we will only look at the first term, the Coulomb term, that acts 'via the air' and drop the $C$ in $J^C$.
+
+
+
+
 
 \section{Coupling of two transition dipole moments}
 
-
-We consider two molecules, $a$ and $b$, each with a ground ($0$) and excited ($1$) state. We write the wave function on the form $\ket{ab}$, i.e. $\ket{01}$ is molecule $a$ in ground state, molecule $b$ in excited state. In each molecule, an optical transition dipole moment couples ground and excited state, i.e. $\braket{10| \hat{\mu}_a | 00}$ and $\braket{01| \hat{\mu}_b | 00}$ are different from zero and describe an excitation of the molecule  $a$ and $b$, respectively. Additionally, the two transition dipole moments interact and lead to a resonant coupling of the 
-$\ket{01}$ and $\ket{10}$ state\footcite{knoester-book}
+The transition matrix element $J^C$ is similar to two charge densities that interact. It was the work of Dexter and Förster to apply a multipole-multipole expansion to simplify things. We keep only the lowest term, the dipole-dipole contribution. The dipoles are transition dipole moments of the form
 \begin{equation}
-\hat{H}_{coupling} = J \left(  \ket{10}\bra{01} + \ket{01}\bra{10}   \right) \quad .
+   \boldsymbol{\mu}_a = \braket{ \psi_{a^\star}(1)| e \, \br |  \psi_{a}(1) }
 \end{equation}
-The coupling energy $J$ depends on distance $\boldsymbol{r}_{ab}$ and relative orientation of the transition dipoles $\boldsymbol{\mu}_{a,b}$. It can be seen as the energy of one dipole in the field of another\sidenote{does this need more details? See Parson}
+i.e., an electron changes from ground to excited state.
+%
+% We consider two molecules, $a$ and $b$, each with a ground ($0$) and an excited ($1$) state. We write the wave function in the form $\ket{ab}$, i.e. $\ket{01}$ is molecule $a$ in the ground state, molecule $b$ in the excited state. In each molecule an optical transition dipole moment couples the ground and excited states, i.e. $\braket{10| \hat{\mu}_a | 00}$ and $\braket{01| \hat{\mu}_b | 00}$ are different from zero and describe an excitation of molecule $a$ and $b$ respectively. In addition, the two transition dipole moments interact and lead to a resonant coupling of the 
+% $\ket{01}$ and $\ket{10}$ states\footcite{knoester-book}
+% \begin{equation}
+% \hat{H}_{coupling} = J \left( \ket{10}\bra{01} + \ket{01}\bra{10} \right) \quad .
+% \end{equation}
+The coupling energy $J$ depends on the distance $\boldsymbol{r}_{ab}$ and the relative orientation of the transition dipoles $\boldsymbol{\mu}_{a,b}$. It can be thought of as the energy of one dipole in the field of another.
 \begin{eqnarray}
- J & = & \frac{\boldsymbol{\mu}_a \cdot  \boldsymbol{\mu}_b }{|\boldsymbol{r}_{ab}|^3} 
-  + 3 \frac{ (\boldsymbol{\mu}_a \cdot  \boldsymbol{r}_{ab})  (\boldsymbol{\mu}_b \cdot  \boldsymbol{r}_{ab})
-  }{ |\boldsymbol{r}_{ab}|^5 } \\
-   & = & \frac{\mu_a \mu_b }{r_{ab}^3} \left( \cos \theta - 3 \cos \alpha \, \cos \beta \right)  = \frac{\mu_a \mu_b }{r_{ab}^3} \, \kappa  
+ J & = & \frac{1}{4 \pi \epsilon_0}  \left( \frac{\boldsymbol{\mu}_a \cdot \boldsymbol{\mu}_b }{|\boldsymbol{r}_{ab}|^3} 
+  - 3 \frac{ (\boldsymbol{\mu}_a \cdot \boldsymbol{r}_{ab}) (\boldsymbol{\mu}_b \cdot \boldsymbol{r}_{ab})
+  }{ |\boldsymbol{r}_{ab}|^5 }  \right)\\
+   & = & \frac{\mu_a \mu_b }{4 \pi \epsilon_0 \, r_{ab}^3} \left( \cos \theta - 3 \cos \alpha \, \cos \beta \right) = \frac{\mu_a \mu_b }{4 \pi \epsilon_0 \,r_{ab}^3} \, \kappa  
 \end{eqnarray}
 where the angles are defined in the sketch.
 
 \begin{marginfigure}
-%\includegraphics[width=\textwidth]{\currfiledir/angles.png}
    \inputtikz{\currfiledir/angles}
 
 \caption{Sketch showing 
-the angles used to calculate the coupling factor $\kappa$}
+The angles used to calculate the coupling factor $\kappa$.}
 \end{marginfigure}
 
-A similar coupling term also exist for the non-resonant coupling\footcite{knoester-book}
-\begin{equation}
-\hat{H}_{non-res} = J \left(  \ket{11}\bra{00} + \ket{00}\bra{11}  \right)
-\end{equation}
-but this can be ignored, as it is non-resonant. Altogether, the Hamilton operator reads in matrix form
+We now consider three states: both molecules in the ground state, molecule $a$ excited ($\psi_i$ of last section), and molecule $b$ excited ($\psi_f$). In matrix form, the Hamilton operator reads 
 \begin{equation}
 \hat{H} = \begin{pmatrix}
-0   					& \mu_a 						&	\mu_b						& 		J 		\\
-\mu_a^\star	& \hbar \omega_a		&	J								& \mu_b	\\
-\mu_b^\star  &  J^\star					& \hbar \omega_b		& \mu_a	\\
-J^\star				& \mu_b^\star			& \mu_a^\star			& \hbar (\omega_a + \omega_b) \\
+0 & \mu_a \mathcal{E}& \mu_b \mathcal{E} \\
+\mu_a^\star \mathcal{E}^\star & \hbar \omega_a & J  \\
+\mu_b^\star \mathcal{E}^\star & J^\star & \hbar \omega_b \\
 \end{pmatrix} \quad .
 \end{equation}
-When we ignore the double-excited state $\bra{11}$, the essence in contained in the center $2 \times 2$ matrix which we discussed already in the preceding section.
+The transition dipole moments together with an external optical field $\mathcal{E}$ couple the ground state to the excited states. The excited states are coupled by dipole-dipole interaction without the need for an external field. For example, by measuring an absorption spectrum starting from the ground state, we can determine the energies of the excited states, which we can find by diagonalizing the lower $2 \times 2$ matrix as discussed above.
 
-When $\ket{\psi}$ is a linear combination of $\ket{01}$ and $\ket{10}$, then also the transition dipole moment from $\ket{00}$ to $\ket{\psi}$ is a linear combination of $\mu_a$ and $\mu_b$ with the same weights. When $J \gg |E_a - E_b| / 2$ then we get
+The coupling results in new states, which can be written as linear combinations of the uncoupled states. This has an effect on the observables. When $\ket{\psi}$ is a linear combination of $\psi_a$ and $\psi_b$, then also the transition dipole moment from  the ground state to $\ket{\psi}$ is a linear combination of $\mu_a$ and $\mu_b$ with the same weights. When $J \gg |E_a - E_b| / 2$ then we get (see Fig. \ref{fig:aggregates_anticrossing})
 \begin{equation}
- \boldsymbol{\mu}_{\pm} = \sqrt{1/2} \, \left( \boldsymbol{\mu}_a \pm  \boldsymbol{\mu}_b  \right)  \quad .
+ \boldsymbol{\mu}_{\pm} = \sqrt{1/2} \, \left( \boldsymbol{\mu}_a \pm \boldsymbol{\mu}_b \right) \quad .
 \end{equation}
 The brightness of the absorption line is for identical molecules, i.e. $\mu = \mu_a = \mu_b$
 \begin{equation}
- I \propto |\boldsymbol{\mu}_{\pm}|^2 = (1/2) \, \left| \boldsymbol{\mu}_a \pm  \boldsymbol{\mu}_b  \right|^2 =  \left( 1 \pm \cos \theta \right) \, \left| \boldsymbol{\mu}   \right| ^2  \quad ,
+ I \propto |\boldsymbol{\mu}_{\pm}|^2 = (1/2) \, \left| \boldsymbol{\mu}_a \pm \boldsymbol{\mu}_b \right|^2 = \left( 1 \pm \cos \theta \right) \, \left| \boldsymbol{\mu}   \right| ^2 \quad ,
 \end{equation}
-where $\theta$ is as above the angle between the transition dipole moments. The same relation hold for the radiative rate.
+where $\theta$ is as above the angle between the transition dipole moments.  
 
-The spectroscopic signature of coherent coupling between two molecules is thus a splitting of the absorption line into two lines, separated by twice the coupling energy $J$. The sum of the line amplitudes remains unchanged, but in some cases (H- and J-aggregates, see below) one transition will take the whole amplitude and the other remains dark. In these cases, no splitting but a shift of the absorption line is observed. The coupling vanishes when both dipoles are oriented perpendicular to each other ($\theta = 90^\circ$)
-
+The spectroscopic signature of coherent coupling between two molecules is thus a splitting of the absorption line into two lines separated by twice the coupling energy $J$. The sum of the line amplitudes remains unchanged, but in some cases (H- and J-aggregates, see below) one transition takes up the whole amplitude and the other remains dark. In these cases there is no splitting but a shift of the absorption line. The coupling disappears when both dipoles are perpendicular to each other ($\theta = 90^\circ$).
 
 \section{H- and J-aggregates}
 
 \begin{marginfigure}
-%\includegraphics[width=\textwidth]{\currfiledir/aggregates.png}
-   \inputtikz{\currfiledir/jh}
+   \inputtikz{\currfiledir jh}
 
 \caption{J- and H aggregates.}
 \end{marginfigure}
 
+Two important limiting cases are the H- and J-aggregates.\footcite[chapters 2.1.4.3, 2.2.5.3]{KoehlerBaessler2015} In a J-aggregate the dipoles are oriented parallel and head-to-tail, i.e. $\alpha = \beta = \theta = 0$ and therefore $\kappa = -2$. A negative $\kappa$ implies that the coupling constant $J$ is negative. The state $\Psi_+$, which carries all the oscillator strength, has an energy $E_+ = (E_a + E_b) / 2 + J$, which is lower than the average energy of the uncoupled states. The absorption line therefore shifts towards the red. The same applies to the fluorescence emission spectrum.
 
-Two important limiting cases are the H- and J-aggregates\footcite[chapters 2.1.4.3, 2.2.5.3]{KoehlerBaessler2015} In a J-aggregate, the dipoles are oriented parallel and head-to-tail, i.e. $\alpha = \beta = \theta = 0$ and therefore $\kappa = -2$. A negative $\kappa$ implies that the coupling constant $J$ is negative. The state $\Psi_+$, which carries all the oscillator strength, has the energy $E_+ = (E_a + E_b) / 2 + J$, which is lower than the average energy of the uncoupled states. The absorption line thus shifts to the red. The same hold for the fluorescence emission spectrum.
+In an H-aggregate the dipoles are also parallel, but side by side, i.e. $\alpha = \beta = 90^\circ$ and $\theta = 0$. In this case $\kappa =1$ and $J$ is positive. The absorption line shifts to blue when aggregates form, as the $\Psi_+$ state again gets all the oscillator power. However, as fluorescence emission is slow compared to other relaxation processes, this high energy state does not emit light. H-aggregates appear dark in the emission.
 
-In an H-aggregate, the dipoles orient also parallel, but side-to-side, i.e.  $\alpha = \beta = 90^\circ$ and $\theta = 0$. In this case is $\kappa =1$ and $J$ positive. The absorption line shifts to the blue upon formation of aggregates, as again the  $\Psi_+$ state gets all the oscillator strength. However, as fluorescence emission is slow compared to other relaxation processes, this high energy state does not emit light. In emission, H-aggregates appear dark.
+\begin{marginfigure}
+   \inputtikz{\currfiledir TDBC}
 
-The width of the absorption line of a dye at room temperature is determined by dephasing, i.e., fluctuations in the environment that are fast compared to the lifetime of the excited state, and by static differences in the environment of different chromophores. The spectral position of the absorption line in a molecular aggregate is the average of two single chromophore transitions. As in the propagation of uncertainties in an experiment, the width of the new distribution, generated as the average over two values from the old distribution, is reduced by a factor of $\sqrt{2}$. This holds more generally\footcite{Knapp1984}, so that an aggregate of $N$ chromophores is expected to have a spectral line width reduced\sidenote{This is the same physics as motional narrowing in NMR.} by $\sqrt{N}$.
+\caption{Absorption spectrum of TDBC dye in solution. When increasing the concentration (thick), more monomers aggregate. (Data by T. Kroh, 2014) }
+\end{marginfigure}
 
+
+The width of the absorption line of a dye at room temperature is determined by dephasing, i.e. fluctuations in the environment that are fast compared to the lifetime of the excited state, and by static differences in the environment of different chromophores. The spectral position of the absorption line in a molecular aggregate is the average of two single chromophore transitions. As in the propagation of uncertainties in an experiment, the width of the new distribution, generated as an average over two values from the old distribution, is reduced by a factor of $\sqrt{2}$. This applies more generally\footcite{Knapp1984}, so that an aggregate of $N$ chromophores is expected to have a spectral line width reduced\sidenote{This is the same physics as motion narrowing in NMR.} by $\sqrt{N}$.
 
 
 
 %\begin{tabular}{llll}
-%$\theta$	&	$0^\circ$ & $90^\circ$ & $0^\circ$  \\
-%$\alpha$ & $0^\circ$ & $0^\circ$ & $90^\circ$  \\
-%$\beta$ & $0^\circ$ & $90^\circ$ & $90^\circ$  \\
-%$\kappa$  & $-2	$	& 	 $	0	$				& $1$   \\
+%$\theta$ & $0^\circ$ & $90^\circ$ & $0^\circ$ \\
+%$\alpha$ & $0^\circ$ & $0^\circ$ & $90^\circ$ \\
+%$\beta$ & $0^\circ$ & $90^\circ$ & $90^\circ$ \\
+%$\kappa$ & $-2 $ & $ 0 $ & $1$ \
 %\end{tabular}
+
 
 
 
