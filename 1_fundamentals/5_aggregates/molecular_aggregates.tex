@@ -1,4 +1,4 @@
-\renewcommand{\lastmod}{April 26, 2024}
+\renewcommand{\lastmod}{May 3, 2024}
 \renewcommand{\chapterauthors}{Markus Lippitz}
 
 
@@ -9,9 +9,9 @@
 \section{Tasks}
 
 \begin{itemize}
-\item The data contains absorption spectra of the molecule TDBC in solution at different concentrations. Determine the number of chromophores that contribute to the delocalized state. Data by Tobias Kroh, Bayreuth.
+\item The data contains absorption spectra of the molecule TDBC in solution at different concentrations. Determine the number of chromophores that contribute to the delocalized state (Data by Tobias Kroh, Bayreuth).  My solution is \pluto{task_TDBC}.
 
-\item The second data set contains emission spectra of TDBC in solution at different concentrations. Plot the normalized emission spectrum and discuss. Data by Tobias Kroh, Bayreuth.
+%\item The second data set contains emission spectra of TDBC in solution at different concentrations. Plot the normalized emission spectrum and discuss. Data by Tobias Kroh, Bayreuth.
 \end{itemize}
 
 
@@ -52,6 +52,10 @@ We thus search eigen-values and eigen-vectors of  $\boldsymbol{M}$. Assuming ind
   \pm \sqrt{  \left( \frac{\omega_1^2 - \omega_2^2}{2}   \right)^2 + \left(  \frac{k}{m} \right)^2 } \quad .
 \end{equation}
 For identical lengths, i.e., identical eigen-frequencies $\omega_1 = \omega_2$, this recovers the results from above.
+
+\begin{questions}
+   \item Do the same but replace pendula by masses at springs.
+\end{questions}
 
 
 \section{Quantum Mechanics of Coupled States}
@@ -98,7 +102,7 @@ s = \frac{E_a - E_b}{\sqrt{(E_a - E_b)^2 + (2J)^2}} \quad .
 %\begin{equation}
 % \psi_{\pm} = \psi_b + \psi_a \left[ \frac{E_a - E_b}{2 J} \pm \sqrt{ \left( \frac{E_a - E_b}{2 J} \right)^2 + 1  } \, \right]
 %\end{equation}
-We can distinguish two limiting cases. The coupling energy $J$ can be larger than die energy difference between the two states, i.e. $|J| \gg |E_a - E_b| / 2$. Then then new eigen-energies are split up by $\pm J$ around the average of the old eigen-energies $(E_a + E_b) /2$. The eigen-functions in this situation are symmetric and anti-symmetric combinations of the old eigen-function, i.e. $\psi_\pm = \pm \psi_a + \psi_b$. When the coupling energy is small, i.e. $|J| \ll |E_a - E_b| / 2$, then the new eigen-energies and eigen-functions are close to the old.
+We can distinguish two limiting cases. The coupling energy $J$ can be larger than the energy difference between the two states, i.e. $|J| \gg |E_a - E_b| / 2$. Then the new eigen-energies are split up by $\pm J$ around the average of the old eigen-energies $(E_a + E_b) /2$. The eigen-functions in this situation are symmetric and anti-symmetric combinations of the old eigen-function, i.e. $\psi_\pm = \pm \psi_a + \psi_b$. When the coupling energy is small, i.e. $|J| \ll |E_a - E_b| / 2$, then the new eigen-energies and eigen-functions are close to the old.
 
 
 
@@ -118,6 +122,10 @@ A few side remarks and things that are left open for future versions of this tex
 \end{itemize}
 
 
+\begin{questions}
+   \item The Hückel method is expanding this scheme to several atoms. Have a look in your molecular physics lecture notes and compare!
+   \item Nature does not care how we describe it. Discuss the differences when describing a coupled system in the old, uncoupled  eigenfunctions or in the new, coupled ones.
+\end{questions}
 
 \section{Transfer of excitation from one molecule to another}
 
@@ -136,6 +144,7 @@ The two electrons will interact by their Coulomb potential. This is sufficient, 
 where $r_{12}$ is the distance of the electrons. Multiplying this out, we get two pairs of terms. In each pair, electron 1 and 2 change role. One pair has the form
 \begin{equation}
    J^C = \frac{2}{4 \pi \epsilon_0}  \left\langle  \psi_{a^\star}(1) \,  \psi_{b}(2)\middle| \frac{e^2}{r_{12}} \middle|  \psi_{a}(1) \,  \psi_{b^\star}(2)\right\rangle \quad ,
+   \label{eq:aggregate_jc_full}
 \end{equation} 
 i.e., the electrons stay on 'their' molecule but change between excited and ground state. This is called the Coulomb term. In the second pair
 \begin{equation}
@@ -167,7 +176,7 @@ The coupling energy $J$ depends on the distance $\boldsymbol{r}_{ab}$ and the re
  J & = & \frac{1}{4 \pi \epsilon_0}  \left( \frac{\boldsymbol{\mu}_a \cdot \boldsymbol{\mu}_b }{|\boldsymbol{r}_{ab}|^3} 
   - 3 \frac{ (\boldsymbol{\mu}_a \cdot \boldsymbol{r}_{ab}) (\boldsymbol{\mu}_b \cdot \boldsymbol{r}_{ab})
   }{ |\boldsymbol{r}_{ab}|^5 }  \right)\\
-   & = & \frac{\mu_a \mu_b }{4 \pi \epsilon_0 \, r_{ab}^3} \left( \cos \theta - 3 \cos \alpha \, \cos \beta \right) = \frac{\mu_a \mu_b }{4 \pi \epsilon_0 \,r_{ab}^3} \, \kappa  
+   & = & \frac{\mu_a \mu_b }{4 \pi \epsilon_0 \, r_{ab}^3} \left( \cos \theta - 3 \cos \alpha \, \cos \beta \right) = \frac{\mu_a \mu_b }{4 \pi \epsilon_0 \,r_{ab}^3} \, \kappa   \label{eq:aggregate_jc}
 \end{eqnarray}
 where the angles are defined in the sketch.
 
@@ -199,6 +208,13 @@ The brightness of the absorption line is for identical molecules, i.e. $\mu = \m
 where $\theta$ is as above the angle between the transition dipole moments.  
 
 The spectroscopic signature of coherent coupling between two molecules is thus a splitting of the absorption line into two lines separated by twice the coupling energy $J$. The sum of the line amplitudes remains unchanged, but in some cases (H- and J-aggregates, see below) one transition takes up the whole amplitude and the other remains dark. In these cases there is no splitting but a shift of the absorption line. The coupling disappears when both dipoles are perpendicular to each other ($\theta = 90^\circ$).
+
+\begin{questions}
+   \item Equations  \ref{eq:aggregate_jc_full} and \ref{eq:aggregate_jc} describe  (almost) the same thing. Compare the ways to describe the interaction between molecules.
+   \item How does it come that the transition dipole moments of the two coupled states differ?
+   \item Assume Benzene in the Hückel approximation would have transition dipole moments associated with each $\pi$-electron. Estimate its absorption spectrum.
+\end{questions}
+
 
 \section{H- and J-aggregates}
 
