@@ -227,9 +227,9 @@ or
 
 \section{Free induction decay}
 
-We discussed how a coherence in a two-level system is generated, but not so much how it decays. At the end of last chapter we mentioned the Lindblad $\boldsymbol{L}  $ operator that decays entries of the density matrix. But it is this decay that defines the spectral shape of an absorption line.
+We discussed how a coherence in a two-level system is generated, but not so much how it decays. At the end of last chapter we mentioned the Lindblad $\boldsymbol{L}$ operator that decays entries of the density matrix. But it is this decay that defines the spectral shape of an absorption line.
 
-We assume a short laser pulse, shorter than any characteristic decay time of a coherence population in our system. Such a pulse will generate a coherence, move the Bloch vector away from the north pole. A $\pi/2$ pulse would generate the maximum possible coherence, but any other pulse (except an exact $\pi$ pulse) will also create a coherence. After the pulse,  coherence  and population decay like
+We assume a short laser pulse, shorter than any characteristic decay time of a coherence or population in our system. Such a pulse will generate a coherence, move the Bloch vector away from the north pole. A $\pi/2$ pulse would generate the maximum possible coherence, but any other pulse (except an exact $\pi$ pulse) will also create a coherence. After the pulse,  coherence  and population decay like
 \begin{align}
  \rho_{11}(t) \propto & \rho_{11}(0)  \, e^{- t / T_1} \\
  \rho_{01}(t) \propto & \rho_{01}(0)  \, e^{- t / T_2} 
@@ -240,7 +240,7 @@ Excited state populations decay exponentially with a lifetime $T_1$. The coheren
 \end{equation}
 where $T_2^\star$ is called pure dephasing time. The $T_1$ time enters, as a decaying population also removes coherence. The prefactor of $2$ is a consequence of effective spin-$1/2$-system.
 
-This decay of the coherence is called 'free induction decay' (dt: 'freier Induktionszerfall') in NMR experiments. In these experiments, the Bloch vector corresponds to a magnetization vector that rotates with the eigenfrequency of the system. This rotation induces a current in a pickup coil that is detected. The induction decays freely after switching off the exciting fields. This term in taken for the same effect in all equivalent spin-1/2 systems, so also for the decay of the coherence in our two-level system.
+This decay of the coherence is called \emph{free induction decay} (dt: 'freier Induktionszerfall') in NMR experiments. In these experiments, the Bloch vector corresponds to a magnetization vector that rotates with the eigenfrequency of the system. This rotation induces a current in a pickup coil that is detected. The induction decays freely after switching off the exciting fields. This term in taken for the same effect in all equivalent spin-1/2 systems, so also for the decay of the coherence in our two-level system.
 
 The coherence, the off-diagonal entry of the density matrix $\rho_{01}(t)$ is source of the radiated field $E_S$. The time-dependence of the decay thus determines via Fourier transformation the spectral shape of the radiated field\sidenote{see also appendix in Fourier pairs}
 \begin{equation}
@@ -261,7 +261,7 @@ where we have assumed that the driving probe pulse $E_0(\omega)$ is spectrally m
 
 \begin{questions}
 
-\item Using a computer program of your choice, calculate  the numerical Fourier transform of an exponential decay and compare to the Lorentz function. Take care the get the frequency axis right.
+\item Using a computer program of your choice, calculate  the numerical Fourier transform of an exponential decay and compare to the Lorentz function. Take care to get the frequency axis right.
 
 \end{questions}
  
