@@ -1,4 +1,4 @@
-\renewcommand{\lastmod}{May 3, 2024}
+\renewcommand{\lastmod}{May 24, 2024}
 \renewcommand{\chapterauthors}{Markus Lippitz}
 
 
@@ -13,12 +13,17 @@
 \end{itemize}
 
 
+\begin{figure}[h!]
+  \inputtikz{\currfiledir fig_rabi}
+  \caption{Rabi oscillations in \ch{Rb} atoms detected by fluorescence emission. The pulse area $\theta$ is proportional to the amplitude of the driving electric field. Data from \cite{Gibbs1973}.}
+\end{figure}
 
 \section{Experiment}
 
 Many experimental realizations show Rabi oscillations. We will discuss them in terms of a two-level system interacting with an optical field, such as an atom in a vacuum or a molecule or quantum dot in a solid state at low temperature. But the same description applies to many other systems. In fact, a two-level system is equivalent to a spin $1/2$ system, such as an electron spin or a nuclear spin. So the same concepts are used in electron spin resonance or nuclear magnetic resonance experiments (ESR and NMR).
 
-We shine a laser beam on an atom, a molecule, a quantum dot. The laser frequency is close to the optical transition. We measure the populations of the excited state, e.g. by fluorescence emission or tunneling of the electron out of this state. We turn on the laser for a given time $t$ and measure the signal amplitude as a function of $t$. This somewhat indirect experiment is necessary because in many cases $t$ is short compared to the emission or tunneling rate. Only in theory can we measure the population of the state as it evolves. We find periodic oscillations of the signal amplitude, the Rabi oscillations.\sidenote{needs papers!}
+We shine a laser beam on an atom, a molecule, a quantum dot. The laser frequency is close to the optical transition. We measure the populations of the excited state, e.g. by fluorescence emission or tunneling of the electron out of this state. We turn on the laser for a given time $t$ and measure the signal amplitude as a function of $t$. This somewhat indirect experiment is necessary because in many cases $t$ is short compared to the emission or tunneling rate. Only in theory can we measure the population of the state as it evolves. We find periodic oscillations of the signal amplitude, the Rabi oscillations.\footcite{Rabi1939}
+
 
 \section{Density Matrix}
 
