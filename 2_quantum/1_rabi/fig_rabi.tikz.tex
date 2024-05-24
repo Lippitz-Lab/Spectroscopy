@@ -24,16 +24,12 @@
          xmin = 0, xmax = 4, ymin=0,
     ]
     \addplot[mark=+, only marks, blue, mark size=1pt] table [x index=0, y index=1, col sep=comma] {\currfiledir data/Gibbs_1976_rabi_figure_data.csv};
-    \addplot[no marks, line width=1pt, smooth] table [x index=0, y index=1, col sep=comma] {\currfiledir data/Gibbs_1976_rabi_figure_model.csv};
+    % digitized model of Gibbs
+    %\addplot[no marks, line width=1pt, smooth] table [x index=0, y index=1, col sep=comma] {\currfiledir data/Gibbs_1976_rabi_figure_model.csv};
+
+    % hand-made model by ML
+    \addplot[domain=0:4, samples=400, line width=1pt] {(90 -x^2/2 ) * sin(deg(x  * pi / 1.95))^2 + x * 13 };
 	
-%     \node[anchor=north east]  at (axis cs:30,4){x20};
-%	\draw [dashed] (axis cs:30,0) -- (axis cs: 30,4);
-%	
-%	     \node[anchor= west]  at (axis cs:0.4,3){ $\epsilon'$};
-%     \node[anchor= west]  at (axis cs:3,1){ $\epsilon''$};
-%   
-%     \node[anchor= west]  at (axis cs:150,3){ $\epsilon'$};
-%     \node[anchor= west]  at (axis cs:200,0.6){ $\epsilon''$};
 
     \end{axis}
 \end{tikzpicture}
