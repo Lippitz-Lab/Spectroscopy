@@ -1,4 +1,4 @@
-\renewcommand{\lastmod}{June 18, 2021}
+\renewcommand{\lastmod}{Mai 29, 2024}
 \renewcommand{\chapterauthors}{Markus Lippitz}
 
 
@@ -9,7 +9,7 @@
 \section{Tasks}
 
 \begin{itemize}
-\item Reproduce Fig. 4b of \cite{Wolpert:2012hs} to model the data in Fig. 4a. As the quantum dot is buried beneath the surface, the reflected reference field $E_0$ is in its phase earlier than the signal field $E_S$ of the dot. In this sample, the lag is $\Delta \phi = 0.4 \pi$. 
+\item Reproduce Fig. 4b of \cite{Wolpert:2012hs} to model the data in Fig. 4a. As the quantum dot is buried beneath the surface, the reflected reference field $E_0$ is in its phase earlier than the signal field $E_S$ of the dot. In this sample, the lag is $\Delta \phi = 0.4 \pi$. See also question \ref{qe:7_fid_sim} below.
 \end{itemize}
 
 \begin{figure}
@@ -108,7 +108,7 @@ It is thus the $v$ component of the Bloch vector (or $\Im (\rho_{01}'$) ) that p
 \end{marginfigure}
 
 
-Let us discuss as example the absorption of a single photon, which transfers the system from the ground state to the excited state, or equivalently is the action of a $\pi$-pulse. We start by a two-level system in den ground state. The Bloch vector points to the north pole. We shine in an optical field on resonance with the system ($\omega_0 = \omega_L$). The duration of the light pulse $\Delta t$ should be such that is a $\pi$-pulse, i.e.
+Let us discuss as example the absorption of a single photon, which transfers the system from the ground state to the excited state, or equivalently is the action of a $\pi$-pulse. We start by a two-level system in the ground state. The Bloch vector points to the north pole. We shine in an optical field on resonance with the system ($\omega_0 = \omega_L$). The duration of the light pulse $\Delta t$ should be such that is a $\pi$-pulse, i.e.
 \begin{equation}
  \theta = \pi = \int_0^{\Delta t} \, \Omega(t) \, dt =  \int_0^{\Delta t} \, \frac{ \mu \, E(t)}{\hbar} \, dt \quad .
 \end{equation}
@@ -232,7 +232,7 @@ We discussed how a coherence in a two-level system is generated, but not so much
 We assume a short laser pulse, shorter than any characteristic decay time of a coherence or population in our system. Such a pulse will generate a coherence, move the Bloch vector away from the north pole. A $\pi/2$ pulse would generate the maximum possible coherence, but any other pulse (except an exact $\pi$ pulse) will also create a coherence. After the pulse,  coherence  and population decay like
 \begin{align}
  \rho_{11}(t) \propto & \rho_{11}(0)  \, e^{- t / T_1} \\
- \rho_{01}(t) \propto & \rho_{01}(0)  \, e^{- t / T_2} 
+ \rho_{01}(t) \propto & \rho_{01}(0)  \, e^{- t / T_2} \quad .
 \end{align}
 Excited state populations decay exponentially with a lifetime $T_1$. The coherence between two states decays with a time constant $T_2$ with
 \begin{equation}
@@ -242,7 +242,7 @@ where $T_2^\star$ is called pure dephasing time. The $T_1$ time enters, as a dec
 
 This decay of the coherence is called \emph{free induction decay} (dt: 'freier Induktionszerfall') in NMR experiments. In these experiments, the Bloch vector corresponds to a magnetization vector that rotates with the eigenfrequency of the system. This rotation induces a current in a pickup coil that is detected. The induction decays freely after switching off the exciting fields. This term in taken for the same effect in all equivalent spin-1/2 systems, so also for the decay of the coherence in our two-level system.
 
-The coherence, the off-diagonal entry of the density matrix $\rho_{01}(t)$ is source of the radiated field $E_S$. The time-dependence of the decay thus determines via Fourier transformation the spectral shape of the radiated field\sidenote{see also appendix in Fourier pairs}
+The coherence, the off-diagonal entry of the density matrix $\rho_{01}(t)$ is source of the radiated field $E_S$. The time-dependence of the decay thus determines via Fourier transformation the spectral shape of the radiated field\sidenote{see also appendix on Fourier pairs}
 \begin{equation}
  f(t) = \left\{ \begin{array}{ll}
 e^{- \gamma t } & \text{for} \quad t > 0 \\
@@ -257,7 +257,7 @@ The absorption spectrum is thus
 \begin{equation}
 \Delta P (\omega)  \propto \Re \left[  \frac{e^{i \phi}}{\gamma + i \, \omega}       \right] \, \overset{\phi = 0}{=} \, \frac{\gamma}{\omega^2 + \gamma^2}
 \end{equation}
-where we have assumed that the driving probe pulse $E_0(\omega)$ is spectrally much broader than the absorption line and thus assumed to be constant. The factor $e^{i \phi}$ allows a phase lag between incoming and radiated field, as needed for buried quantum dots. For $\phi = 0$ we recover the expected Lorentz function. For other values the spectral shape changes
+where we have assumed that the driving probe pulse $E_0(\omega)$ is spectrally much broader than the absorption line and thus assumed to be constant. The factor $e^{i \phi}$ allows a phase lag between incoming and radiated field, as needed for buried quantum dots. For $\phi = 0$ we recover the expected Lorentz function. For other values the spectral shape changes.
 
 \begin{questions}
 
@@ -282,7 +282,7 @@ where $\Theta$ is the Heaviside step function and $\beta$ describes the effect o
 
 \begin{questions}
 
-\item Calculate numerically the Fourier transform of \ref{eq:fid_perturbed_fid} and adjust the parameters to obtain Fig. \ref{fig:fid_wolpert}
+\item Calculate numerically the Fourier transform of \ref{eq:fid_perturbed_fid} and adjust the parameters to obtain Fig. \ref{fig:fid_wolpert}.  My solution is \pluto{task_fid}. \label{qe:7_fid_sim}
 
 \end{questions}
 
