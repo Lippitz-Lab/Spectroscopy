@@ -1,4 +1,4 @@
-\renewcommand{\lastmod}{June 18, 2021}
+\renewcommand{\lastmod}{June 3, 2024}
 \renewcommand{\chapterauthors}{Markus Lippitz}
 
 
@@ -24,9 +24,9 @@ Which dipole moment is required so that a coupling strength of $\hbar g = 80$~\t
 \cite{Reithmaier04}, observed strong coupling between a single emitter in solid state (an InGaAs quantum dot) and a micro-cavity. This is again an analogue of a coupled pendulum. One cannot say anymore if the excitation is in the dot or in the cavity. On resonance, both cease to exist and new coupled states emerge. The new states are in all properties mixtures of the old ones, for example in line width or intensity, see Fig. 4 in the manuscript.
 
 \section{Quantization of the light field}
-The Rabi model assumed a classical electrical field in which the particle nature of light is not relevant. But now we need to take the quantized nature of light into account. In quantum mechanics this is often called 'second quantization' and we will briefly have a look at the main results.
+The Rabi model assumed a classical electric field in which the particle nature of light is not relevant. But now we have to consider the quantized nature of light. In quantum mechanics this is often called 'second quantization' and we will briefly look at the main results.
 
-The principle idea is very similar to a quantum mechanical harmonic oscillator, i.e. a series of equidistant states that has a bottom boundary. We describe the states by a quantum number $n$, starting from $n=0$. The Hamiltonian reads
+The basic idea is very similar to a quantum mechanical harmonic oscillator, i.e. a series of equidistant states with a lower boundary. We describe the states by a quantum number $n$, starting from $n=0$.  The Hamiltonian reads
 \begin{equation}
 \hat{H} \ket{n} = E_n \ket{n} = \left( n + \frac{1}{2} \right) \, \hbar \omega \, \ket{n} \quad ,
 \end{equation}
@@ -75,6 +75,7 @@ where $\boldsymbol{x}$ is a unit vector defining the direction of polarization.
 
 
 \begin{questions}
+  \item In order to describe what kind of experiments do we need to use the second quantization ?
 \item Two flat perfect mirrors of diameter $d$ and distance $L$  form a resonator. Calculate its mode volume at an eigenfrequency, assuming that no field leaks out of the cylinder formed by the mirrors. How would the index of refraction of  a medium between the mirrors enter?
 
 \item In an elevator cabin, two opposing walls  are covered by mirrors. Calculate the amplitude of the electric field in the cabin. 
@@ -174,6 +175,14 @@ with $\cos 2\theta = \Delta / \Omega_R$. On resonance, i.e. $\Delta = 0$, the tw
 We now label the above dressed states by their characteristic photon number $n$ as $\ket{D_+^{(n)}}$ and $\ket{D_-^{(n)}}$. This allows us to take into account also the two states $\ket{D_+^{(n+1)}}$ and $\ket{D_-^{(n+1)}}$. 
 When $n \gg 1$ as in a laser field,  we can assume that the Rabi frequency $\Omega_R = \sqrt{\Delta^2 + 4 |g|^2 n}$ does not differ between these states. In this case, the four optical transitions that take out energy will lead to   only three different lines in the spectrum. This is called the Mollow Triplet. The (degenerate) center line is at the laser frequency, the outer two separated by the Rabi frequency.
 
+An example is shown in Figure \ref{fig:strong_Wrigge_Mollow}. In fact, you do not really need a cavity, just a strong laser beam. In this experiment by Wrigge et al., single dye molecules (dibenzanthanthrene, DBATT) are dispersed in a matrix of other organic molecules (tetradecane) and cooled to a temperature of 1.4 K. At this low temperature, the molecules behave almost like a two-level system, emitting at a wavelength of about 590~nm. The line width is lifetime limited, i.e. as narrow as physically possible. A narrow-band laser is used to excite the molecule at resonance ($\Delta = 0$). The light scattered by the molecule is spectrally analyzed by a narrow scanning filter, a Fabry-Perot cavity. The resulting spectrum in Fig. \ref{fig:strong_Wrigge_Mollow} shows the central laser peak overlapping with one of the transitions of the Mollow triplet. The latter causes the two side peaks of lower intensity (note the logarithmic scaling). The splitting of the triplet depends on the laser power or the number $n$ of photons in the cavity.
+
+\begin{marginfigure}
+  \inputtikz{\currfiledir wrigge}
+  \caption{Mollow triplet in the light scattered at a single molecule at 1.4K. Data from \cite{Wrigge2007}.}
+  \label{fig:strong_Wrigge_Mollow}
+\end{marginfigure}
+
 
 %https://demonstrations.wolfram.com/MollowTriplet/
 
@@ -194,6 +203,20 @@ by absorbing a single photon in the system. These two states are at  $\omega_0 \
 
 A consequence of this effect is the photon blockade. The first photon can be absorbed at $\omega_0 \pm \hbar g$, but not a second one!  In this regime, we cannot neglect that the Rabi frequency depends on the photon number $n$. The second pair of states is at 
 $2 \omega_0 \pm \sqrt{2} \hbar g$, i.e., not at twice the energy of the first pair. Absorbing the first photon blocks this transition for any further absorption.
+
+
+An example of an experimental realization is shown in Fig. \ref{fig:strong_photon_blockade}. The authors used a \ch{InAs} quantum dot embedded in a \ch{GaAs} matrix, which behaves similarly to a two-level system at 930~nm wavelength. The cavity was a photonic crystal: air holes in the \ch{GaAs} membrane lead to a bandgap for photons at this wavelength. Defects in the form of missing or shifted holes lead to a cavity with a high quality factor $Q \approx 10^4$. A resonant, spectrally narrow but pulsed laser ($f_\text{rep} = 80 $~MHz) is reflected at the cavity plus quantum dot. The authors try to find two photons that arrive at two detectors simultaneously, a coincidence. For a laser beam obeying Poisson statistics, the probability of finding two photons with delay $\tau$ is independent of $\tau$. With a pulsed laser, you will only find coincidences with delays $\tau = n \, T = n / f_\text{rep}$.
+Ideally, for a photon blockade one should find no coincidences at $\tau = 0$. Here the authors were able to show a drop of about 10\% due to background effects. 
+
+
+\begin{marginfigure}
+  \inputtikz{\currfiledir faraon}
+  \caption{Photon blocked in the coincidence rate of a quantum dot in a cavity. Data from 
+  \cite{Faraon2008}.}
+  \label{fig:strong_photon_blockade}
+\end{marginfigure}
+
+
 
 \begin{questions}
 \item Draw a level scheme containing the uncoupled and the coupled states involved in Vacuum Rabi Splitting. Draw the absorption spectrum as seen by the first and by the second photon in the system.
