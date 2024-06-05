@@ -1,4 +1,4 @@
-\renewcommand{\lastmod}{June 18, 2021}
+\renewcommand{\lastmod}{June 4, 2021}
 \renewcommand{\chapterauthors}{Markus Lippitz}
 
 
@@ -17,14 +17,14 @@
 
 \section{Weak and strong coupling}
 
-Already in the last chapter we discussed the properties of an optical cavity that contains a two-level system such as an atom or molecule. Atom and cavity couple because the transition dipole operator interacts with the field of the cavity. In the last chapter we assumed that this coupling is 'strong'. This means that the effect of the coupling dominates other effects. We have seen that atom and cavity loose their identity. We found new eigenstates as a symmetric and antisymmetric combination of 'photon in the atom and not in the cavity' and 'photon in the cavity and not in the atom'. In this chapter, we continue to discuss atoms in cavities, but we relax the condition on the coupling strength. 'Weak' coupling is enough. Atom and cavity will no longer loose their identity. The excitation is either in the atom or in the cavity.
+Already in the last chapter we discussed the properties of an optical cavity containing a two-level system such as an atom or molecule. Atom and cavity couple because the transition dipole operator interacts with the field of the cavity. In the last chapter we assumed that this coupling is 'strong'. This means that the effect of the coupling dominates other effects. We saw that the atom and the cavity lose their identity.  We found new eigenstates as a symmetric and antisymmetric combination of 'photon in the atom and not in the cavity' and 'photon in the cavity and not in the atom'.  In this chapter we still discuss atoms in cavities, but we relax the coupling strength condition. A 'weak' coupling is sufficient. Atom and cavity no longer lose their identity. The excitation is either in the atom or in the cavity.
 
 
-Let us without going much into the details\footcite{Khitrova06,Pelton19,Thomas20} look at the parameters that decide whether a system is in the weak or strong coupling limit. Already in the chapter on molecular aggregates we have required that the coupling energy $J$ is larger than the difference in eigen-energies of the systems to be coupled, i.e.
+Without going into too much detail\footcite{Khitrova06,Pelton19,Thomas20}, let us look at the parameters that decide whether a system is in the weak or the strong coupling limit. Already in the chapter on molecular aggregates we have required that the coupling energy $J$ is greater than the difference in the eigenenergies of the systems to be coupled, i.e.
 \begin{equation}
 J \gg | E_a - E_b| \quad \text{or} \quad g \gg | \Delta | = | \omega_0 - \omega | \quad .
 \end{equation}
-While this is still required, it is not sufficient. In many cases, the atom is resonant with the cavity, i.e. $\Delta = 0$. This does not automatically lead to strong coupling. We require that the energy can make one round trip from cavity to  atom and back to cavity without being dissipated. Then one can not say any more if the excitation is in atom or cavity and we are in the regime of string coupling. In this way, the decay rates of atom $\gamma_A$ and cavity $\gamma_C$ come into play. We require for strong coupling
+While this is still required, it is not sufficient. In many cases, the atom is resonant with the cavity, i.e. $\Delta = 0$. This does not automatically lead to strong coupling. We require that the energy can make one round trip from cavity to  atom and back to cavity without being dissipated. Then one cannot say any more whether the excitation is in the atom or in the cavity and we are in the regime of strong coupling. In this way, the decay rates of atom $\gamma_A$ and cavity $\gamma_C$ come into play. We require for strong coupling
 \begin{equation}
 4 g > \gamma_A + \gamma_C \quad .
 \end{equation}
@@ -32,7 +32,7 @@ This is similar, but not in all cases  identical to requiring that a dip should 
 
 
 \section{Spontaneous Emission}
-Spontaneous emission like fluorescence is a tricky problem from the point of view of quantum mechanics, which we tried to avoid up to now. The reason is that the electronic excited state is an eigen-state of the Hamilton operator and should be stable in time. As fluorescence also happens in the dark, an electric field that couples states in a perturbation operator does not help here. We circumvented this point by either discussing absorption (bright fields that couple states) or by using Einstein coefficients (no quantum mechanics). The quantization of the electrical field introduced in the last chapter now in principle allows to investigate spontaneous emission with the tools of quantum mechanics.
+Spontaneous emission like fluorescence is a tricky problem from a quantum mechanical point of view, which we have tried to avoid until now. The reason is that the electronic excited state is an eigenstate of the Hamiltonian and should be stable in time. Since fluorescence also occurs in the dark, an electric field that couples states in a perturbation operator does not help here. We got around this by either discussing absorption (bright fields that couple states) or by using Einstein coefficients (no quantum mechanics). The quantization of the electric field introduced in the last chapter now allows in principle to study spontaneous emission with the tools of quantum mechanics.
 
 We again couple two states of the type $\ket{g, n}$ and $\ket{e, n-1}$, i.e. $n$ photons in the cavity and the atom in either ground or excited state. Let us look at the case $n=1$, i.e. $\ket{g, 1}$ and $\ket{e, 0}$. This is what we need to describe spontaneous emission: an exited atom in a dark cavity coupled to the atom in the ground state with a single photon in the cavity. The coupling constant is again $g$, as defined in the last chapter, without any prefactors.
 
@@ -48,7 +48,7 @@ while the intensity does not vanish
     \braket{0 | (\hat{a}  + \hat{a}^\dagger )^2   | 0  }  
     =    E_{vac}^2 \quad . \label{eq:purcell_E00_sq}
 \end{equation}
-We required the vacuum to contain the ground state energy of $\frac{1}{2} \hbar \omega$ which results in a non-zero in intensity. While the average value of the field is zero, its fluctuations lead to an average non-zero intensity. These vacuum fluctuations cause spontaneous emission. Spontaneous emission is stimulated emission by vacuum fluctuations.
+We required the vacuum to contain the ground state energy of $\frac{1}{2} \hbar \omega$ which results in a non-zero  intensity. While the average value of the field is zero, its fluctuations lead to an  non-zero average intensity. These vacuum fluctuations cause spontaneous emission. Spontaneous emission is stimulated emission by vacuum fluctuations.
 
 Second, spontaneous emission depends on the position of the atom in the cavity. The coupling constant $g$ is defined by
 \begin{equation}
@@ -63,7 +63,7 @@ In contrast to the effects of strong coupling between atom and cavity, the effec
 \begin{questions}
 \item Derive eqs. \ref{eq:purcell_E00} and \ref{eq:purcell_E00_sq}
 
-\item How long would it take that an emitted  fluorescence photon would be absorbed back into the atom when only a single optical mode would exist?
+\item How long would it take for an emitted fluorescence photon to be absorbed back into the atom if there were only a single optical mode?
 \end{questions}
 
 
@@ -94,7 +94,7 @@ Plugging everything together we get
 \end{equation}
 which is identical to the Einstein $A_{21}$ coefficient.
 
-This formalism allows us now to change the environment of the emitter. The simplest is a cavity with only a single optical mode. In this case 
+This formalism now allows us to change the environment of the emitter. The simplest is a cavity with only a single optical mode. In this case 
 \begin{equation}
 \int_0^\infty \, \rho(\omega) \, d \omega = 1
 \end{equation}
@@ -122,8 +122,7 @@ F_\text{Purcell} = \frac{\Gamma_\text{cav}}{\Gamma_\text{free}} =
 \end{equation}
 It is by a factor of 3 larger when the transition dipole moment is optimally aligned with the optical field of the cavity. A single-mode cavity of small mode volume and large quality factor thus drastically increases the spontaneous emission rate of an emitter\sidenote{when it is not placed in a node of the field}. The emission rate is not a property of the emitter alone, but also depends on the environment.  The environment changes the density of optical modes in frequency space.
 
-The Purcell effect can be observed in the fluorescence lifetime of emitters. An increased spontaneous emission rate reduces the excited state lifetime. The concept is derived having atoms in cavities in mind.  Solid-state and nanophotonic realizations have been demonstrated.
-However, in such experimental realizations one has to take care that the environment  does not also modifies non-radiative rates. Quenching of emission would lead to a similar reduction of excited state lifetime but is not a Purcell effect.
+The Purcell effect can be observed in the fluorescence lifetime of emitters. An increased spontaneous emission rate reduces the lifetime of the excited state. The concept is derived considering atoms in cavities.  Solid-state and nanophotonic realizations have been demonstrated. However, in such experimental realizations, care must be taken that the environment does not also modify the non-radiative rates. Emission quenching would lead to a similar reduction in excited state lifetime, but is not a Purcell effect.
 
 
 \begin{questions}
@@ -165,7 +164,12 @@ where $q_e$ is the quantum efficiency of the emitter.
 As the amplitude of $ E_s(r_0)$ at the position of the dipole depends on the dipole's oscillation amplitude $|\mu_0|$, the latter cancels out, as expected. The easiest way to calculate $ E_s(r_0)$, the field of the source at the source, is to use the dyadic Green's function as shown in \cite{Novotny-Hecht2012} and \cite{Hohenester2020}. At the end of chapter \ref{chap:tmatrix} we discuss the case of a dipole in a layered medium.
 
 
-When we are only interested in the decay rate or the emitted power, then an alternative point of view comes to help. We now continuously drive the dipole oscillator and calculate the optical far-field as superposition of direction emission into the direction of the observer and emission into other directions, that is in the following reflected towards the observer. These fields interfere constructively or destructively, depending on their phase relation. The total emitted power is obtained by integration over a suitable surface.
+If we are only interested in the decay rate or the emitted power, an alternative approach is helpful. We now continuously drive the dipole oscillator and calculate the optical far field as a superposition of the direct emission in the direction of the observer and the emission in other directions, which is then reflected in the direction of the observer. These fields interfere constructively or destructively, depending on their phase relation. The total emitted power is obtained by integration over a suitable surface.
+
+\begin{marginfigure}
+  \inputtikz{\currfiledir drexhage_data}  
+  \caption{Fluorescence lifetime of \ch{Eu^{3+}} ions in front of a silver mirror, compared to a simple model. Data from \cite{Drexhage74}.}
+  \end{marginfigure}
 
 
 \section{Drexhage's Experiment}
