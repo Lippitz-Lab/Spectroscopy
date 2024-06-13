@@ -1,4 +1,4 @@
-\renewcommand{\lastmod}{June 11, 2024}
+\renewcommand{\lastmod}{June 13, 2024}
 \renewcommand{\chapterauthors}{Markus Lippitz}
 
 
@@ -8,14 +8,14 @@
 \section{Tasks}
 
 \begin{itemize}
-\item The data set contains the electric field at the surface of two gold nanostructures for two different laser polarization directions at the same laser power. Compare the (relative)  efficiency of second harmonic generation for these four cases.
+\item The data set contains the electric field at the surface of two gold nanostructures for two different laser polarization directions at the same laser power (see Fig. \ref{fig:7_combined}). Compare the (relative)  efficiency of second harmonic generation for these four cases. My solution is \pluto{task_shg}.
 
 \item Assuming that the fundamental field distribution would not change (which is not true), estimate how large the nanorod would have to be so that the opposing surfaces no longer cancel each other out. Calculate the angular emission pattern in this case.
 \end{itemize}
 
 \begin{figure}
-  \inputtikz{\currfiledir polarization}
-  \caption{Electric field at the surface of plasmonoc nanostrscturtes under horiziontal (left) and vertcial (right) polraization }
+  \inputtikz{\currfiledir combined}
+  \caption{Vectors of electric field (left) and induced nonlinear polarization (right) at the surface of plasmonic nanostructures. The red arrows depict the sum of all vectors. \label{fig:7_combined}}
 \end{figure}
 
 \section{Experiment}
@@ -384,11 +384,11 @@ All other tensor components are zero up to experimental accuracy.
 
 \section{SHG at nanostructures}
 
-A nanostructure is on the size of the wavelength of light or smaller. At all surface elements a second order nonlinear polarization can be generated. However, in the optical far field, the contributions of all surface elements interfere with each other. At this point, the symmetry of the nanostructure enters, while the symmetry of the material is broken by the surface.
+A nanostructure is the size of the wavelength of light or smaller. Second order nonlinear polarization can be generated at all surface elements. However, in the optical far field, the contributions of all surface elements interfere with each other. This is where the symmetry of the nanostructure enters, while the symmetry of the material is broken by the surface.
 
-In case the nanostructure is centrosymmetric, we find for  each surface element  an identical but mirrored element with opposing direction of the surface normal. As the direction of the surface normal enters in the direction of the nonlinear polarization and thus the direction of the generated second harmonic field, the contributions of opposing surface elements cancel out in the optical far field. This breaks down as soon as the size of the structure is not small anymore. Then the field emitted at one surface element can acquire a phase difference relative to the field generated at the opposing surface so that the interference is not fully destructive anymore.
+If the nanostructure is centrosymmetric (Fig. \ref{fig:7_combined} top), we find for each surface element an identical but mirrored element with opposite direction of the surface normal. Since the direction of the surface normal is in the direction of the nonlinear polarization and thus in the direction of the generated second harmonic field, the contributions of the opposing surface elements cancel out in the optical far field. This breaks down when the size of the structure is no longer small. Then the field emitted at one surface element can acquire a phase difference relative to the field generated at the opposite surface, so that the interference is no longer fully destructive.
 
-If the nanostructure is not centrosymmetric, the fundamental field at two opposing surface elements will not be the same. Then the nonlinear polarization differs, and the two partial fields do not cancel. Second harmonic generation at nanostructure is thus a sensitive measure for the symmetry of the particle. In reality, nominally symmetric structures such as spheres are never ideally symmetric. Small protrusions and facets break the symmetry. Gold 'spheres' produce a stronger second harmonic signal than third harmonic, although the latter is symmetry-allowed (but a higher order of nonlinearity and therefor weaker).
+If the nanostructure is not centrosymmetric (Fig. \ref{fig:7_combined} bottom), the fundamental field at two opposing surface elements will not be the same. Then the nonlinear polarization is different and the two partial fields do not cancel. Second harmonic generation at the nanostructure is thus a sensitive measure of the symmetry of the particle. In reality, nominally symmetric structures such as spheres are never ideally symmetric. Small protrusions and facets break the symmetry. Gold 'spheres' produce a stronger second harmonic signal than third harmonic, even though the latter is symmetric (but a higher order of nonlinearity and therefore weaker).
 
 
 

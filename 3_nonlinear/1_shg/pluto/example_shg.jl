@@ -13,7 +13,7 @@ md"""
 """
 
 # ╔═╡ b404b1e0-2599-46d5-b311-6ae73aea8157
-function plot_field(x,y, dx, dy)
+function plot_field!(myaxis, x0, y0, x,y, dx, dy; sign= 1, sf = 1)
 	ids = (1:2:length(x))
 
 	x = [x ; x[1]];
@@ -21,53 +21,42 @@ function plot_field(x,y, dx, dy)
 	dx = [dx;  dx[1]];
 	dy = [dy; dy[1]];
 
+	scale2 = 0.1
+	Dx = sum(dx) .* scale2;
+	Dy = sum(dy) .* scale2;
+
 	ma = maximum(sqrt.(dx.^2 + dy.^2));
-	scale = 100 ./ ma;
-	
-	myaxis = @pgf PGFPlotsX.Axis(
-	    {
-	      	ymin = -140, 
-		    ymax = 60, 
-	width="70mm",
-	height="40mm",
-	        xmin = -200, xmax =200,
-			#ylabel = raw"absorption / molecule",
-			#xlabel=raw"wavelength (nm)",
-			#ytick = \empty, 
-			#xtick = (0:5:25),
-			#xticklabels = [],
-			#xmajorgrids,
-			#width= "155mm", height= "150mm", 
-			#yticklabels = []
-			view = (0, 90),
-		    #domain = -2:2	
-			axis_equal,
-	axis_lines="none"
-	    },	
-		);
+	scale =  sf * 20 # ./ ma;
+
 
     @pgf    p = PGFPlotsX.Plot(
         {
            black, thick
         },
-        Table([x,y])
+        Table([x0 .+ x, y0 .+ y])
     )
 
 	push!(myaxis, p)
-	push!(myaxis, "\\node at (0,0) {\\small max. amplitude: $(round(ma; digits=2)) };")
+	#push!(myaxis, raw"\node at (0,0) {\small $a_{max} =$")
+	#push!(myaxis, " $(round(ma; digits=2))};")
 
-
+	if sqrt(Dx.^2 + Dy.^2) > 5
+		s = [raw"\draw [->, thick, red]  ", Coordinate(x0, y0),
+			" -- ", Coordinate(x0 + Dx, y0 + Dy), ";"];
+		push!(myaxis,  s)
+	end
 
     @pgf    p = PGFPlotsX.Plot3(
         {
             quiver = {u = "\\thisrow{u}", v = "\\thisrow{v}"},
-            "-stealth", blue
+            #"-stealth", 
+			blue
         },
-        Table(x = x[ids], y = y[ids], u = scale .* dx[ids], v = scale .* dy[ids])
+        Table(x = x0 .+ x[ids], y = y0 .+ y[ids], u = sign .* scale .* dx[ids], v = sign * scale .* dy[ids])
     )
 
 	push!(myaxis, p)
-	return myaxis
+	return nothing
 	
 end
 
@@ -126,117 +115,53 @@ function get_data(sample, pol)
 	return x,y, ex, ey, px, py
 end;
 
-# ╔═╡ 3b795409-39f1-46ce-99ad-8d5f1e29ef10
+# ╔═╡ 27b080ee-8447-43bf-8825-02125c8c137f
 let
-	x,y, Ex, Ey, Px, Py = get_data("Ewire1400", "x_pol")
-	p1 = plot_field(x,y, Ex, Ey)
-
-	x,y, Ex, Ey, Px, Py = get_data("Ewire1400", "y_pol")
-	p2 = plot_field(x,y, Ex, Ey)
-
-	x,y, Ex, Ey, Px, Py = get_data("Esplitring1750", "x_pol")
-	p3 = plot_field(x,y, Ex, Ey)
-
-	x,y, Ex, Ey, Px, Py = get_data("Esplitring1750", "y_pol")
-	p4 = plot_field(x,y, Ex, Ey)
-
-@pgf gp = GroupPlot(
-    {
-        group_style =
-        {
-            group_size="2 by 2",
-            horizontal_sep="0pt",
-            vertical_sep="0pt",
-            xticklabels_at="edge bottom"
-        },
-
-        height = "5cm",
-        width = "10cm",
-    },
-	p1, p2, p3, p4
-)
-
-	pgfsave("../fields.tikz.tex",gp; include_preamble= false)
-	gp
-end
-
-# ╔═╡ fe29a240-3509-4eca-a759-009075b7fa9a
-let
-	x,y, Ex, Ey, Px, Py = get_data("Ewire1400", "x_pol")
-	p1 = plot_field(x,y, Px, Py)
-
-	x,y, Ex, Ey, Px, Py = get_data("Ewire1400", "y_pol")
-	p2 = plot_field(x,y, Px, Py)
-
-	x,y, Ex, Ey, Px, Py = get_data("Esplitring1750", "x_pol")
-	p3 = plot_field(x,y, Px, Py)
-
-	x,y, Ex, Ey, Px, Py = get_data("Esplitring1750", "y_pol")
-	p4 = plot_field(x,y, Px, Py)
-
-@pgf gp = GroupPlot(
-    {
-        group_style =
-        {
-            group_size="2 by 2",
-            horizontal_sep="0pt",
-            vertical_sep="0pt",
-            xticklabels_at="edge bottom"
-        },
-
-      #  height = "5cm",
-      #  width = "10cm",
-    },
-	p1, p2, p3, p4
-)
-	pgfsave("../polarization.tikz.tex",gp; include_preamble= false)
-	gp
-end
-
-# ╔═╡ 180736e0-20aa-4eda-bb26-a1e69460f0ec
-# ╠═╡ disabled = true
-#=╠═╡
-let
-	
 
 	myaxis = @pgf PGFPlotsX.Axis(
 	    {
-	      	ymin = 0, 
-		    ymax = 1.2,
-	        xmin = 460, xmax =620,
-			ylabel = raw"absorption / molecule",
-			xlabel=raw"wavelength (nm)",
-			ytick = [0], 
+	      	#ymin = -140, 
+		    #ymax = 60, 
+	width="120mm",
+	#height="40mm",
+	 #       xmin = -200, xmax =200,
+			#ylabel = raw"absorption / molecule",
+			#xlabel=raw"wavelength (nm)",
+			#ytick = \empty, 
 			#xtick = (0:5:25),
 			#xticklabels = [],
 			#xmajorgrids,
-			width= "55mm", height= "50mm", 
+			#width= "155mm", height= "150mm", 
 			#yticklabels = []
+			view = (0, 90),
+		    #domain = -2:2	
+			axis_equal,
+	axis_lines="none"
 	    },	
 		);
 
-
-	@pgf    p = PGFPlotsX.Plot(
-	        { no_marks, thick},
-	      		Table([df[3].Wavelength_nm_, df[3].Abs2 ./1e4 ])   
-			)
-	push!(myaxis, p)
-
-	@pgf    p = PGFPlotsX.Plot(
-	        { no_marks, thin},
-	      		Table([df[4].Wavelength_nm_, df[4].Abs2 ./1e4 ])   
-			)
-	push!(myaxis, p)
-
-
 	
-	push!(myaxis, raw"\node at (500,1.1) {\footnotesize monomer};")
-	push!(myaxis, raw"\node at (580,1.1) {\footnotesize aggregate};")
-				
-	#pgfsave("../TDBC.tikz.tex",myaxis; include_preamble= false)
+	x,y, Ex, Ey, Px, Py = get_data("Ewire1400", "x_pol")
+	plot_field!(myaxis, 0,0 ,x,y, Ex, Ey)
+
+	x,y, Ex, Ey, Px, Py = get_data("Ewire1400", "x_pol")
+	plot_field!(myaxis, 450 , 0 , x,y, Px, Py; sign= -1, sf = 0.08)
+
+	x,y, Ex, Ey, Px, Py = get_data("Esplitring1750", "x_pol")
+	plot_field!(myaxis, 0, -180, x,y, Ex, Ey)
+
+	x,y, Ex, Ey, Px, Py = get_data("Esplitring1750", "x_pol")
+	plot_field!(myaxis, 450, -180, x,y, Px, Py; sf = 0.08)
+
+	push!(myaxis, raw"\node at (0, 100) {linear field};")
+	push!(myaxis, raw"\node at (450, 100) {nonlinear polarization};")
+
+	push!(myaxis, raw"\draw[fill, black] (-50, -90) rectangle node [above  ] {100 nm} (50, -87) ;")
+	
+
+	pgfsave("../combined.tikz.tex",myaxis; include_preamble= false)
 	myaxis
 end
-  ╠═╡ =#
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -259,7 +184,7 @@ PlutoUI = "~0.7.59"
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.10.3"
+julia_version = "1.10.4"
 manifest_format = "2.0"
 project_hash = "fc6fb55bdffe7152a80d083cb12565fee867007b"
 
@@ -1486,10 +1411,8 @@ version = "1.4.1+1"
 # ╔═╡ Cell order:
 # ╟─10715aca-b3fb-47d3-a444-58659d96d3c6
 # ╠═005e3ae0-272d-11ef-3e45-ebd86daf8a49
-# ╠═3b795409-39f1-46ce-99ad-8d5f1e29ef10
-# ╠═fe29a240-3509-4eca-a759-009075b7fa9a
+# ╠═27b080ee-8447-43bf-8825-02125c8c137f
 # ╠═b404b1e0-2599-46d5-b311-6ae73aea8157
 # ╠═135af86e-0b4a-407a-8eca-cb719ea9ba45
-# ╠═180736e0-20aa-4eda-bb26-a1e69460f0ec
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
