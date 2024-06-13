@@ -1,4 +1,4 @@
-\renewcommand{\lastmod}{July 1, 2021}
+\renewcommand{\lastmod}{June 11, 2024}
 \renewcommand{\chapterauthors}{Markus Lippitz}
 
 
@@ -10,16 +10,21 @@
 \begin{itemize}
 \item The data set contains the electric field at the surface of two gold nanostructures for two different laser polarization directions at the same laser power. Compare the (relative)  efficiency of second harmonic generation for these four cases.
 
-\item Assuming that the fundamental field distribution would not change (which is not true), estimate how large the nanorod would need to be so that opposing surfaces do not cancel out anymore. Calculate the angular emission pattern in this case.
+\item Assuming that the fundamental field distribution would not change (which is not true), estimate how large the nanorod would have to be so that the opposing surfaces no longer cancel each other out. Calculate the angular emission pattern in this case.
 \end{itemize}
+
+\begin{figure}
+  \inputtikz{\currfiledir polarization}
+  \caption{Electric field at the surface of plasmonoc nanostrscturtes under horiziontal (left) and vertcial (right) polraization }
+\end{figure}
 
 \section{Experiment}
 
-Metal nanostructures of almost arbitrary (two-dimensional) shape can be fabricated by electron beam lithography (EBL). A resist is patterned by the electron beam, similar to how a photoresist is exposed by a light beam. During development, the resist is dissolved at the exposed positions. At these places, an evaporated metal film touches the glass substrate and sticks to the substrate. Dissolving now also the remaining resist (in another solvent than the developer), the metal film on top is lifted off and only the patterned surfaces remain as metal patterns.
+Metal nanostructures of almost any (two-dimensional) shape can be fabricated using electron beam lithography (EBL). A resist is patterned by the electron beam, similar to how a photoresist is exposed by a light beam. During development, the resist is dissolved at the exposed locations. At these locations, a vacuum-deposited metal film touches the glass substrate and adheres to it. By dissolving the remaining resist (in a different solvent than the developer), the metal film on top is lifted off, leaving only the patterned areas as metal patterns.
 
-In the experiment, rectangular and U-shaped structures are investigated. The rectangular ones are called 'rods', the U-shaped 'split rings', as one can imagine a ring that is cut open. The spectroscopic properties of these split rings go beyond the scope of this chapter\footcite{klein06_science}. We stick here to a single wavelength.
+In the experiment, rectangular and U-shaped structures are examined. The rectangular ones are called "rods", the U-shaped ones are called "split rings", because you can imagine a ring that is cut open. The spectroscopic properties of these split rings are beyond the scope of this chapter\footcite{klein06_science}. We will stick to a single wavelength.
 
-For second-harmonic generation, one focuses a  laser beam of short pulses (about 100 fs) on the sample and detects in transmission or reflection the generated light at half the wavelength. Experiments on single nanostructures are possible using a microscope objective.
+For second harmonic generation, a laser beam of short pulses (about 100 fs) is focused on the sample and the generated light is detected in transmission or reflection at half the wavelength. Experiments on single nanostructures are possible using a microscope objective.
 
 \section{Nonlinear Susceptibility}
 
@@ -78,12 +83,13 @@ an asymmetry of the oscillation around this mean value. The absolute value of th
 
 \begin{figure}
 \center
-\includegraphics[width=\textwidth]{\currfiledir nonlinear_polarisation.pdf}
+%\includegraphics[width=\textwidth]{\currfiledir nonlinear_polarisation.pdf}
+\inputtikz{\currfiledir NL_pol}
 \caption{Influence of a non-linear relationship between
-incident field $E$ and polarization $P$. A: linear and non-linear relationship
-between $E$ and $P$. B: in the linear case the polarization follows
-the field. C: in the nonlinear case, on the one hand the mean value
-shifted (DC part of the output field) and on the other hand the
+incident field $E$ and polarization $P$. left: linear and non-linear relationship
+between $E$ and $P$. middle: in the linear case the polarization follows
+the field. right: in the nonlinear case, the mean value is
+shifted (DC part of the output field) and the
 curve is deformed (additional component with doubled frequency).}
 \label{fig:shg_nonlinear_polarization}
 \end{figure}
@@ -222,7 +228,9 @@ Within  this  range of momentum mismatch frequency doubling  is possible, which 
 
 \begin{figure}
 \center
-\includegraphics[width=\textwidth]{\currfiledir sketch_phase_matching.pdf}
+%\includegraphics[width=\textwidth]{\currfiledir sketch_phase_matching.pdf}
+\inputtikz{\currfiledir phasematch}
+
 \caption{Schematic representation of 
 phase matching.
 In the instances marked by circles a
