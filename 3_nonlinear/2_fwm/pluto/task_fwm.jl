@@ -5,52 +5,69 @@ using Markdown
 using InteractiveUtils
 
 # ╔═╡ 0b86d646-2ee1-11ef-3d69-4f2baac90e33
-using CSV, DataFrames, Plots
+using CSV, DataFrames, Plots,Interpolations
 
-# ╔═╡ e8160b1a-a367-4897-ae4e-0cd90508a9d3
-using Interpolations
+# ╔═╡ d10c4171-a9dd-4d16-9e6f-4480fccd80ab
+md"""
+# 10: Four-wave mixing
+"""
 
 # ╔═╡ 7997a518-43b1-4cee-b5ab-4831069ff6f7
-d = CSV.read("../handout/fwm_spectrum.dat", DataFrame, delim =' ',ignorerepeated=true, header=[:wl, :ex, :det])
+begin
+	data_raw = CSV.read("../handout/fwm_spectrum.dat", DataFrame, 
+		delim =' ',ignorerepeated=true, header=[:wl, :ex, :det])
+
+	# remove negative values and some noise
+	ex = data_raw.ex
+	ex[ ex .< 3] .= 0
+
+	# convert to energy axis and sort along energy
+	data = DataFrame("nu" => 1240 ./  data_raw.wl, 
+						"ex" => ex .* data_raw.wl.^2, 
+						"det" => data_raw.det .* data_raw.wl.^2)
+	sort!(data)
+end
 
 # ╔═╡ e421acb2-a5b5-4d37-9d8f-b5db10d0e50f
 begin
-	plot(1240 ./ d.wl, d.ex)
-	plot!(1240 ./ d.wl, d.det)
+	plot(data.nu, data.ex,  label="laser")	
+	plot!(data.nu, data.det, xlabel = "energy (eV)", label = "FWM exp")
 end
 
 # ╔═╡ 5ee7cdde-70d8-4bfd-b793-d3d44395c42a
-laser_wl  = linear_interpolation(d.wl, d.ex, extrapolation_bc=Line());
-
-# ╔═╡ 6db6d607-4d2e-48c7-a11b-6052581003b5
-laser(E) = laser_wl(1240 / E)
-
-# ╔═╡ cee63989-c287-4759-a857-2591c4b0e636
-e0 = (1.4:0.0001:2)
-
-# ╔═╡ 494ce955-0d91-434f-9c39-0b8ba5f9ad86
-e_fwm = (1.8:0.001:2);
+# laser field is sqrt of laser intensity
+laser_field  = linear_interpolation(data.nu, sqrt.(data.ex), 
+								extrapolation_bc=Line());
 
 # ╔═╡ e61d10a5-f3e0-411e-ab40-4323bfae2288
 function fwm(e_out)
-	e_higher = (1.6:0.001:1.75)
-	e_lower = 2 .* e_higher .- e_out;
+
+	# two photons from higher spectral band, all combinations of energies
+	e_higher = (1.65:0.001:1.75)
+
+	e1 = e_higher * ones(length(e_higher))'
+	e2 = ones(length(e_higher)) * e_higher'
+
+	# one photon from lower spectral band, energy to get requested FWM energy
+	e_lower =  e1 .+ e2 .- e_out;
+
+	chi3 = 0.32.*10^-6 # fit parameter
+	pol = @. chi3 * laser_field(e_lower) * laser_field(e1) * laser_field(e2) 
+
+	power = sum(pol).^2 ./  length(e_higher)^4 
 	
-	signal =@. laser(e_lower) * sqrt(laser(e_higher))
-	
-	return sum(signal).^2 ./ ( length(e_higher)^2 .* 30)
+	return power
 end
 
 # ╔═╡ 2a5d3f7e-3d3a-4aa2-b67a-6fbe25f5e356
 begin
-	plot(e0, laser.(e0))	
-	plot!(1240 ./ d.wl, d.det)
+	e0 = (1.4:0.0001:2)
+	plot(e0, laser_field.(e0).^2, label="laser")	
+	plot!(data.nu, data.det, label = "FWM exp")
 
-	plot!(e_fwm, fwm.(e_fwm))
+	e_fwm =  (1.8:0.001:2)
+	plot!(e_fwm, fwm.(e_fwm), label = "FWM sim", xlabel = "energy (eV)")
 end
-
-# ╔═╡ f8495b89-1f9b-4c5d-9fba-568f3d1b717f
-fwm(1.9)
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -1301,16 +1318,12 @@ version = "1.4.1+1"
 """
 
 # ╔═╡ Cell order:
+# ╟─d10c4171-a9dd-4d16-9e6f-4480fccd80ab
 # ╠═0b86d646-2ee1-11ef-3d69-4f2baac90e33
 # ╠═7997a518-43b1-4cee-b5ab-4831069ff6f7
 # ╠═e421acb2-a5b5-4d37-9d8f-b5db10d0e50f
-# ╠═e8160b1a-a367-4897-ae4e-0cd90508a9d3
 # ╠═5ee7cdde-70d8-4bfd-b793-d3d44395c42a
-# ╠═6db6d607-4d2e-48c7-a11b-6052581003b5
-# ╠═cee63989-c287-4759-a857-2591c4b0e636
-# ╠═494ce955-0d91-434f-9c39-0b8ba5f9ad86
-# ╠═2a5d3f7e-3d3a-4aa2-b67a-6fbe25f5e356
-# ╠═f8495b89-1f9b-4c5d-9fba-568f3d1b717f
 # ╠═e61d10a5-f3e0-411e-ab40-4323bfae2288
+# ╠═2a5d3f7e-3d3a-4aa2-b67a-6fbe25f5e356
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
