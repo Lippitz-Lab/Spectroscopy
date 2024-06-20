@@ -1,4 +1,4 @@
-\renewcommand{\lastmod}{July 1, 2021}
+\renewcommand{\lastmod}{June 20, 2024}
 \renewcommand{\chapterauthors}{Markus Lippitz}
 
 
@@ -8,73 +8,46 @@
 \section{Tasks}
 
 \begin{itemize}
-\item A laser shines on a gold film which generates almost degenerate four-wave mixing signal, i.e., close in frequency but not identical. Predict the FWM spectrum and compare with the experiment (Data by Christoph Schnupfhagn, Bayreuth). You can assume a spectrally constant nonlinear  susceptibility.
+\item A laser shines on a gold film, which produces an almost degenerate four-wave mixing signal, i.e. close in frequency but not identical. Predict the FWM spectrum and compare it with the experiment (data from Christoph Schnupfhagn, Bayreuth). You can assume a spectrally constant nonlinear susceptibility.
 
-\item In a similar experiment, the relative phase between two parts of the laser spectrum is modified by a pulse shaper. Predict the resulting FWM spectrum and compare with the experiment.
+\item In a similar experiment, the relative phase between two parts of the laser spectrum is modified by a pulse shaper. Predict the resulting FWM spectrum and compare it to the experiment.
 \end{itemize}
 
 \section{Experiment}
 
-The laser creates pules that are shorter than 10 fs, or about 250 nm wide. Such pulses are very delicate, as almost all reflecting and transmitting optical elements change the phase differently for the red and the blue part of the laser pulse spectrum. For longer, i.e. spectrally narrower pulses, this does not pose a relevant problem, but for wide pulses, this has to be taken into account. A 'pulse shaper' is a device to compensate these effects and will be discussed in a separate chapter.
+The laser produces pulses that are shorter than 10 fs, or about 250 nm wide. Such pulses are very delicate because almost all reflective and transmissive optical elements change their phase differently for the red and blue parts of the laser pulse spectrum. For longer, i.e. spectrally narrower pulses, this is not a relevant problem, but for wide pulses it must be taken into account. A pulse shaper is a device to compensate these effects and will be discussed in a separate chapter.
 
-Such a pulse shaper allows to generate laser pulses of almost arbitrary amplitude and phase spectrum. Here, we use it to demonstrate four-wave mixing. The data gives the laser intensity spectrum. The phase is either made to be constant or varies linear  in time.
-We separate excitation and detection spectrally by a dichroic beam splitter and detect all light below a certain corner wavelength. 
+Such a pulse shaper allows the generation of laser pulses with almost arbitrary amplitude and phase spectra. Here it is used to demonstrate four-wave mixing. The data show the intensity spectrum of the laser. The phase is either constant or varies linearly with time.
+We spectrally separate excitation and detection by a dichroic beam splitter and detect all light below a certain corner wavelength. 
+
 
 \section{Generation of short pulses}
 
 
-All non-linear effects  require high
-intensities of at least one wave. This 
-is relatively
-easy to achieve, if one does not require a permanently high laser intensity, but periodic
-intensity peaks are sufficient. During these pulses the
-intensity  is sufficiently high for nonlinear optics. Between the pulses 
-the intensity is so low that no other processes take place. The averaged power of such a laser can therefore
-be in the range of about one Watt and still 
-peak values of about 100~kW are reached when a pulse duration of
-100~fs is compared to a pulse spacing of 13~ns. In
-this section we will discuss how such short
-laser pulses can be generated.
+All nonlinear effects require high intensities of at least one wave. This is relatively easy to achieve if one does not need a permanently high laser intensity, but periodic intensity peaks are sufficient. During these pulses, the intensity is high enough for nonlinear optics. Between the pulses, the intensity is so low that no other processes take place. The average power of such a laser can therefore be in the range of about one watt, and yet peaks of about 100 kW can be achieved when comparing a pulse duration of 100~fs with a pulse spacing of 13~ns. In this section we will discuss how such short laser pulses can be generated.
 
 
-The starting point is the  wide gain spectrum of a
-titanium-sapphire laser. The coupling of the atomic titanium levels to
-vibrational states of the sapphire crystal cause a strong
-homogeneous broadening of the transitions\footcite[chapter 4]{Rulliere2005}, so that
-this type of laser can operate in the wavelength range 700--1000~nm. This allows many longitudinal modes $E_n$  of
-electric field in the cavity  to reach the laser threshold. The resonator length $L$ defines the frequency spacing of the
-modes. Mode $n$ has the frequency 
+The starting point is the broad gain spectrum of a titanium-sapphire laser. The coupling of the atomic titanium levels to the vibrational states of the sapphire crystal causes a strong homogeneous broadening of the transitions\footcite[chapter 4]{Rulliere2005}, so that this type of laser can operate in the 700--1000~nm wavelength range. This allows many longitudinal modes $E_n$ of the electric field in the cavity to reach the laser threshold. The cavity length $L$ defines the frequency spacing of the modes. The mode $n$ has the frequency 
 \begin{equation}
  \omega_n = n \, \pi c / L \quad.
 \end{equation}
-The  field of a multi-mode laser is the sum of its
-modes:
+The  field of a multi-mode laser is the sum of its modes:
 \begin{equation}
   E(t) = \sum_n E_n(t) = \sum_n \, \hat{E}_n \, e^{i \phi_n} e^{i (c/L) \pi n \, t} \quad .
 \end{equation}
-The temporal evolution of the initial field is thus  the Fourier transform of the  spectral amplitudes $\hat{E}_n$ multiplied by a phase factor $e^{i \phi_n} $. The pulse period  $T = 2L /c$  corresponds to the round-trip  time in the resonator.
-If no further precautions are taken, the
-phase $\phi_n$ of each mode take a random  and fluctuating value. This
-results\footcite{DielsRudolph1996} in a  pattern of incoherent light, repeating in time with the period $T$.
-However, if the individual modes are coupled, i.e., if they 
-have a fixed phase relationship to each other,
+The temporal evolution of the initial field is thus the Fourier transform of the spectral amplitudes $\hat{E}_n$ multiplied by a phase factor $e^{i \phi_n}$. The pulse period $T = 2L /c$ corresponds to the round-trip time in the resonator. If no further precautions are taken, the phase $\phi_n$ of each mode will take a random and fluctuating value. This results\footcite{DielsRudolph1996} in a pattern of incoherent light that repeats in time with the period $T$. However, if the individual modes are coupled, i.e. if they have a fixed phase relationship to each other,
 \begin{equation}
    \delta \phi = \phi_{n+1} - \phi_n = \text{const.} \quad,
    \label{eq:fwm:gl_fwm_phiconst}
 \end{equation}
 then the temporal evolution of the electric field corresponds to the
-Fourier transforms the amplitude distribution. The constant
-$\delta \phi$ leads to a shift in  time. A typical resonator length is $L = 2$~m. At
-a center wavelength of $\lambda_0 = 800$~nm and a
-spectral width of the gain region (limited through 
-wavelength-selective  (Lyot) filters) of $\Delta \lambda =
-4$~nm, about
+Fourier transform of the amplitude distribution. The constant $\delta \phi$ results in a time shift. A typical resonator length is $L = 2$~m. With a center wavelength of $\lambda_0 = 800$~nm and a
+spectral width of the gain region (limited by wavelength-selective (Lyot) filters) of $\delta \lambda = 4$~nm, about
 \begin{equation}
  N \approx \frac{\delta \lambda}{ \lambda^2} \, \frac{L}{\pi} =
  3980
 \end{equation}
-modes are above the gain threshold. It is thus justified to assume  a
-continuous amplitude distribution $\hat{E}(\omega)$.
+modes are above the gain threshold. It is therefore justified to assume a continuous amplitude distribution $\hat{E}(\omega)$.
 
 As an example, we discuss a Gaussian distribution, others are found in the literature. \footcite{DielsRudolph1996,Rulliere2005}.
 We write the spectral amplitude distribution $\hat{E}(\omega)$ as
@@ -82,8 +55,7 @@ We write the spectral amplitude distribution $\hat{E}(\omega)$ as
   \hat{E}(\omega) = \hat{E}_0 \, \sqrt{\pi} \, \tau_G \, e^{-
   \frac{1}{4} \, (\omega - \omega_0)^2 \, \tau_G^2} \quad .
 \end{equation}
-The temporal evolution of the electric field follows from this by
-Fourier transformation
+The temporal evolution of the electric field follows from this by Fourier transformation
 \begin{equation}
   \hat {E}(t) = \hat{E}_0 \, e^{- ( t / \tau_G ) ^2}
   \qquad\text{and}\qquad E(t) = \hat{E}(t)\, e^{i \omega_0 \, t} \quad .
@@ -92,8 +64,7 @@ The pulse width $\tau_p$ is the full width at half maximum (FWHM) of the electri
 \begin{equation}
   \tau_p = \sqrt{2 \, \ln 2} \, \tau_G \quad.
 \end{equation}
-The spectral width of the laser is expressed as FWHM $\Delta
-\nu$ of the laser spectrum $S(\omega) =
+The spectral width of the laser is expressed as FWHM $\Delta \nu$ of the laser spectrum $S(\omega) =
 |\hat{E}(\omega)|^2$ and
 \begin{equation}
   \delta \nu = \frac{\delta \omega}{2 \pi} = \frac{\sqrt{8 \, \ln
@@ -103,18 +74,12 @@ The Fourier transform relates these two quantities and leads to the so-called \e
 \begin{equation}
   \delta \nu \, \tau_p = \frac{2 \, \ln 2}{\pi} \approx 0.441 \quad .
 \end{equation}
-Laser pulses whose time-bandwidth product reach this value
-are called \emph{Fourier-limited}. If the available
- spectral bandwidth $\Delta \nu$ is not used
-to get the shortest possible pulses, i.e. the smallest $\tau_p$,
-then the measured time-bandwidth product exceeds the
-value of $0.441$. Provided that pulse shape is Gaussian, the time-bandwidth product tells whether the 
-laser system is adjusted optimally.
+Laser pulses whose time-bandwidth product reaches this value are called \emph{Fourier-limited}. If the available spectral bandwidth $\Delta \nu$ is not used to obtain the shortest possible pulses, i.e. the smallest $\tau_p$, then the measured time-bandwidth product will exceed the value of $0.441$. Provided that the pulse shape is Gaussian, the time-bandwidth product indicates whether the laser system is optimally tuned.
 
 \begin{questions}
-\item All the prefactors in the time-bandwidth product of a Gaussian pulse stem from the use of the FWHM as measure of the spectral and temporal pulse width. Use a $1/e$ width and derive a 'cleaner' form.
+  \item All the prefactors in the time-bandwidth product of a Gaussian pulse come from using the FWHM as a measure of the spectral and temporal pulse width. Use a $1/e$ width and derive a 'cleaner' form.
 
-\item Assume a few (2 to  20) spectrally equi-distant modes, their amplitudes and phases, and calculate numerically the output field of such a laser. When do you get nice pulses in time? \cite{DielsRudolph1996}, have a picture of this.
+  \item Assume a few (2 to 20) spectrally equidistant modes, their amplitudes and phases, and numerically calculate the output field of such a laser. When do you get nice pulses in time? \cite{DielsRudolph1996}, have a picture of it.
 
 \end{questions}
 
@@ -122,33 +87,15 @@ laser system is adjusted optimally.
 
 \section{Dispersion}
 
-How does it come that the time-bandwidth product is increased? 
-Let us investigate the  influence of a time-dependent phase $\phi(t)$
-of the electric field. For simplification we 
-assume that $\phi(t)$ is a polynomial in $t$. This means that
+How does the time-bandwidth product increase?  Let us examine the influence of a time-dependent phase $\phi(t)$ of the electric field. For simplicity, we assume that $\phi(t)$ is a polynomial in $t$. This means that
 \begin{equation}
   E(t) = \hat{E}(t) \, e^{i ( \omega_0 \, t + \phi(t))}
   = \hat{E}(t) \, e^{i ( \omega_0 \, + d\phi(t)/dt) \, t} \, e^{i
   \, \phi_0}  \quad . \label{eq:fwm_field_with_phase}
 \end{equation}
-As long as $\phi(t)$ is only linearly dependent on the time $t$, the effect is
- only a shift the central frequency $\omega_0$ to
-$\omega_0' = \omega_0 + d\phi(t)/dt$.  In frequency space -- through
-Fourier transform of the above equation --  this means that the
-phase $\phi$ depends only linearly on the frequency $\omega$. This
-is what we required already above by  
-$\delta \phi =$~const. . For a square
-dependence of the phase on the time a temporal variation occurs
-in the central frequency $\omega_0$ of the pulse. One  speaks
-of \emph{chirp}, because in the acoustic analogy of a
-rising or falling tone sequence. Square
-(and higher) dependence of the phase on time (and thus on
-the frequency) is determined by the group velocity dispersion
-(GVD) in optical elements,
-e.g. glasses, but also mirrors. This is associated with the
-first and second derivative of the refractive index with 
-wavelength. Assuming $\phi = - a \,
-t^2 / \tau_G^2$ we then get
+As long as $\phi(t)$ depends only linearly on time $t$, the effect is only a shift of the center frequency $\omega_0$ to $\omega_0' = \omega_0 + d\phi(t)/dt$.  In frequency space -- by Fourier transforming the above equation -- this means that the phase $\phi$ depends only linearly on the frequency $\omega$. This is
+is what we needed above with $\delta \phi =$~const. For a square
+dependence of the phase on time, there is a time variation of the central frequency $\omega_0$ of the pulse. This is called \emph{chirp} because in the acoustic analogy it is a rising or falling tone sequence. The quadratic (and higher) dependence of the phase on time (and thus on frequency) is determined by the group velocity dispersion (GVD) in optical elements, e.g. glasses, but also mirrors. This is related to the first and second derivatives of the refractive index with respect to the wavelength. Assuming $\phi = - a \, t^2 / \tau_G^2$ we get
 \begin{equation}
   \hat{E}(t) = \hat{E}_0 e^{- (1 + i \, a) \, ( t / \tau_G ) ^2} \label{eq:fwm_chirp}
 \end{equation}
@@ -157,27 +104,12 @@ and for the time-bandwidth product
   \delta \nu \, \tau_p = \frac{2 \, \ln 2}{\pi} \, \sqrt{1 + a^2} \approx
   0.441 \, \sqrt{1 + a^2} \quad ,
 \end{equation}
-as the spectral bandwidth $\Delta \nu$ is just increased by a factor of
-$\sqrt{1 + a^2}$. Higher order polynomial terms in the time-dependence of the phase $\phi$ are discussed in the chapter on  pulse shaping.
+since the spectral bandwidth $\Delta \nu$ is only increased by a factor of $\sqrt{1 + a^2}$. Higher order polynomial terms in the time dependence of the phase $\phi$ are discussed in the Pulse Shaping chapter.
 
 
+Group velocity dispersion (GVD) is inevitable in an optical resonator. How transmitting and reflecting elements change the phase of the electromagnetic wave depends strongly on the wavelength. To achieve an optimal, i.e. Fourier-limited pulse, the total GVD must be as wavelength independent as possible. The influence of the individual elements should therefore compensate each other. In glasses, the positive second derivative of the refractive index dominates the GVD. To compensate for this, a negative GVD section is required in the resonator. This can be achieved with two prisms as shown in the figure \ref{fig:fwm_prism}. Two equal prisms are placed in front of a mirror so that all spectral components hit the mirror perpendicularly and the resonator is closed.  
 
-Group velocity dispersion (GVD) cannot be avoided  in an
-optical resonator. How transmitting and
-also reflective elements change the phase of the
-electromagnetic wave  depends strongly on the wavelength. In order to still achieve an optimal, i.e. Fourier limited pulse
-the entire GVD must be as wavelength independent as possible. The influence of the individual elements should therefore 
-compensate  each other. In glasses, the positive second derivative of the refractive index
-is dominating  the GVD. To compensate for this, a section with
-negative GVD is needed in the resonator. This can be  achieved by two prisms as shown in figure
-\ref{fig:fwm_prism}. Two equal
-prisms are placed in front of a mirror such 
-that all spectral components hit the mirror perpendicularly
-and  the resonator is closed.  
-
- Detailed calculations \footcite{DielsRudolph1996}
-show that the pure geometric path length difference causes 
-negative GVD. The path inside the prisms contributes  positive GVD.  By varying the position $z$ one can obtain almost arbitrary values of net GVD of this prism system.
+Detailed calculations \footcite{DielsRudolph1996} show that the pure geometrical path length difference causes a negative GVD. The path within the prisms contributes a positive GVD.  By varying the position $z$ one can obtain almost arbitrary values of the net GVD of this prism system.
 
 
 \begin{marginfigure}
@@ -195,26 +127,16 @@ negative GVD. The path inside the prisms contributes  positive GVD.  By varying 
 
 \section{Autocorrelation}
 
-A pulse width $\tau_P$ in the range of a few pico- or femto-seconds cannot be measured electronically, as the involved frequencies  would be too high. The idea is to measure the pulse length optically, using the  laser pulse to sample itself. The beam is divided into two parts, one of which is delayed with respect to the other before they are overlaid again.
- Times in the 
-range of femtoseconds correspond to lengths in the range of
-micrometers, which can be easily controlled. A detector that responds quadratically in intensity (not field!) is able to measure  overlap of two halves $a$ and $b$ as
+A pulse width $\tau_P$ in the range of a few picoseconds or femtoseconds cannot be measured electronically because the frequencies involved would be too high. The idea is to measure the pulse width optically, using the laser pulse itself as a sample. The beam is split into two parts, one of which is delayed relative to the other before being superimposed.  Times on the order of femtoseconds correspond to lengths on the order of micrometers, which can be easily controlled. A detector responding quadratically in intensity (not in field!) is able to measure the overlap of two halves $a$ and $b$ as
 \begin{equation}
  \ \text{after each other} \qquad a^2 + b^2 \neq (a+b)^2 \qquad
  \text{simultaneously.}
 \end{equation}
-Often  frequency doubling is used for this purpose by focusing the
-recombined beam onto a frequency doubling crystal.
-The detector is sensitive only for light at half the wavelength. With variable delay $\tau$ the time-integrated signal is sufficient, and  the temporal resolution
-of the detector is  irrelevant. One thus measures
+Often, frequency doubling is used by focusing the recombined beam onto a frequency doubling crystal. The detector is only sensitive to light at half the wavelength. With variable delay $\tau$ the time integrated signal is sufficient and the time resolution of the detector is irrelevant. Thus one measures
 \begin{equation}
   G(\tau) = \left< I(t) \times I(t-\tau) \right> \quad.
 \end{equation}
-The function $G(\tau)$ is called as intensity autocorrelation function. It is always symmetrical ($G(\tau) = G(-\tau)$) and
-is relatively insensitive to the actual pulse shape.  One has to assume a pulse as Gaussian
- or
-$\text{sec}^2$-shaped to calculate\footcite{DielsRudolph1996} the pulse length $\tau_{P} $ from the 
-FWHM of the autocorrelation
+The function $G(\tau)$ is called the intensity autocorrelation function. It is always symmetric ($G(\tau) = G(-\tau)$) and relatively insensitive to the actual pulse shape.  One must assume a Gaussian or $\text{sec}^2$ shaped pulse to calculate the pulse length $\tau_{P} $ from the FWHM of the autocorrelation
 $\tau_{AC}$ 
 \begin{align}
   \tau_{P} &= \tau_{AC} / \sqrt{2} &\quad& \text{for Gauss pulses,} \\
@@ -231,15 +153,16 @@ $\tau_{AC}$
 		
 \section{Four-wave mixing}
 
-Let us now turn to the spectroscopic consequences of the phase dispersion over the spectral width of a laser pulse. We use the example of four-wave mixing. In general, a third-order nonlinearity can be written as
+Let us now turn to the spectroscopic consequences of phase dispersion over the spectral width of a laser pulse. We will use the example of four-wave mixing. In general, a third-order nonlinearity can be written as
 \begin{equation}
   P^{(3)}_i = \epsilon_0 \, 
     \sum_{j,k,l} \chi^{(3)}_{ijkl} E_j(\omega_1) E_k(\omega_2) E_l(\omega_3)  
 \end{equation}		
-where three optical waves produce a nonlinear polarization, which radiates a new optical field\sidenote{Similar to the chapter on the free induction decay}. This field is sometimes detected directly, sometimes interfered with  a fourth field acting as local oscillator. A \emph{third-order} nonlinearity describes thus the mixing of \emph{four} waves.
+where three optical waves produce a nonlinear polarization that radiates a new optical field. This field is sometimes detected directly, sometimes interfered with by a fourth field acting as a local oscillator. A \emph{third-order} nonlinearity thus describes the mixing of \emph{four} waves.
 		
 		
-Several different processes are 	summarized as four-wave mixing (FWM) effects and depicted in figure \ref{fig:fwm_processes}.  The generated nonlinear polarization oscillates at the sum of the three input frequencies. Complex conjugate input fields are again counted as negative frequencies and depicted as downward arrows in Fig. \ref{fig:fwm_processes}.
+Several different processes are summarized as four-wave mixing (FWM) effects and shown in the figure \ref{fig:fwm_processes}.  The generated nonlinear polarization oscillates at the sum of the three input frequencies. Complex conjugate input fields are again counted as negative frequencies and are shown as downward arrows in the figure \ref{fig:fwm_processes}.
+	
 	
 \begin{figure}
 \inputtikz{\currfiledir  chi3-processes_v2}
@@ -248,7 +171,7 @@ Several different processes are 	summarized as four-wave mixing (FWM) effects an
 %
 third-harmonic generation (THG), pump-probe spectroscopy (PP), coherent anti-Stokes Raman scattering (CARS), and  non-degenerate four-wave mixing (FWM).
 %
- All processes start and end at a real state  that can be populated (solid horizontal line). Intermediate states can be virtual states (dashed horizontal line). The interaction between light and matter occurs in time from left to right within each diagram. The last downward arrow symbolizes the emission process. Other downward  arrows symbolize incoming complex-conjugate fields that count negative when calculating the emission frequency.
+All processes start and end in a real state that can be populated (solid horizontal line). Intermediate states can be virtual states (dashed horizontal line). The interaction between light and matter occurs in time from left to right within each diagram. The last down arrow symbolizes the emission process. Other down arrows symbolize incoming complex conjugate fields, which are counted negatively in the calculation of the emission frequency.
 \label{fig:fwm_processes}}
 \end{figure}
 
@@ -259,14 +182,14 @@ P^{(THG)}(3 \omega) = \epsilon_0 \chi^{(3)} E(\omega)^3  \quad .
 \label{eq:fwm_chi3-thg}
 \end{equation}
 %
-This is a coherent process, i.e., the phase of the new field is related to the phase of the fundamental wave, but homodyne interference is in contrast to linear absorption not possible. The detected signal intensity $I^{(THG)}$ is thus proportional to the third power of the fundamental intensity $I(\omega)$
+This is a coherent process, i.e. the phase of the new field is related to the phase of the fundamental wave, but homodyne interference is not possible, in contrast to linear absorption. The detected signal intensity $I^{(THG)}$ is therefore proportional to the cube of the fundamental intensity $I(\omega)$.
 \begin{equation}
 I^{(THG)} \propto \left| P^{(THG)}(3 \omega) \right|^2 = \left| \epsilon_0 \chi^{(3)} E(\omega)^3 \right|^2 \propto I(\omega)^3 \quad .
 \label{eq:fwm_intensity-thg}
 \end{equation}
 
 
-In pump-probe spectroscopy, a pump-beam is absorbed and its influence on the absorption of a second, probe beam is monitored. Here it is the intensity of the pump beam, not the field amplitude that enters. The probe beam appears only linear in field amplitude as in linear absorption spectroscopy.
+In pump-probe spectroscopy, a pump beam is absorbed and its influence on the absorption of a second probe beam is monitored. It is the intensity of the pump beam that is relevant, not the field amplitude. The probe beam appears only linear in field amplitude as in linear absorption spectroscopy.
 All together pump-probe spectroscopy can be written as
 %
 \begin{align}
@@ -278,11 +201,10 @@ P^{(pp)}(\omega_{\text{probe}}) = &
 \label{eq:fwm_chi3-pp}
 \end{align}
 %
-From this notation, it is obvious that pump-probe spectroscopy does not depend on the phase relation between pump- and probe-beam.
-The generated nonlinear polarization oscillates at the frequency of the incoming probe beam which again allows homodyne detection. The observed signal is thus proportional to the amplitude of the interference between nonlinear polarization and probe field and not to the square of the nonlinear polarization itself as in third-harmonic generation. The  signal  scales linearly both  in pump and in probe power.
+From this notation it is clear that pump-probe spectroscopy does not depend on the phase relation between the pump and probe beams.
+The generated nonlinear polarization oscillates at the frequency of the incoming probe beam, which again allows homodyne detection. The observed signal is thus proportional to the amplitude of the interference between the nonlinear polarization and the probe field, and not to the square of the nonlinear polarization itself as in third-harmonic generation. The signal scales linearly with both pump and probe power.
 
-
-In coherent anti-Stokes Raman scattering (CARS) the pump field also enters twice, as in pump-probe spectroscopy, but here it enters twice with the same phase. Both pump arrows point up in Figure \ref{fig:fwm_processes}. The nonlinear polarization is given by 
+In Coherent Anti-Stokes Raman Scattering (CARS), the pump field also enters twice, as in pump-probe spectroscopy, but here it enters twice with the same phase. Both pump arrows are pointing up in  figure \ref{fig:fwm_processes}. The nonlinear polarization is given by 
 %
 \begin{equation}
 P^{(CARS)}(\omega_{\text{CARS}}) = 
@@ -290,16 +212,16 @@ P^{(CARS)}(\omega_{\text{CARS}}) =
 \label{eq:fwm_chi3-cars}
 \end{equation}
 %
-and oscillates at a new frequency $\omega_{CARS} = 2 \omega_{pump} - \omega_{Stokes}$. Either one detects its square (similar to third-harmonic generation) or one supplies an additional field acting as local oscillator to produce a signal that is linear in the generated polarization. The intermediate state of lowest energy in Fig. \ref{fig:fwm_processes} is a vibrational state of a molecule. It enhances the efficiency of this process which can also take place without a real state at this energy. 
+and oscillates at a new frequency $\omega_{CARS} = 2 \omega_{pump} - \omega_{Stokes}$. Either one detects its square (similar to third harmonic generation) or one adds an additional field that acts as a local oscillator to produce a signal that is linear in the generated polarization. The lowest energy intermediate state in Fig. \ref{fig:fwm_processes} is a vibrational state of a molecule. It increases the efficiency of this process, which can also take place without a real state at this energy. 
 
-In the most general case of four-wave mixing all three input waves differ in frequency. The examples above are cases of degenerate four-wave mixing (DFWM) where some frequencies coincide. Here, I use the term 'four-wave mixing' only for the non-degenerate case and stick to the more specialized terms otherwise. An experimentally accessible variant of four-wave mixing is depicted in Fig. \ref{fig:fwm_processes} where three similar but not identical waves produce a fourth wave which again is spectrally close to the input waves. This process scales linearly in all three input powers and also the phase relation between all waves is relevant.
+In the most general case of four-wave mixing, all three input waves differ in frequency. The examples above are cases of degenerate four-wave mixing (DFWM), where some frequencies coincide. I will use the term "four-wave mixing" here only for the non-degenerate case, and otherwise stick to the more specialized terms. An experimentally accessible variant of four-wave mixing is shown in Fig. \ref{fig:fwm_processes}, where three similar but not identical waves produce a fourth wave that is again spectrally close to the input waves. This process scales linearly in all three input powers, and the phase relation between all waves is also relevant.
 
 Note that for a given material the value of $\chi^{(3)} $ depends on all three incoming frequencies $\omega_1, \omega_2, \omega_3$ and the outgoing frequency $\omega_4$, which is written as  $\chi^{(3)}(\omega_4; \omega_1, \omega_2, \omega_3)$. 
 
 \begin{questions}
-\item Convince yourself that the direction of the arrows in  Fig. \ref{fig:fwm_processes} fits to the equations given in this chapter.
+  \item Convince yourself that the direction of the arrows in  Fig. \ref{fig:fwm_processes} matches the equations given in this chapter.
 
-\item Draw a level scheme for a hypothetical $\chi^{(5)}$ process and give the equation to calculate its intensity.
+  \item Draw a level scheme for a hypothetical $\chi^{(5)}$ process and give the equation for calculating its intensity.
 \end{questions}
 
 
@@ -314,7 +236,7 @@ Neglecting the tensorial nature of $\chi$ we can write
 \end{equation}	
 where $\omega_3$ is calculated at each point of the integral such that energy conservation is fulfilled, e.g. $\omega_3 = \omega_4 - \omega_1 - \omega_2$. Again, the above rule for negative frequencies, complex conjugates, and downward arrows applies.
 
-The spectral dependence of $\chi^{(3)}(\omega_4; \omega_1, \omega_2, \omega_3)$ is determined by the process that causes the nonlinearity. As in linear spectroscopy, the spectral shape of  $\chi^{(3)}$ is related to the response of the system in time domain, its pulse response\sidenote{Multiplication in frequency domain becomes by Fourier transform a convolution in time domain.} A fast system has thus a spectrally flat susceptibility. In the limit of instantaneous response, the nonlinear susceptibility is spectrally constant.
+The spectral dependence of $\chi^{(3)}(\omega_4; \omega_1, \omega_2, \omega_3)$ is determined by the process causing the nonlinearity. As in linear spectroscopy, the spectral shape of $\chi^{(3)}$ is related to the response of the system in the time domain, its impulse response\sidenote{Multiplication in the frequency domain becomes a convolution in the time domain by Fourier transformation.} A fast system thus has a spectrally flat susceptibility. In the limit of instantaneous response, the nonlinear susceptibility is spectrally constant.
 		
 When assuming a flat nonlinear susceptibility is too much of an approximation, one can make use of Miller's rule\footcite{Boyd2008,Miller64,Obermeier18}, which connects linear and nonlinear optical properties
 \begin{equation}
@@ -322,7 +244,7 @@ When assuming a flat nonlinear susceptibility is too much of an approximation, o
  \end{equation}
  		
 \begin{questions}
-\item A laser pulse has a spectral width of $10$ nm. How broad is the spectrum of the second- and third-harmonic that is created by this laser, assuming nonlinear susceptibilities that are spectrally flat in the relevant spectral range?
+\item A laser pulse has a spectral width of $10$ nm. How broad is the spectrum of the second and third harmonics produced by this laser, assuming nonlinear susceptibilities that are spectrally flat in the relevant spectral range?
 \end{questions}
  
 \printbibliography[segment=\therefsegment,heading=subbibliography]

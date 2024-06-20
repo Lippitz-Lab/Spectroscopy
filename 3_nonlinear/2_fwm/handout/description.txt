@@ -1,18 +1,17 @@
-Four-wave mixing an einer Gold-Oberfläche
-(Messungen von Christoph Schnupfhagn)
+Four-wave mixing on a gold surface
+(Measurements by Christoph Schnupfhagn)
 
 
 1) fwm_spectrum.dat
 
-Die Datei hat 3 Spalten: Wellenlänge, Anregungsspektrum, FWM-Spektrum
-Die Absolutwerte sind willkürlich. 
+The file has 3 columns: Wavelength, excitation spectrum, FWM spectrum.
+The absolute values are arbitrary. 
 
-Sagen Sie aus dem Anregungsspektrum das FWM-Spektrum voraus.
+Predict the FWM spectrum from the excitation spectrum!
 
 
-2) Linearer Phasen-Offset
+2) Linear phase shift
 
-Das Anregungsspektrum ist jetzt rechteckig mit zwei Rechtecken zentriert bei 720 nm und 820 nm. In der Form "narrow" sind die Rechtecke 10 nm breit, in der Form "wide" 20 breit. Das Laserlicht bei der niedrigen (Variante 1) bzw. hohen Wellenlänge (Variante 2) wird jetzt durch einen Pulse Shaper mit einem linearen Phasenverlauf versehen, also phi(t) = d_phi * t. Für jeden Wert von d_phi wird ein FWM-Spektrum gemessen. Die Datei linphase.dat beinhaltet die Werte von d_phi (Einheit fs), die Datei wl.dat die Wellenlängenachse des FWM-Spektrums (Einheit nm). Die Dateien fwm_FORM_VARIANTE.dat die eigentlichen Daten.
+The excitation spectrum is now rectangular with two rectangles centered at 720 nm and 820 nm. In the "narrow" form the rectangles are 10 nm wide, in the "wide" form they are 20 nm wide. The laser light at the low (variant 1) or high (variant 2) wavelength is now given a linear phase response by a pulse shaper, i.e. phi(t) = d_phi * t. An FWM spectrum is measured for each value of d_phi. The file linphase.dat contains the values of d_phi (unit fs), the file wl.dat contains the wavelength axis of the FWM spectrum (unit nm). The files fwm_FORM_VARIANT.dat contain the actual data.
 
-Modellieren sie diese Messung.
-
+Model this measurement!
