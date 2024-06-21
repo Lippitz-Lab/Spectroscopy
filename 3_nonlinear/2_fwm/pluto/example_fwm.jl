@@ -5,7 +5,7 @@ using Markdown
 using InteractiveUtils
 
 # ╔═╡ 0b86d646-2ee1-11ef-3d69-4f2baac90e33
-using CSV, DataFrames, Plots,Interpolations
+using CSV, DataFrames, Plots,PGFPlotsX
 
 # ╔═╡ d10c4171-a9dd-4d16-9e6f-4480fccd80ab
 md"""
@@ -34,39 +34,50 @@ begin
 	plot!(photons.nu, photons.det, xlabel = "energy (eV)", label = "FWM exp")
 end
 
-# ╔═╡ 5ee7cdde-70d8-4bfd-b793-d3d44395c42a
-# laser field is sqrt of laser intensity
-laser_field  = linear_interpolation(photons.nu, sqrt.(photons.ex .* photons.nu), 
-								extrapolation_bc=Line());
-
-# ╔═╡ e61d10a5-f3e0-411e-ab40-4323bfae2288
-function fwm(e_out)
-
-	# two photons from higher spectral band, all combinations of energies
-	e_higher = (1.65:0.001:1.75)
-
-	e1 = e_higher * ones(length(e_higher))'
-	e2 = ones(length(e_higher)) * e_higher'
-
-	# one photon from lower spectral band, energy to get requested FWM energy
-	e_lower =  e1 .+ e2 .- e_out;
-
-	chi3 = 0.155 .* 10^-6 # fit parameter
-	pol = @. chi3 * laser_field(e_lower) * laser_field(e1) * laser_field(e2) 
-
-	power = sum(pol).^2 ./  length(e_higher)^4 
-	
-	return power
-end
-
-# ╔═╡ 2a5d3f7e-3d3a-4aa2-b67a-6fbe25f5e356
+# ╔═╡ 5284c123-6ba8-4c2b-9eec-3b74951fd5a1
 begin
-	e0 = (1.4:0.0001:2)
-	plot(e0, laser_field.(e0) .* 5e3, label="laser field")	
-	plot!(photons.nu, photons.det, label = "FWM exp")
 
-	e_fwm =  (1.8:0.001:2)
-	plot!(e_fwm, fwm.(e_fwm), label = "FWM sim", xlabel = "energy (eV)")
+	myaxis = @pgf PGFPlotsX.Axis(
+	    {
+	      	ymin = 0, 
+		    #ymax = 60, 
+			xmin = 1.44,			xmax = 2.04,
+	width="110mm",
+	height="40mm",
+	 #       xmin = -200, xmax =200,
+			ylabel = raw"spectra",
+			xlabel=raw"ennergy (eV)",
+			ytick = [0], 
+
+	    },	
+		);
+
+	 @pgf    p = PGFPlotsX.Plot(
+        {
+            fill, gray
+        },
+        Table([photons.nu, photons.ex ./ 1e7])
+    )
+
+	push!(myaxis, p)
+	push!(myaxis, raw"\node at (1.92, 5) {FWM emission};")
+	push!(myaxis, raw"\node at (1.62, 3.7) {laser};")
+	push!(myaxis, raw"\draw[dashed] (1.83,0) -- node[rotate = 90, above] {filter} (1.83,7.6);")
+
+
+		 @pgf    p = PGFPlotsX.Plot(
+        {
+           fill, red!50!white, thick
+        },
+        Table([photons.nu, photons.det ./ 1e7])
+    )
+
+	push!(myaxis, p)
+
+	
+	pgfsave("../fwm_gold.tikz.tex",myaxis; include_preamble= false)
+	myaxis
+
 end
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
@@ -74,13 +85,13 @@ PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
-Interpolations = "a98d9a8b-a2ab-59e6-89dd-64a1c18fca59"
+PGFPlotsX = "8314cec4-20b6-5062-9cdb-752b83310925"
 Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 
 [compat]
 CSV = "~0.10.14"
 DataFrames = "~1.6.1"
-Interpolations = "~0.15.1"
+PGFPlotsX = "~1.6.1"
 Plots = "~1.40.4"
 """
 
@@ -90,17 +101,12 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.10.4"
 manifest_format = "2.0"
-project_hash = "62d881c8a3f10e538d86aa34129ae69730c4c66e"
+project_hash = "39b422b78370af21f3b0858886419582fa74fb38"
 
-[[deps.Adapt]]
-deps = ["LinearAlgebra", "Requires"]
-git-tree-sha1 = "6a55b747d1812e699320963ffde36f1ebdda4099"
-uuid = "79e6a3ab-5dfb-504d-930d-738a2a938a0e"
-version = "4.0.4"
-weakdeps = ["StaticArrays"]
-
-    [deps.Adapt.extensions]
-    AdaptStaticArraysExt = "StaticArrays"
+[[deps.ArgCheck]]
+git-tree-sha1 = "a3a402a35a2f7e0b87828ccabbd5ebfbebe356b4"
+uuid = "dce04be8-c92d-5529-be00-80e4d2c0e197"
+version = "2.3.0"
 
 [[deps.ArgTools]]
 uuid = "0dad84c5-d112-42e6-8d28-ef12dabb789f"
@@ -108,12 +114,6 @@ version = "1.1.1"
 
 [[deps.Artifacts]]
 uuid = "56f22d72-fd6d-98f1-02f0-08ddc0907c33"
-
-[[deps.AxisAlgorithms]]
-deps = ["LinearAlgebra", "Random", "SparseArrays", "WoodburyMatrices"]
-git-tree-sha1 = "01b8ccb13d68535d73d2b0c23e39bd23155fb712"
-uuid = "13072b0f-2c55-5437-9ae7-d433b7a33950"
-version = "1.1.0"
 
 [[deps.Base64]]
 uuid = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
@@ -140,16 +140,6 @@ deps = ["Artifacts", "Bzip2_jll", "CompilerSupportLibraries_jll", "Fontconfig_jl
 git-tree-sha1 = "a2f1c8c668c8e3cb4cca4e57a8efdb09067bb3fd"
 uuid = "83423d85-b0ee-5818-9007-b63ccbeb887a"
 version = "1.18.0+2"
-
-[[deps.ChainRulesCore]]
-deps = ["Compat", "LinearAlgebra"]
-git-tree-sha1 = "575cd02e080939a33b6df6c5853d14924c08e35b"
-uuid = "d360d2e6-b24c-11e9-a2a3-2a2ae2dbcce4"
-version = "1.23.0"
-weakdeps = ["SparseArrays"]
-
-    [deps.ChainRulesCore.extensions]
-    ChainRulesCoreSparseArraysExt = "SparseArrays"
 
 [[deps.CodecZlib]]
 deps = ["TranscodingStreams", "Zlib_jll"]
@@ -244,15 +234,17 @@ version = "1.0.0"
 deps = ["Printf"]
 uuid = "ade2ca70-3891-5945-98fb-dc099432e06a"
 
+[[deps.DefaultApplication]]
+deps = ["InteractiveUtils"]
+git-tree-sha1 = "c0dfa5a35710a193d83f03124356eef3386688fc"
+uuid = "3f0dd361-4fe0-5fc6-8523-80b14ec94d85"
+version = "1.1.0"
+
 [[deps.DelimitedFiles]]
 deps = ["Mmap"]
 git-tree-sha1 = "9e2f36d3c96a820c678f2f1f1782582fcf685bae"
 uuid = "8bb1440f-4735-579b-a4ab-409b98df4dab"
 version = "1.9.1"
-
-[[deps.Distributed]]
-deps = ["Random", "Serialization", "Sockets"]
-uuid = "8ba89e20-285c-5b6f-9357-94700520ee1b"
 
 [[deps.DocStringExtensions]]
 deps = ["LibGit2"]
@@ -399,16 +391,6 @@ version = "1.4.0"
 [[deps.InteractiveUtils]]
 deps = ["Markdown"]
 uuid = "b77e0a4c-d291-57a0-90e8-8db25a27a240"
-
-[[deps.Interpolations]]
-deps = ["Adapt", "AxisAlgorithms", "ChainRulesCore", "LinearAlgebra", "OffsetArrays", "Random", "Ratios", "Requires", "SharedArrays", "SparseArrays", "StaticArrays", "WoodburyMatrices"]
-git-tree-sha1 = "88a101217d7cb38a7b481ccd50d21876e1d1b0e0"
-uuid = "a98d9a8b-a2ab-59e6-89dd-64a1c18fca59"
-version = "0.15.1"
-weakdeps = ["Unitful"]
-
-    [deps.Interpolations.extensions]
-    InterpolationsUnitfulExt = "Unitful"
 
 [[deps.InvertedIndices]]
 git-tree-sha1 = "0dc7b50b8d436461be01300fd8cd45aa0274b038"
@@ -645,15 +627,6 @@ version = "1.0.2"
 uuid = "ca575930-c2e3-43a9-ace4-1e988b2c1908"
 version = "1.2.0"
 
-[[deps.OffsetArrays]]
-git-tree-sha1 = "e64b4f5ea6b7389f6f046d13d4896a8f9c1ba71e"
-uuid = "6fe1bfb0-de20-5000-8ca7-80f57d26f881"
-version = "1.14.0"
-weakdeps = ["Adapt"]
-
-    [deps.OffsetArrays.extensions]
-    OffsetArraysAdaptExt = "Adapt"
-
 [[deps.Ogg_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
 git-tree-sha1 = "887579a3eb005446d514ab7aeac5d1d027658b8f"
@@ -697,6 +670,30 @@ version = "1.6.3"
 deps = ["Artifacts", "Libdl"]
 uuid = "efcefdf7-47ab-520b-bdef-62a2eaa19f15"
 version = "10.42.0+1"
+
+[[deps.PGFPlotsX]]
+deps = ["ArgCheck", "Dates", "DefaultApplication", "DocStringExtensions", "MacroTools", "OrderedCollections", "Parameters", "Requires", "Tables"]
+git-tree-sha1 = "7bc55854924ceb9842646bf1f00396d6646c0c55"
+uuid = "8314cec4-20b6-5062-9cdb-752b83310925"
+version = "1.6.1"
+
+    [deps.PGFPlotsX.extensions]
+    ColorsExt = "Colors"
+    ContourExt = "Contour"
+    MeasurementsExt = "Measurements"
+    StatsBaseExt = "StatsBase"
+
+    [deps.PGFPlotsX.weakdeps]
+    Colors = "5ae59095-9a9b-59fe-a467-6f913c188581"
+    Contour = "d38c429a-6771-53c6-b99e-75d170b6e991"
+    Measurements = "eff96d63-e80a-5855-80a2-b1b0885c5ab7"
+    StatsBase = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
+
+[[deps.Parameters]]
+deps = ["OrderedCollections", "UnPack"]
+git-tree-sha1 = "34c0e9ad262e5f7fc75b10a9952ca7692cfc5fbe"
+uuid = "d96e819e-fc66-5662-9728-84c9c7592b0a"
+version = "0.12.3"
 
 [[deps.Parsers]]
 deps = ["Dates", "PrecompileTools", "UUIDs"]
@@ -794,16 +791,6 @@ uuid = "3fa0cd96-eef1-5676-8a61-b3b8758bbffb"
 deps = ["SHA"]
 uuid = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 
-[[deps.Ratios]]
-deps = ["Requires"]
-git-tree-sha1 = "1342a47bf3260ee108163042310d26f2be5ec90b"
-uuid = "c84ed2f1-dad5-54f0-aa8e-dbefe2724439"
-version = "0.4.5"
-weakdeps = ["FixedPointNumbers"]
-
-    [deps.Ratios.extensions]
-    RatiosFixedPointNumbersExt = "FixedPointNumbers"
-
 [[deps.RecipesBase]]
 deps = ["PrecompileTools"]
 git-tree-sha1 = "5c3d09cc4f31f5fc6af001c250bf1278733100ff"
@@ -852,10 +839,6 @@ version = "1.4.3"
 [[deps.Serialization]]
 uuid = "9e88b42a-f829-5b0c-bbe9-9e923198166b"
 
-[[deps.SharedArrays]]
-deps = ["Distributed", "Mmap", "Random", "Serialization"]
-uuid = "1a1011a3-84de-559e-8e89-a11a2f7dc383"
-
 [[deps.Showoff]]
 deps = ["Dates", "Grisu"]
 git-tree-sha1 = "91eddf657aca81df9ae6ceb20b959ae5653ad1de"
@@ -880,22 +863,6 @@ version = "1.2.1"
 deps = ["Libdl", "LinearAlgebra", "Random", "Serialization", "SuiteSparse_jll"]
 uuid = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
 version = "1.10.0"
-
-[[deps.StaticArrays]]
-deps = ["LinearAlgebra", "PrecompileTools", "Random", "StaticArraysCore"]
-git-tree-sha1 = "6e00379a24597be4ae1ee6b2d882e15392040132"
-uuid = "90137ffa-7385-5640-81b9-e52037218182"
-version = "1.9.5"
-weakdeps = ["ChainRulesCore", "Statistics"]
-
-    [deps.StaticArrays.extensions]
-    StaticArraysChainRulesCoreExt = "ChainRulesCore"
-    StaticArraysStatisticsExt = "Statistics"
-
-[[deps.StaticArraysCore]]
-git-tree-sha1 = "192954ef1208c7019899fbf8049e717f92959682"
-uuid = "1e83bf80-4336-4d27-bf5d-d5a4f845583c"
-version = "1.4.3"
 
 [[deps.Statistics]]
 deps = ["LinearAlgebra", "SparseArrays"]
@@ -975,6 +942,11 @@ version = "1.5.1"
 deps = ["Random", "SHA"]
 uuid = "cf7118a7-6976-5b1a-9a39-7adc72f591a4"
 
+[[deps.UnPack]]
+git-tree-sha1 = "387c1f73762231e86e0c9c5443ce3b4a0a9a0c2b"
+uuid = "3a884ed6-31ef-47d7-9d2a-63182c4928ed"
+version = "1.0.2"
+
 [[deps.Unicode]]
 uuid = "4ec0a83e-493e-50e2-b9ac-8f72acf5a8f5"
 
@@ -1032,12 +1004,6 @@ deps = ["DataAPI", "InlineStrings", "Parsers"]
 git-tree-sha1 = "b1be2855ed9ed8eac54e5caff2afcdb442d52c23"
 uuid = "ea10d353-3f73-51f8-a26c-33c1cb351aa5"
 version = "1.4.2"
-
-[[deps.WoodburyMatrices]]
-deps = ["LinearAlgebra", "SparseArrays"]
-git-tree-sha1 = "c1a7aa6219628fcd757dede0ca95e245c5cd9511"
-uuid = "efce3f68-66dc-5838-9240-27a6d6f5f9b6"
-version = "1.0.0"
 
 [[deps.WorkerUtilities]]
 git-tree-sha1 = "cd1659ba0d57b71a464a29e64dbc67cfe83d54e7"
@@ -1322,8 +1288,6 @@ version = "1.4.1+1"
 # ╠═0b86d646-2ee1-11ef-3d69-4f2baac90e33
 # ╠═7997a518-43b1-4cee-b5ab-4831069ff6f7
 # ╠═e421acb2-a5b5-4d37-9d8f-b5db10d0e50f
-# ╠═5ee7cdde-70d8-4bfd-b793-d3d44395c42a
-# ╠═e61d10a5-f3e0-411e-ab40-4323bfae2288
-# ╠═2a5d3f7e-3d3a-4aa2-b67a-6fbe25f5e356
+# ╠═5284c123-6ba8-4c2b-9eec-3b74951fd5a1
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
